@@ -12,7 +12,7 @@ module Kernel
         temp = Object.new
         temp.extend EndlessRuby
         temp.instance_eval do
-          Kernel.eval endless_ruby_to_pure_ruby(file.read)
+        Kernel.eval endless_ruby_to_pure_ruby(file.read)
         end
       end
     rescue => e
@@ -54,8 +54,10 @@ module EndlessRuby
     [/^while.*?$/],
     [/^until.*?$/],
     [/^case.*?$/, /^when.*?$/, /^else.*?$/],
-    [/^def.*?$/],
+    [/^def.*?$/, /^rescue.*?$/, /^else.*?$/, /^ensure.*?$/],
     [/^class.*?$/],
+    [/^module.*?$/],
+    [/^begin.*?$/, /^rescue.*?$/, /^else.*?$/, /^ensure.*?$/],
     [/^.*?\s+do.*?$/]
   ]
 
@@ -71,8 +73,7 @@ module EndlessRuby
       keyword = BLOCK_KEYWORDS.each { |k| break k if k[0] =~ unindent(currently_line)  }
       currently_indent_depth = indent_count currently_line
       just_after_indent_depth = indent_count endless[i + 1]
-      case currently_indent_depth <=> just_after_indent_depth
-      when -1; "インデントが深いならブロックを始める"
+      if currently_indent_depth < just_after_indent_depth || keyword[1..-1].any? { |k| k =~ unindent(endless[i + 1]) }
         base_indent_depth = currently_indent_depth
         inner_statements = []
         while i < endless.length
@@ -82,8 +83,6 @@ module EndlessRuby
         end
         pure += endless_ruby_to_pure_ruby(inner_statements.join("\n")).split "\n"
         pure += ["#{'  '*currently_indent_depth}end"]
-      when 0; "インデントが同じなら単に無視する"
-      when 1; "インデントが浅いなら"
       end
       i += 1
     end
