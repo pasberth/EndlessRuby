@@ -47,8 +47,8 @@ module EndlessRuby
     [/^def\s.*?$/, /^rescue(:?\s|\().*?$/, /^else(?:$|\s+)/, /^ensure(?:$|\s+)/],
     [/^class\s.*?$/],
     [/^module\s.*?$/],
-    [/^begin\s+/, /^rescue(:?\s|\()*?$/, /^else(?:$|\s+)/, /^ensure(?:$|\s+)/],
-    [/^.*?\s+do\s|\|.*?$/]
+    [/^begin(?:$|\s+)/, /^rescue(:?\s|\().*?$/, /^else(?:$|\s+)/, /^ensure(?:$|\s+)/],
+    [/^.*?\s+do(:?$|\s|\|)/]
   ]
   def endless_ruby_to_pure_ruby src
     endless = src.split "\n"
