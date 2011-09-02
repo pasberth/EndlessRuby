@@ -13,7 +13,7 @@ module Kernel
         temp = Object.new
         temp.extend EndlessRuby
         temp.instance_eval do
-          Kernel.eval endless_ruby_to_pure_ruby(file.read)
+          TOPLEVEL_BINDING.eval endless_ruby_to_pure_ruby(file.read)
     rescue => e
       $@ = caller
       raise e
