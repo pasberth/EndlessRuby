@@ -81,6 +81,20 @@ DEFINE
     assert_equal output_src, (endless_ruby_to_pure_ruby input_src)
   end
 
+  def test_4
+    input_src = <<DEFINE
+def test
+  if_nantoka
+DEFINE
+    output_src = <<DEFINE
+def test
+  if_nantoka
+end
+DEFINE
+    output_src.chomp!
+    assert_equal output_src, (endless_ruby_to_pure_ruby input_src)
+  end
+
   def test_require
     require "#{ROOT}/test/foo.er"
     assert_equal "hello", Foo.hello

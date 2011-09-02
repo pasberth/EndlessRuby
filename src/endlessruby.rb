@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-
 module Kernel
-
   alias endlessruby_original_require require
-
   def require path
     endlessruby_original_require path
   rescue Exception
@@ -12,7 +9,7 @@ module Kernel
         temp = Object.new
         temp.extend EndlessRuby
         temp.instance_eval do
-        Kernel.eval endless_ruby_to_pure_ruby(file.read)
+          Kernel.eval endless_ruby_to_pure_ruby(file.read)
         end
       end
     rescue => e
@@ -20,25 +17,19 @@ module Kernel
       raise e
     end
   end
-
 end
-
 module EndlessRuby
-
   def blank_line? line
     return true unless line
     (line.chomp.gsub /\s+?/, '') == ""
   end
-
   def unindent line
     line  =~ /^\s*?(\S.*?)$/
     $1
   end
-
   def indent line, level, indent="  "
     "#{indent * level}#{line}"
   end
-
   def indent_count line, indent="  "
     return 0 unless line
     if line =~ /^#{indent}(.*?)$/
@@ -47,20 +38,18 @@ module EndlessRuby
       0
     end
   end
-
   BLOCK_KEYWORDS = [
-    [/^if.*?$/, /^elsif.*?$/, /^else.*?$/],
-    [/^unless.*?$/],
-    [/^while.*?$/],
-    [/^until.*?$/],
-    [/^case.*?$/, /^when.*?$/, /^else.*?$/],
-    [/^def.*?$/, /^rescue.*?$/, /^else.*?$/, /^ensure.*?$/],
-    [/^class.*?$/],
-    [/^module.*?$/],
-    [/^begin.*?$/, /^rescue.*?$/, /^else.*?$/, /^ensure.*?$/],
-    [/^.*?\s+do.*?$/]
+    [/^if(:?\s|\().*?$/, /^elsif(:?\s|\().*?$/, /^else(?:$|\s+)/],
+    [/^unless(:?\s|\().*?$/, /^elsif(:?\s|\().*?$/, /^else(?:$|\s+)/],
+    [/^while(:?\s|\().*?$/],
+    [/^until(:?\s|\().*?$/],
+    [/^case(:?\s|\().*?$/, /^when(:?\s|\().*?$/, /^else(?:$|\s+)/],
+    [/^def\s.*?$/, /^rescue(:?\s|\().*?$/, /^else(?:$|\s+)/, /^ensure(?:$|\s+)/],
+    [/^class\s.*?$/],
+    [/^module\s.*?$/],
+    [/^begin\s+/, /^rescue(:?\s|\()*?$/, /^else(?:$|\s+)/, /^ensure(?:$|\s+)/],
+    [/^.*?\s+do\s|\|.*?$/]
   ]
-
   def endless_ruby_to_pure_ruby src
     endless = src.split "\n"
     endless.reject! { |line| blank_line? line }
@@ -88,5 +77,4 @@ module EndlessRuby
     end
     pure.join "\n"
   end
-
 end
