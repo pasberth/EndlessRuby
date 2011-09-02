@@ -1,5 +1,3 @@
-#!lib/endlessruby.er
-
 class EndlessRubyWorld
 
   def self.hello!
