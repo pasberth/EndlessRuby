@@ -1,0 +1,8 @@
+#!lib/endlessruby.er
+
+class EndlessRubyWorld
+
+  def self.hello!
+    puts "hello!"
+
+EndlessRubyWorld.hello!

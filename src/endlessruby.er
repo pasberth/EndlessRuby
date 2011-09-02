@@ -1,3 +1,4 @@
+#!/usr/local/bin/ruby
 # -*- coding: utf-8 -*-
 
 module Kernel
@@ -73,3 +74,6 @@ module EndlessRuby
         pure += ["#{'  '*currently_indent_depth}end"]
       i += 1
     pure.join "\n"
+
+if __FILE__ == $PROGRAM_NAME
+  require($PROGRAM_NAME = ARGV.shift)

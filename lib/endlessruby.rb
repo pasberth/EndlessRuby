@@ -1,3 +1,4 @@
+#!/usr/local/bin/ruby
 # -*- coding: utf-8 -*-
 module Kernel
   alias endlessruby_original_require require
@@ -77,4 +78,7 @@ module EndlessRuby
     end
     pure.join "\n"
   end
+end
+if __FILE__ == $PROGRAM_NAME
+  require($PROGRAM_NAME = ARGV.shift)
 end
