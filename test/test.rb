@@ -100,4 +100,10 @@ DEFINE
     assert_equal "hello", Foo.hello
   end
 
+  def test_load_path
+    $LOAD_PATH << "#{ROOT}/test"
+    require "bar.er"
+    assert_equal "hello", Bar.hello
+  end
+
 end

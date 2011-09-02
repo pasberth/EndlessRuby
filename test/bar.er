@@ -1,0 +1,3 @@
+class Bar
+  def self.hello
+    "hello"

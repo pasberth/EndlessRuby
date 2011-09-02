@@ -4,13 +4,20 @@ module Kernel
   alias endlessruby_original_require require
   def require path
     endlessruby_original_require path
-  rescue Exception
+  rescue Exception, LoadError
     begin
-      open(path) do |file|
-        temp = Object.new
-        temp.extend EndlessRuby
-        temp.instance_eval do
-          TOPLEVEL_BINDING.eval endless_ruby_to_pure_ruby(file.read)
+      case path
+      when /^\.\/.*?$/, /^\/.*?$/
+        open(path) do |file|
+          TOPLEVEL_BINDING.eval EndlessRuby.endless_ruby_to_pure_ruby(file.read)
+        end
+      else
+        $LOAD_PATH.each do |load_path|
+          real_path = File.join load_path, path
+          next unless File.exist? real_path
+          open(real_path) do |file|
+            TOPLEVEL_BINDING.eval EndlessRuby.endless_ruby_to_pure_ruby(file.read)
+          end
         end
       end
     rescue => e
@@ -20,6 +27,8 @@ module Kernel
   end
 end
 module EndlessRuby
+  extend self
+  private
   def blank_line? line
     return true unless line
     (line.chomp.gsub /\s+?/, '') == ""
@@ -51,6 +60,7 @@ module EndlessRuby
     [/^begin(?:$|\s+)/, /^rescue(:?\s|\().*?$/, /^else(?:$|\s+)/, /^ensure(?:$|\s+)/],
     [/^.*?\s+do(:?$|\s|\|)/]
   ]
+  public
   def endless_ruby_to_pure_ruby src
     endless = src.split "\n"
     endless.reject! { |line| blank_line? line }
