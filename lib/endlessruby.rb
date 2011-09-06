@@ -4,7 +4,7 @@ module Kernel
   alias endlessruby_original_require require
   def require path
     endlessruby_original_require path
-  rescue Exception, LoadError
+  rescue Exception
     begin
       case path
       when /^\.\/.*?$/, /^\/.*?$/
