@@ -19,6 +19,8 @@ module Kernel
           next unless File.exist? real_path
           open(real_path) do |file|
             TOPLEVEL_BINDING.eval EndlessRuby.endless_ruby_to_pure_ruby(file.read)
+          return true
+        raise LoadError, "no such file to load -- #{path}"
     rescue => e
       $@ = caller
       raise e
@@ -87,4 +89,4 @@ module EndlessRuby
     pure.join "\n"
 
 if __FILE__ == $PROGRAM_NAME
-  require($PROGRAM_NAME = ARGV.shift)
+  require("./#{$PROGRAM_NAME = ARGV.shift}")

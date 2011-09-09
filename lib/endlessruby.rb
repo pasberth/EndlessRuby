@@ -18,7 +18,9 @@ module Kernel
           open(real_path) do |file|
             TOPLEVEL_BINDING.eval EndlessRuby.endless_ruby_to_pure_ruby(file.read)
           end
+          return true
         end
+        raise LoadError, "no such file to load -- #{path}"
       end
     rescue => e
       $@ = caller
@@ -90,5 +92,5 @@ module EndlessRuby
   end
 end
 if __FILE__ == $PROGRAM_NAME
-  require($PROGRAM_NAME = ARGV.shift)
+  require("./#{$PROGRAM_NAME = ARGV.shift}")
 end
