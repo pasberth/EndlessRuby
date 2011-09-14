@@ -13,6 +13,7 @@ only take care if you passed code block case. use "each do" than "each {}".
 you can not do ellipsis of '}' if you use "each {}"
 
 syntax of EndlessRuby's "each {}" case:
+
 ```ruby
 each {
   statements
@@ -20,6 +21,7 @@ each {
 ```
 
 syntax of EndlessRuby's "each do" case:
+
 ```ruby
 each do
   statements
@@ -28,6 +30,7 @@ each do
 	$ lib/endlessruby.rb example.er
 
 ##require endless ruby source code:
+
 ```ruby
 require "path/to/endlessruby"
 require "example.er"
