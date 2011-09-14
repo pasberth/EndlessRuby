@@ -1,4 +1,46 @@
 #EndlessRuby
+
+if you use EndlessRuby, you can write source code without the use of 'end'.
+you can write as pure ruby except end and indentation because EndlessRuby just simply supplement source code with 'end'.
+
+```ruby
+class EndlessRubyWorld
+  def self.hello!
+    puts "hello!"
+```
+
+only take care if you passed code block case. use "each do" than "each {}".
+you can not do ellipsis of '}' if you use "each {}"
+
+syntax of EndlessRuby's "each {}" case:
+```ruby
+each {
+  statements
+}
+```
+
+syntax of EndlessRuby's "each do" case:
+```ruby
+each do
+  statements
+```
+##execute endless ruby source code:
+	$ lib/endlessruby.rb example.er
+
+##require endless ruby source code:
+```ruby
+require "path/to/endlessruby"
+require "example.er"
+```
+
+##compile endless ruby source code to pure ruby.
+	$ lib/endlessruby.rb -c example.er
+	$ lib/endlessruby.rb -c src/example.er -o lib
+-c option is compile and output to current directory from each arguments. arguments is filenames.
+-o option appoint output directory.
+
+#EndlessRuby Japanese README
+
 EndlessRuby は Ruby のコードを end を使わずにインデントで表現できます
 
 単に省略された end を補完することしかしないので、 end とインデント以外はピュアなRubyと同じように書けます。
