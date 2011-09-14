@@ -107,4 +107,10 @@ DEFINE
     assert_equal "hello", Bar.hello
   end
 
+  def test_ereval
+    assert_equal "hello", ereval(<<ER)
+"hello"
+ER
+  end
+
 end

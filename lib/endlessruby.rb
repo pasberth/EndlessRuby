@@ -63,6 +63,16 @@ module EndlessRuby
     [/^.*?\s+do(:?$|\s|\|)/]
   ]
   public
+  def ereval(src, binding=TOPLEVEL_BINDING)
+    binding.eval(endless_ruby_to_pure_ruby src)
+  end
+  def ercompile(er, rb)
+    open(er) do |erfile|
+      open(rb, "w") do |rbfile|
+        rbfile.write(endless_ruby_to_pure_ruby(erfile.read))
+      end
+    end
+  end
   def endless_ruby_to_pure_ruby src
     endless = src.split "\n"
     endless.reject! { |line| blank_line? line }
@@ -90,7 +100,29 @@ module EndlessRuby
     end
     pure.join "\n"
   end
+  alias to_pure_ruby endless_ruby_to_pure_ruby
 end
 if __FILE__ == $PROGRAM_NAME
-  require("./#{$PROGRAM_NAME = ARGV.shift}")
+  outdir = File.expand_path "."
+  srces = []
+  until ARGV.empty?
+    first = ARGV.shift
+    case first
+    when "-c", "--compile"
+      until ARGV.empty?
+        break if ARGV.first =~ /^\-.*$/
+        srces << ARGV.shift
+      end
+    when "-o", "--output"
+      outdir = File.expand_path ARGV.shift
+    else
+      $PROGRAM_NAME = first
+      require("#{File.expand_path(first)}")
+    end
+  end
+  until srces.empty?
+    filename = srces.shift
+    filename =~ /^(.*)\.er$/
+    EndlessRuby.ercompile(File.expand_path(filename), "#{outdir}/#{File.split($1)[1]}.rb")
+  end
 end
