@@ -2,6 +2,7 @@
 EndlessRuby は Ruby のコードを end を使わずにインデントで表現できます
 
 単に省略された end を補完することしかしないので、 end とインデント以外はピュアなRubyと同じように書けます。
+
 ```ruby
 class EndlessRubyWorld
   def self.hello!
