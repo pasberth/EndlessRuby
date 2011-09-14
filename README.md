@@ -3,16 +3,16 @@ EndlessRuby は Ruby のコードを end を使わずにインデントで表現
 
 単に省略された end を補完することしかしないので、 end とインデント以外はピュアなRubyと同じように書けます。
 ```ruby
-	class EndlessRubyWorld
-	  def self.hello!
-	    puts "hello!"
+class EndlessRubyWorld
+  def self.hello!
+    puts "hello!"
 ```
 ただ、複数行にまたがるブロックを渡す場合は
 
 ```ruby
-	each {
-	  statements
-	}
+each {
+  statements
+}
 ```
 ではなく
 
@@ -28,8 +28,8 @@ each do
 
 ##endlessruby で書かれたソースをrequire
 ```ruby
-	require "path/to/endlessruby"
-	require "example.er"
+require "path/to/endlessruby"
+require "example.er"
 ```
 
 ##明示的にコンパイルしてピュアなRubyのソースに
