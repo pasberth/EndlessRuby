@@ -113,4 +113,16 @@ DEFINE
 ER
   end
 
+  def test_is_a_dir
+    assert_raise(LoadError) {
+      require "#{ROOT}/test/is_a_dir"
+    }  
+  end
+
+  def test_no_such_file
+    assert_raise(LoadError) {
+      require "#{ROOT}/test/no_such_file"
+    }
+  end
+
 end

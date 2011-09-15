@@ -3,28 +3,48 @@
 module Kernel
   alias endlessruby_original_require require
   def require path
+    at = caller
     endlessruby_original_require path
   rescue Exception
-    begin
-      case path
-      when /^\.\/.*?$/, /^\/.*?$/
-        open(path) do |file|
-          TOPLEVEL_BINDING.eval EndlessRuby.endless_ruby_to_pure_ruby(file.read)
-        end
-      else
-        $LOAD_PATH.each do |load_path|
-          real_path = File.join load_path, path
-          next unless File.exist? real_path
-          open(real_path) do |file|
-            TOPLEVEL_BINDING.eval EndlessRuby.endless_ruby_to_pure_ruby(file.read)
-          end
-          return true
-        end
+    case path
+    when /^\.\/.*?$/, /^\/.*?$/
+      unless File.exist? path
+        $@ = at
         raise LoadError, "no such file to load -- #{path}"
       end
-    rescue => e
-      $@ = caller
-      raise e
+      if File.directory? path
+        $@ = at
+        raise LoadError, "Is a directory - #{path}"
+      end
+      open(path) do |file|
+        begin
+          TOPLEVEL_BINDING.eval EndlessRuby.endless_ruby_to_pure_ruby(file.read), File.split(path)[1]
+        rescue Exception => e
+          raise e
+        end
+        return true
+      end
+    else
+      is_that_dir = false
+      $LOAD_PATH.each do |load_path|
+        real_path = File.join load_path, path
+        next unless File.exist? real_path
+        next is_that_dir = true if File.directory? real_path
+        open(real_path) do |file|
+          begin
+            TOPLEVEL_BINDING.eval EndlessRuby.endless_ruby_to_pure_ruby(file.read), File.split(real_path)[1]
+          rescue Exception => e
+            raise e
+          end
+        end
+        return true
+      end
+      $@ = at
+      if is_that_dir
+        raise LoadError, "Is a directory - #{path}"
+      else
+        raise LoadError, "no such file to load -- #{path}"
+      end
     end
   end
 end
@@ -117,7 +137,12 @@ if __FILE__ == $PROGRAM_NAME
       outdir = File.expand_path ARGV.shift
     else
       $PROGRAM_NAME = first
-      require("#{File.expand_path(first)}")
+      begin
+        require("#{File.expand_path(first)}")
+      rescue Exception => e
+        $@ = $@[0..-7]
+        raise e
+      end
     end
   end
   until srces.empty?
