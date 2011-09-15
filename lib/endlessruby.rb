@@ -114,8 +114,8 @@ module EndlessRuby
           i += 1
         end
         pure += endless_ruby_to_pure_ruby(inner_statements.join("\n")).split "\n"
-        pure += ["#{'  '*currently_indent_depth}end"]
       end
+      pure += ["#{'  '*currently_indent_depth}end"]
       i += 1
     end
     pure.join "\n"
