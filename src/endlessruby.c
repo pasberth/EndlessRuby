@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
       strcat(cmd, " ");
       strcat(cmd, argv[i]);
     }
-  strcat(cmd, "\n");
+  strcat(cmd, "\0");
 
   system(cmd);
 
