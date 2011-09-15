@@ -1,4 +1,4 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 module Kernel
   alias endlessruby_original_require require
