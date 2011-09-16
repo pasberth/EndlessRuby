@@ -18,8 +18,9 @@ module Kernel
       end
       open(path) do |file|
         begin
-          TOPLEVEL_BINDING.eval EndlessRuby.endless_ruby_to_pure_ruby(file.read), File.split(path)[1]
+          TOPLEVEL_BINDING.eval EndlessRuby.to_pure_ruby(file.read), File.expand_path(path)
         rescue Exception => e
+          $@ = at
           raise e
         end
         return true
@@ -32,8 +33,9 @@ module Kernel
         next is_that_dir = true if File.directory? real_path
         open(real_path) do |file|
           begin
-            TOPLEVEL_BINDING.eval EndlessRuby.endless_ruby_to_pure_ruby(file.read), File.split(real_path)[1]
+            TOPLEVEL_BINDING.eval EndlessRuby.to_pure_ruby(file.read), File.expand_path(real_path)
           rescue Exception => e
+            $@ = at
             raise e
           end
         end
@@ -140,7 +142,7 @@ if __FILE__ == $PROGRAM_NAME
       begin
         require("#{File.expand_path(first)}")
       rescue Exception => e
-        $@ = $@[0..-7]
+        $@ = $@[0..-8]
         raise e
       end
     end

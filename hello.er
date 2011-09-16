@@ -1,4 +1,4 @@
-#!/usr/bin/env endlessruby
+#!/usr/bin/env endlessruby.rb
 class EndlessRubyWorld
 
   def self.hello!
