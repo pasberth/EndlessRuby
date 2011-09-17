@@ -142,7 +142,7 @@ if __FILE__ == $PROGRAM_NAME
       begin
         require("#{File.expand_path(first)}")
       rescue Exception => e
-        $@ = $@[0..-8]
+        $@ = $@[0..-7]
         raise e
       end
     end
