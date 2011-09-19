@@ -129,7 +129,7 @@ if __FILE__ == $PROGRAM_NAME
     when "-o", "--output"
       outdir = File.expand_path ARGV.shift
     else
-      $PROGRAM_NAME = first
+      $PROGRAM_NAME = File.expand_path first
       begin
         require("#{File.expand_path(first)}")
       rescue Exception => e
