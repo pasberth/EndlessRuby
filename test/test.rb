@@ -20,4 +20,5 @@ end
 require "#{ROOT}/test/test_helpers"
 require "#{ROOT}/test/test_simply"
 require "#{ROOT}/test/test_require"
+require "#{ROOT}/test/test_use_end_case"
 
