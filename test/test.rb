@@ -1,7 +1,7 @@
 ROOT = File.dirname(File.dirname(File.expand_path(__FILE__)))
 
 require "test/unit"
-require "#{ROOT}/lib/endlessruby.rb"
+require "#{ROOT}/lib/EndlessRuby"
 
 class TestEndlessRuby < Test::Unit::TestCase
   

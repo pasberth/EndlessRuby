@@ -3,5 +3,5 @@ require "#{ROOT}/lib/endlessruby"
 
 include EndlessRuby
 
-`gcc src/endlessruby.c -o lib/endlessruby`
-ercompile("#{ROOT}/src/endlessruby.er", "#{ROOT}/lib/endlessruby.rb")
+ercompile("#{ROOT}/src/EndlessRuby.er", "#{ROOT}/lib/EndlessRuby.rb")
+ercompile("#{ROOT}/src/EndlessRuby/extensions.er", "#{ROOT}/lib/EndlessRuby/extensions.rb")

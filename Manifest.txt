@@ -1,0 +1,16 @@
+History.txt
+Manifest.txt
+PostInstall.txt
+README.rdoc
+Rakefile
+bin/EndlessRuby
+lib/EndlessRuby.rb
+lib/EndlessRuby/cli.rb
+script/console
+script/destroy
+script/generate
+spec/EndlessRuby_cli_spec.rb
+spec/EndlessRuby_spec.rb
+spec/spec.opts
+spec/spec_helper.rb
+tasks/rspec.rake
