@@ -65,7 +65,14 @@ module EndlessRuby
         base_indent_depth = currently_indent_depth
         inner_statements = []
         while i < endless.length
-          break unless keyword[1..-1].any? { |k| k =~ unindent(endless[i + 1]) } || base_indent_depth < indent_count(endless[i + 1])
+          if base_indent_depth > indent_count(endless[i + 1])
+            break
+          end
+          if base_indent_depth == indent_count(endless[i + 1])
+            unless keyword[1..-1].any? { |k| k =~ unindent(endless[i + 1]) }
+              break
+            end
+          end
           inner_statements << endless[i + 1]
           i += 1
         end
