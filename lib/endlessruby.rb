@@ -56,7 +56,7 @@ module EndlessRuby
     i = 0
     while i < endless.length
       pure += [(currently_line = endless[i])]
-      " ブロックを作らない構文なら単に無視する "
+      # ブロックを作らない構文なら単に無視する 
       next i += 1 unless BLOCK_KEYWORDS.any? { |k| k[0] =~ unindent(currently_line)  }
       keyword = BLOCK_KEYWORDS.each { |k| break k if k[0] =~ unindent(currently_line)  }
       currently_indent_depth = indent_count currently_line
@@ -78,7 +78,7 @@ module EndlessRuby
         end
         pure += endless_ruby_to_pure_ruby(inner_statements.join("\n")).split "\n"
       end
-      "次の行がendならばendを補完しない(ワンライナーのため)"
+      # 次の行がendならばendを補完しない(ワンライナーのため)
       unless endless[i + 1] =~ /^\s*end.*$/
         pure += ["#{'  '*currently_indent_depth}end"]
       end
@@ -87,6 +87,8 @@ module EndlessRuby
     pure.join "\n"
   end
   alias to_pure_ruby endless_ruby_to_pure_ruby
+  alias ER2PR endless_ruby_to_pure_ruby
+  alias ER2RB endless_ruby_to_pure_ruby
 end
 if __FILE__ == $PROGRAM_NAME
   outdir = File.expand_path "."
