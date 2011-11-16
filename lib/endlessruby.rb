@@ -60,7 +60,14 @@ module EndlessRuby
     i = 0
     while i < endless.length
       pure += [(currently_line = endless[i])]
+      if currently_line =~ /^(.*)(?!\\).\#(?!\{).*$/
+        if blank_line? $1
+          i += 1
+          next
+        else
       # ブロックを作らない構文なら単に無視する 
+        end
+      end
       next i += 1 unless BLOCK_KEYWORDS.any? { |k| k[0] =~ unindent(currently_line)  }
       keyword = BLOCK_KEYWORDS.each { |k| break k if k[0] =~ unindent(currently_line)  }
       currently_indent_depth = indent_count currently_line
@@ -71,6 +78,15 @@ module EndlessRuby
         inner_statements = []
         in_here_document = nil
         while i < endless.length
+          if endless[i + 1] =~ /^(.*)(?!\\).\#(?!\{).*$/
+            if blank_line? $1
+              inner_statements << endless[i + 1]
+              i += 1
+              next
+            else
+              endless[i + 1] = $1
+            end
+          end
           if in_here_document
             if endless[i + 1] =~ /^#{in_here_document}\s*$/
               in_here_document = nil
@@ -98,10 +114,10 @@ module EndlessRuby
           i += 1
         end
         pure += endless_ruby_to_pure_ruby(inner_statements.join("\n")).split "\n"
-      end
       # 次の行がendならばendを補完しない(ワンライナーのため)
-      unless endless[i + 1] =~ /^\s*end.*$/
-        pure += ["#{'  '*currently_indent_depth}end"]
+      end
+      unless endless[i + 1] && endless[i + 1] =~ /^\s*end.*$/
+        pure << "#{'  '*currently_indent_depth}end"
       end
       i += 1
     end

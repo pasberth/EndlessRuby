@@ -48,8 +48,8 @@ module EndlessRuby::Main
           unless options[:recursive]
             puts "Is a directory - #{er}"
             next
-          end
           # Unimolementation
+          end
           next
         end
         rb = er
