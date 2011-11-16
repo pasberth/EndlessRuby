@@ -65,10 +65,27 @@ module EndlessRuby
       keyword = BLOCK_KEYWORDS.each { |k| break k if k[0] =~ unindent(currently_line)  }
       currently_indent_depth = indent_count currently_line
       just_after_indent_depth = indent_count endless[i + 1]
+      # ブロックに入る
       if currently_indent_depth < just_after_indent_depth || keyword[1..-1].any? { |k| k =~ unindent(endless[i + 1]) }
         base_indent_depth = currently_indent_depth
         inner_statements = []
+        in_here_document = nil
         while i < endless.length
+          if in_here_document
+            if endless[i + 1] =~ /^#{in_here_document}\s*$/
+              in_here_document = nil
+              inner_statements << endless[i + 1]
+              i += 1
+              next
+            else
+              inner_statements << endless[i + 1]
+              i += 1
+              next
+            end
+          end
+          if endless[i + 1] =~ /^.*?\<\<\-?(\w+)\)?$/
+            in_here_document = $1
+          end
           if base_indent_depth > indent_count(endless[i + 1])
             break
           end
