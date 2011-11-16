@@ -19,7 +19,7 @@ module Kernel
       end
       open(path) do |file|
         begin
-          TOPLEVEL_BINDING.eval EndlessRuby.to_pure_ruby(file.read), path
+          EndlessRuby.ereval file.read, TOPLEVEL_BINDING, path
         rescue Exception => e
           $@ = at
           raise e
@@ -34,7 +34,7 @@ module Kernel
         next is_that_dir = true if File.directory? real_path
         open(real_path) do |file|
           begin
-            TOPLEVEL_BINDING.eval EndlessRuby.to_pure_ruby(file.read), real_path
+            EndlessRuby.ereval file.read, TOPLEVEL_BINDING, real_path
           rescue Exception => e
             $@ = at
             raise e

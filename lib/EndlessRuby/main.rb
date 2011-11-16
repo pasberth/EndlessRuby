@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
-require File.join(File.dirname(__FILE__), '..', 'endlessruby')
 module EndlessRuby::Main
   extend self
   extend EndlessRuby
@@ -57,6 +56,8 @@ module EndlessRuby::Main
       return
     end
     $PROGRAM_NAME = ARGV.shift
-    require $PROGRAM_NAME
+    open $PROGRAM_NAME do |file|
+      EndlessRuby.ereval file.read, TOPLEVEL_BINDING, $PROGRAM_NAME
+    end
   end
 end

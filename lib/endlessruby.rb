@@ -40,7 +40,11 @@ module EndlessRuby
   ]
   public
   def ereval(src, binding=TOPLEVEL_BINDING, filename=__FILE__, lineno=1)
+    at = caller
     eval(ER2PR(src), binding, filename, lineno)
+  rescue Exception => e
+    $@ = at
+    raise e
   end
   def ercompile(er, rb)
     open(er) do |erfile|

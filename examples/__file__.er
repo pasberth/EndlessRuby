@@ -1,0 +1,5 @@
+puts __FILE__
+puts $PROGRAM_NAME
+
+if __FILE__ == $PROGRAM_NAME
+  puts 'insert test case to here'
