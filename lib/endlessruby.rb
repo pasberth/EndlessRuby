@@ -39,8 +39,8 @@ module EndlessRuby
     [/^.*?\s+do(:?$|\s|\|)/]
   ]
   public
-  def ereval(src, binding=TOPLEVEL_BINDING)
-    binding.eval(endless_ruby_to_pure_ruby src)
+  def ereval(src, binding=TOPLEVEL_BINDING, filename=__FILE__, lineno=1)
+    eval(ER2PR(src), binding, filename, lineno)
   end
   def ercompile(er, rb)
     open(er) do |erfile|
@@ -91,31 +91,6 @@ module EndlessRuby
   alias ER2RB endless_ruby_to_pure_ruby
 end
 if __FILE__ == $PROGRAM_NAME
-  outdir = File.expand_path "."
-  srces = []
-  until ARGV.empty?
-    first = ARGV.shift
-    case first
-    when "-c", "--compile"
-      until ARGV.empty?
-        break if ARGV.first =~ /^\-.*$/
-        srces << ARGV.shift
-      end
-    when "-o", "--output"
-      outdir = File.expand_path ARGV.shift
-    else
-      $PROGRAM_NAME = File.expand_path first
-      begin
-        require("#{File.expand_path(first)}")
-      rescue Exception => e
-        $@ = $@[0..-7]
-        raise e
-      end
-    end
-  end
-  until srces.empty?
-    filename = srces.shift
-    filename =~ /^(.*)\.er$/
-    EndlessRuby.ercompile(File.expand_path(filename), "#{outdir}/#{File.split($1)[1]}.rb")
-  end
+  require 'endlessruby/main'
+  EndlessRuby::Main.main *ARGV.clone
 end
