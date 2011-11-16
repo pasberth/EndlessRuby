@@ -28,7 +28,7 @@ module Kernel
       end
     else
       is_that_dir = false
-      $LOAD_PATH.each do |load_path|
+      ($LOAD_PATH | $:).each do |load_path|
         real_path = File.join load_path, path
         next unless File.exist? real_path
         next is_that_dir = true if File.directory? real_path
