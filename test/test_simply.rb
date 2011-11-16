@@ -64,6 +64,42 @@ DEFINE
     assert_equal output_src, (endless_ruby_to_pure_ruby input_src)
   end
 
+  def test_nest_keywords
+    input_src = <<DEFINE
+def test
+  if false
+    pass
+  elsif true
+    if true
+      pass
+    elsif false
+      pass
+    else
+      pass
+  else
+    pass
+DEFINE
+    output_src = <<DEFINE
+def test
+  if false
+    pass
+  elsif true
+    if true
+      pass
+    elsif false
+      pass
+    else
+      pass
+    end
+  else
+    pass
+  end
+end
+DEFINE
+    output_src.chomp!
+    assert_equal output_src, (endless_ruby_to_pure_ruby input_src)
+  end
+
   def test_4
     input_src = <<DEFINE
 def test
