@@ -11,10 +11,17 @@ module EndlessRuby::Main
       end
     end
   end
-  def endlessruby *argv
+  def endlessruby argv
     EndlessRuby::Main.main argv
   end
-  def self.main *argv
+  def self.main argv
+    if argv.first && File.exist?(argv.first)
+      $PROGRAM_NAME = argv.shift
+      open $PROGRAM_NAME do |file|
+        EndlessRuby.ereval file.read, TOPLEVEL_BINDING, $PROGRAM_NAME
+      end
+      return true
+    end
     require 'optparse'
     options = {
     }
@@ -54,10 +61,6 @@ module EndlessRuby::Main
         compile er, rb
       end
       return
-    end
-    $PROGRAM_NAME = ARGV.shift
-    open $PROGRAM_NAME do |file|
-      EndlessRuby.ereval file.read, TOPLEVEL_BINDING, $PROGRAM_NAME
     end
   end
 end

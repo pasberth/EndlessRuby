@@ -96,5 +96,5 @@ module EndlessRuby
 end
 if __FILE__ == $PROGRAM_NAME
   require 'endlessruby/main'
-  EndlessRuby::Main.main *ARGV.clone
+  EndlessRuby::Main.main ARGV
 end

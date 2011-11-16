@@ -12,10 +12,16 @@ module EndlessRuby::Main
       open(rb, "w") do |rbfile|
         rbfile.write ER2PR(erfile.read)
 
-  def endlessruby *argv
+  def endlessruby argv
     EndlessRuby::Main.main argv
 
-  def self.main *argv
+  def self.main argv
+
+    if argv.first && File.exist?(argv.first)
+      $PROGRAM_NAME = argv.shift
+      open $PROGRAM_NAME do |file|
+        EndlessRuby.ereval file.read, TOPLEVEL_BINDING, $PROGRAM_NAME
+      return true
 
     require 'optparse'
 
@@ -57,7 +63,3 @@ module EndlessRuby::Main
         compile er, rb
 
       return
-
-    $PROGRAM_NAME = ARGV.shift
-    open $PROGRAM_NAME do |file|
-      EndlessRuby.ereval file.read, TOPLEVEL_BINDING, $PROGRAM_NAME
