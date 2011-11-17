@@ -42,8 +42,8 @@ DEFINE
 def test
   self.each do |item|
     pass
-  endlessruby src
   end
+  endlessruby src
 end
 DEFINE
     <<DEFINE)
