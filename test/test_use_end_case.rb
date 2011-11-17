@@ -43,15 +43,14 @@ def test
   self.each do |item|
     pass
   endlessruby src
+  end
 end
 DEFINE
     <<DEFINE)
 def test
   self.each do |item|
     pass
-  end
   endlessruby src
-end
 DEFINE
   end
 
