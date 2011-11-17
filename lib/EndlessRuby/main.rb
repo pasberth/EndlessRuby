@@ -7,15 +7,20 @@ module EndlessRuby::Main
   extend EndlessRuby
   include EndlessRuby
 
+  # er ファイルから読み込みそれをピュアなRubyにコンパイルしてrbに書き出します
   def compile er, rb
     open(er) do |erfile|
       open(rb, "w") do |rbfile|
         rbfile.write ER2PR(erfile.read)
+
+  # EndlessRuby::Main.main と同じ動作をします。このモジュールをincludeした場合に使用します。
       end
     end
   end
   def endlessruby argv
     EndlessRuby::Main.main argv
+
+  # $ endlessruby.rb args とまったく同じ動作をします。argvはARGVと同じ形式でなければなりません。
   end
   def self.main argv
 
