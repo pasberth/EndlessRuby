@@ -4,28 +4,25 @@
 
 == DESCRIPTION:
 
-FIX (describe your package)
+EndlessRuby は Ruby を end なしで書けるプリプロセッサまたはコンパイラです。
+* EndlessRuby で書かれたソースコードを Ruby プログラムから require
+* EndlessRuby で書かれたソースコードを ピュア Ruby にコンパイル
+ができます。
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+* gem化(予定)
 
 == SYNOPSIS:
-
-```ruby
-require "path/to/endlessruby"
-require "example.er"
-```
 
 = REQUIREMENTs
 
 * ruby 1.8.7, 1.9.1, or 1.9.2 ...
-* rubygems -- optional
+* rubygems
 
 == INSTALL:
 
-* sudo gem install EndlessRuby
- -- I'll make available it before long.
+* sudo gem install EndlessRuby(近いうちに)
 
 == LICENSE:
 

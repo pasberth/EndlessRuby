@@ -47,6 +47,7 @@ require "example.er"
 EndlessRuby は Ruby のコードを end を使わずにインデントで表現できます
 
 単に省略された end を補完することしかしないので、 end とインデント以外はピュアなRubyと同じように書けます。
+endを省略しないこともできます。
 
 ```ruby
 class EndlessRubyWorld
@@ -68,6 +69,14 @@ each do
 ```
 
 を使ってください。もし each {} で渡すのなら、閉じカッコは省略できません  
+
+##メソッドチェイン
+```ruby
+reject do |ary|
+  ary.empty?
+end.each do |ary|
+  # statements
+```
 
 ##endlessruby で書かれたソースを実行:
 	$ lib/endlessruby.rb example.er
