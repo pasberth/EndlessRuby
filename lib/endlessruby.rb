@@ -115,7 +115,7 @@ module EndlessRuby
             next
           end
         end
-        if inner_currently_line =~ /^.*?\<\<\-?(\w+)\)?$/
+        if inner_currently_line =~ /^.*?\<\<\-?(\w+)(?!\w).*$/
           in_here_document = $1
           
         end

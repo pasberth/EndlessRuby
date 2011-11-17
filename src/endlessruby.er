@@ -110,7 +110,7 @@ module EndlessRuby
             i += 1
             next
 
-        if inner_currently_line =~ /^.*?\<\<\-?(\w+)\)?$/
+        if inner_currently_line =~ /^.*?\<\<\-?(\w+)(?!\w).*$/
           in_here_document = $1
           
         if base_indent_depth > indent_count(inner_currently_line)

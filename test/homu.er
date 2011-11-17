@@ -1,0 +1,3 @@
+class Homu
+  def self.hello
+    "hello"

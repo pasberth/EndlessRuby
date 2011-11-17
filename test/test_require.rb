@@ -1,4 +1,9 @@
 class TestEndlessRuby
+
+  def test_require_without_er
+    require "#{ROOT}/test/homu"
+    assert_equal "hello", Homu.hello
+  end
   
   def test_require
     require "#{ROOT}/test/foo.er"
@@ -10,7 +15,6 @@ class TestEndlessRuby
     require "bar.er"
     assert_equal "hello", Bar.hello
   end
-
 
   def test_is_a_dir
     assert_raise(LoadError) {
