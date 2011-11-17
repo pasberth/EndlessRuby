@@ -1,29 +1,19 @@
 class TestEndlessRuby
   
   def test_1
-    input_src = <<DEFINE
-def test
-  test
-DEFINE
-    output_src = <<DEFINE
+    er2rb_right_output?(<<DEFINE.chomp!,
 def test
   test
 end
 DEFINE
-    output_src.chomp!
-    assert_equal output_src, (endless_ruby_to_pure_ruby input_src)
+    <<DEFINE)
+def test
+  test
+DEFINE
   end
 
   def test_2
-    input_src = <<DEFINE
-class Test
-  def test
-    proc do |args|
-      pass
-    proc do |args|
-      pass
-DEFINE
-    output_src = <<DEFINE
+    er2rb_right_output?(<<DEFINE.chomp!,
 class Test
   def test
     proc do |args|
@@ -35,21 +25,18 @@ class Test
   end
 end
 DEFINE
-    output_src.chomp!
-    assert_equal output_src, (endless_ruby_to_pure_ruby input_src)
+    <<DEFINE)
+class Test
+  def test
+    proc do |args|
+      pass
+    proc do |args|
+      pass
+DEFINE
   end
 
   def test_3
-    input_src = <<DEFINE
-def test
-  if false
-    pass
-  elsif true
-    pass
-  else
-    pass
-DEFINE
-    output_src = <<DEFINE
+    er2rb_right_output?(<<DEFINE.chomp!,
 def test
   if false
     pass
@@ -60,26 +47,19 @@ def test
   end
 end
 DEFINE
-    output_src.chomp!
-    assert_equal output_src, (endless_ruby_to_pure_ruby input_src)
-  end
-
-  def test_nest_keywords
-    input_src = <<DEFINE
+    <<DEFINE)
 def test
   if false
     pass
   elsif true
-    if true
-      pass
-    elsif false
-      pass
-    else
-      pass
+    pass
   else
     pass
 DEFINE
-    output_src = <<DEFINE
+  end
+
+  def test_nest_keywords
+    er2rb_right_output?(<<DEFINE.chomp!,
 def test
   if false
     pass
@@ -96,78 +76,82 @@ def test
   end
 end
 DEFINE
-    output_src.chomp!
-    assert_equal output_src, (endless_ruby_to_pure_ruby input_src)
+    <<DEFINE)
+def test
+  if false
+    pass
+  elsif true
+    if true
+      pass
+    elsif false
+      pass
+    else
+      pass
+  else
+    pass
+DEFINE
   end
 
   def test_4
-    input_src = <<DEFINE
-def test
-  if_nantoka
-DEFINE
-    output_src = <<DEFINE
+    er2rb_right_output?(<<DEFINE.chomp!,
 def test
   if_nantoka
 end
 DEFINE
-    output_src.chomp!
-    assert_equal output_src, (endless_ruby_to_pure_ruby input_src)
+    <<DEFINE)
+def test
+  if_nantoka
+DEFINE
   end
 
 
-  def test_5
-    input_src = <<DEFINE
-def method
-  src = <<SRC
-hello world
-SRC
-DEFINE
-    output_src = <<DEFINE
+  def test_here_document
+    er2rb_right_output?(<<DEFINE.chomp!,
 def method
   src = <<SRC
 hello world
 SRC
 end
 DEFINE
-    output_src.chomp!
-    assert_equal output_src, (endless_ruby_to_pure_ruby input_src)
-  end
-
-  def test_5_2
-    input_src = <<DEFINE
+    <<DEFINE)
 def method
-  src = <<-SRC
+  src = <<SRC
 hello world
 SRC
 DEFINE
-    output_src = <<DEFINE
+  end
+
+  def test_here_document2
+    er2rb_right_output?(<<DEFINE.chomp!,
 def method
   src = <<-SRC
 hello world
 SRC
 end
 DEFINE
-    output_src.chomp!
-    assert_equal output_src, (endless_ruby_to_pure_ruby input_src)
+    <<DEFINE)
+def method
+  src = <<-SRC
+hello world
+SRC
+DEFINE
   end
 
 
   def test_commentout
-    input_src = <<DEFINE
-def method
-  #TODO:
-  # proc do
-  #   statements 
-DEFINE
-    output_src = <<DEFINE
+    er2rb_right_output?(<<DEFINE.chomp!,
 def method
   #TODO:
   # proc do
   #   statements 
 end
 DEFINE
-    output_src.chomp!
-    assert_equal output_src, (endless_ruby_to_pure_ruby input_src)
+    <<DEFINE)
+def method
+  #TODO:
+  # proc do
+  #   statements 
+DEFINE
   end
 
 end
