@@ -131,7 +131,7 @@ module EndlessRuby
         i += 1
       end
       pure += endless_ruby_to_pure_ruby(inner_statements.join("\n")).split "\n"
-    # 次の行がendならばendを補完しない(ワンライナーのため)
+      # 次の行がendならばendを補完しない(ワンライナーのため)
       unless endless[i + 1] && endless[i + 1] =~ /^\s*end.*$/
         pure << "#{'  '*currently_indent_depth}end"
       end
