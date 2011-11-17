@@ -1,12 +1,19 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
+
 $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
+
 require 'endlessruby/extensions'
+
 module EndlessRuby
+
   VERSION = "0.0.1"
+
   extend self
+
   private
+
   def blank_line? line
     return true unless line
     (line.chomp.gsub /\s+?/, '') == ""
@@ -38,7 +45,9 @@ module EndlessRuby
     [/^begin(?:$|\s+)/, /^rescue(:?\s|\().*?$/, /^else(?:$|\s+)/, /^ensure(?:$|\s+)/],
     [/^.*?\s+do(:?$|\s|\|)/]
   ]
+
   public
+
   def ereval(src, binding=TOPLEVEL_BINDING, filename=__FILE__, lineno=1)
     at = caller
     eval(ER2PR(src), binding, filename, lineno)
@@ -55,39 +64,42 @@ module EndlessRuby
   end
   def endless_ruby_to_pure_ruby src
     endless = src.split "\n"
-    endless.reject! { |line| blank_line? line }
+
     pure = []
     i = 0
     while i < endless.length
       pure << (currently_line = endless[i])
+
       if currently_line =~ /^(.*)(?!\\).\#(?!\{).*$/
-        if blank_line? $1
-          i += 1
-          next
-        else
-          currently_line = $1
+        currently_line = $1
+      end
+      if blank_line? currently_line
+        i += 1
+        next
+
       # ブロックを作らない構文なら単に無視する 
-        end
       end
       next i += 1 unless BLOCK_KEYWORDS.any? { |k| k[0] =~ unindent(currently_line)  }
       keyword = BLOCK_KEYWORDS.each { |k| break k if k[0] =~ unindent(currently_line)  }
       currently_indent_depth = indent_count currently_line
       just_after_indent_depth = indent_count endless[i + 1]
+
       # ブロックに入る
-      if currently_indent_depth < just_after_indent_depth || keyword[1..-1].any? { |k| k =~ unindent(endless[i + 1]) }
+      if blank_line?(endless[i + 1]) || currently_indent_depth < just_after_indent_depth || keyword[1..-1].any? { |k| k =~ unindent(endless[i + 1]) }
         base_indent_depth = currently_indent_depth
         inner_statements = []
         in_here_document = nil
         while i < endless.length
+
           inner_currently_line = endless[i + 1]
+
           if inner_currently_line =~ /^(.*)(?!\\).\#(?!\{).*$/
-            if blank_line? $1
-              inner_statements << endless[i + 1]
-              i += 1
-              next
-            else
-              inner_currently_line = $1
-            end
+            inner_currently_line = $1
+          end
+          if blank_line? inner_currently_line
+            inner_statements << endless[i + 1]
+            i += 1
+            next
           end
           if in_here_document
             if inner_currently_line =~ /^#{in_here_document}\s*$/

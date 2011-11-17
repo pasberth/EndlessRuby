@@ -1,8 +1,12 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
+
 require 'rubygems'
+
 module Kernel
+
   alias endlessruby_original_require require
+
   def require path
     at = caller
     endlessruby_original_require path

@@ -1,9 +1,12 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
+
 module EndlessRuby::Main
+
   extend self
   extend EndlessRuby
   include EndlessRuby
+
   def compile er, rb
     open(er) do |erfile|
       open(rb, "w") do |rbfile|
@@ -15,6 +18,7 @@ module EndlessRuby::Main
     EndlessRuby::Main.main argv
   end
   def self.main argv
+
     if argv.first && File.exist?(argv.first)
       $PROGRAM_NAME = argv.shift
       open $PROGRAM_NAME do |file|
@@ -23,8 +27,10 @@ module EndlessRuby::Main
       return true
     end
     require 'optparse'
+
     options = {
     }
+
     parser = OptionParser.new do |opts|
       opts.on '-o OUT' do |out|
         options[:out] = out
@@ -37,8 +43,10 @@ module EndlessRuby::Main
       end
     end
     parser.parse! argv
+
     if options[:compile]
       out = options[:out] || '.'
+
       argv.each do |er|
         unless File.exist? er
           puts "no such file to load -- #{er}"
