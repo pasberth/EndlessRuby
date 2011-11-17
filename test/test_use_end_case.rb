@@ -37,4 +37,22 @@ end
 DEFINE
   end
 
+  def test_beggining_of_the_end_function
+    er2rb_right_output?(<<DEFINE.chomp!,
+def test
+  self.each do |item|
+    pass
+  endlessruby src
+end
+DEFINE
+    <<DEFINE)
+def test
+  self.each do |item|
+    pass
+  end
+  endlessruby src
+end
+DEFINE
+  end
+
 end
