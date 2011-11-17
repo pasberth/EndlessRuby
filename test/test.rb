@@ -9,6 +9,10 @@ class TestEndlessRuby < Test::Unit::TestCase
   def setup
   end
 
+  def er2rb_right_output? want_output, input
+    assert_equal want_output, ER2RB(input)
+  end
+
   def test_ereval
     assert_equal "hello", ereval(<<ER)
 "hello"
