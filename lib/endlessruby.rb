@@ -59,7 +59,7 @@ module EndlessRuby
     pure = []
     i = 0
     while i < endless.length
-      pure += [(currently_line = endless[i])]
+      pure << (currently_line = endless[i])
       if currently_line =~ /^(.*)(?!\\).\#(?!\{).*$/
         if blank_line? $1
           i += 1
