@@ -154,4 +154,20 @@ def method
 DEFINE
   end
 
+  def test_commentout
+    er2rb_right_output?(<<DEFINE.chomp!,
+def method
+  statements #TODO:
+  statements # proc do
+  statements #   statements 
+end
+DEFINE
+    <<DEFINE)
+def method
+  statements #TODO:
+  statements # proc do
+  statements #   statements 
+DEFINE
+  end
+
 end
