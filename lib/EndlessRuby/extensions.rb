@@ -14,8 +14,12 @@ module Kernel
     case path
     when /^\.\/.*?$/, /^\/.*?$/
       unless File.exist? path
-        $@ = at
-        raise LoadError, "no such file to load -- #{path}"
+        if File.exist? "#{path}.er"
+          path = "#{path}.er"
+        else
+          $@ = at
+          raise LoadError, "no such file to load -- #{path}"
+        end
       end
       if File.directory? path
         $@ = at
@@ -34,7 +38,13 @@ module Kernel
       is_that_dir = false
       ($LOAD_PATH | $:).each do |load_path|
         real_path = File.join load_path, path
-        next unless File.exist? real_path
+        unless File.exist? real_path
+          if File.exist? "#{real_path}.er"
+            real_path = "#{real_path}.er"
+          else
+            next
+          end
+        end
         next is_that_dir = true if File.directory? real_path
         open(real_path) do |file|
           begin
