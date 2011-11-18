@@ -36,7 +36,7 @@ require 'endlessruby/extensions'
 #   そのほかは/examplesを読んでください
 module EndlessRuby
 
-  # EndlessRuby の場＾ジョンです
+  # EndlessRuby のバージョンです
   VERSION = "0.0.1"
 
   extend self
