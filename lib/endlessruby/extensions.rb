@@ -15,7 +15,7 @@ module Kernel
   def require path
     at = caller
     endlessruby_original_require path
-  rescue Exception
+  rescue SyntaxError, LoadError
     case path
     when /^\.\/.*?$/, /^\/.*?$/
       unless File.exist? path
