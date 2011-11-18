@@ -1,0 +1,1046 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+
+	<title>Class: TestEndlessRuby</title>
+
+	<link rel="stylesheet" href="./rdoc.css" type="text/css" media="screen" />
+
+	<script src="./js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="./index.html">Home</a>
+          <a href="./index.html#classes">Classes</a>
+          <a href="./index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="./test/test_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="test/test.rb">test/test.rb</a></li>
+					
+						<li><a href="./test/test_helpers_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="test/test_helpers.rb">test/test_helpers.rb</a></li>
+					
+						<li><a href="./test/test_require_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="test/test_require.rb">test/test_require.rb</a></li>
+					
+						<li><a href="./test/test_simply_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="test/test_simply.rb">test/test_simply.rb</a></li>
+					
+						<li><a href="./test/test_use_end_case_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="test/test_use_end_case.rb">test/test_use_end_case.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Test::Unit::TestCase</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-i-er2rb_right_output%3F">#er2rb_right_output?</a></li>
+					
+					<li><a href="#method-i-setup">#setup</a></li>
+					
+					<li><a href="#method-i-test_1">#test_1</a></li>
+					
+					<li><a href="#method-i-test_2">#test_2</a></li>
+					
+					<li><a href="#method-i-test_3">#test_3</a></li>
+					
+					<li><a href="#method-i-test_4">#test_4</a></li>
+					
+					<li><a href="#method-i-test_beggining_of_the_end_function">#test_beggining_of_the_end_function</a></li>
+					
+					<li><a href="#method-i-test_blank_line">#test_blank_line</a></li>
+					
+					<li><a href="#method-i-test_commentout">#test_commentout</a></li>
+					
+					<li><a href="#method-i-test_commentout">#test_commentout</a></li>
+					
+					<li><a href="#method-i-test_ereval">#test_ereval</a></li>
+					
+					<li><a href="#method-i-test_here_document">#test_here_document</a></li>
+					
+					<li><a href="#method-i-test_here_document2">#test_here_document2</a></li>
+					
+					<li><a href="#method-i-test_is_a_dir">#test_is_a_dir</a></li>
+					
+					<li><a href="#method-i-test_load_path">#test_load_path</a></li>
+					
+					<li><a href="#method-i-test_method_chain_and_nest_case">#test_method_chain_and_nest_case</a></li>
+					
+					<li><a href="#method-i-test_method_chain_case">#test_method_chain_case</a></li>
+					
+					<li><a href="#method-i-test_nest_keywords">#test_nest_keywords</a></li>
+					
+					<li><a href="#method-i-test_no_such_file">#test_no_such_file</a></li>
+					
+					<li><a href="#method-i-test_not_blank_line">#test_not_blank_line</a></li>
+					
+					<li><a href="#method-i-test_require">#test_require</a></li>
+					
+					<li><a href="#method-i-test_require_without_er">#test_require_without_er</a></li>
+					
+					<li><a href="#method-i-test_use_end_case">#test_use_end_case</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+			<div id="includes-section" class="section">
+				<h3 class="section-header">Included Modules</h3>
+				<ul class="link-list">
+				
+				
+					<li><a class="include" href="EndlessRuby.html">EndlessRuby</a></li>
+				
+				
+				</ul>
+			</div>
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="./History_txt.html">History.txt</a></li>
+				
+					<li class="file"><a href="./Manifest_txt.html">Manifest.txt</a></li>
+				
+					<li class="file"><a href="./README_rdoc.html">README.rdoc</a></li>
+				
+					<li class="file"><a href="./Rakefile.html">Rakefile</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="./images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="./EndlessRuby.html">EndlessRuby</a></li>
+				
+					<li><a href="./EndlessRuby/Main.html">EndlessRuby::Main</a></li>
+				
+					<li><a href="./ERSpecHelper.html">ERSpecHelper</a></li>
+				
+					<li><a href="./Kernel.html">Kernel</a></li>
+				
+					<li><a href="./TestEndlessRuby.html">TestEndlessRuby</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">TestEndlessRuby</h1>
+
+		<div id="description">
+			
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="er-rb-right-output--method" class="method-detail ">
+				<a name="method-i-er2rb_right_output%3F"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">er2rb_right_output?</span><span
+						class="method-args">(want_output, input)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="er-rb-right-output--source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test.rb, line 12</span>
+12:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">er2rb_right_output?</span> <span class="ruby-identifier">want_output</span>, <span class="ruby-identifier">input</span>
+13:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-identifier">want_output</span>, <span class="ruby-constant">ER2RB</span>(<span class="ruby-identifier">input</span>)
+14:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="setup-method" class="method-detail ">
+				<a name="method-i-setup"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">setup</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="setup-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test.rb, line 9</span>
+ 9:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">setup</span>
+10:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test--method" class="method-detail ">
+				<a name="method-i-test_1"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_1</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test--source">
+<pre>
+   <span class="ruby-comment cmt"># File test/test_simply.rb, line 3</span>
+3:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_1</span>
+4:     <span class="ruby-identifier">er2rb_right_output?</span>(<span class="ruby-value str">def test  testend</span>.<span class="ruby-identifier">chomp!</span>,
+5:     <span class="ruby-value str">def test  test</span>)
+6:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test--method" class="method-detail ">
+				<a name="method-i-test_2"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_2</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test--source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test_simply.rb, line 15</span>
+15:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_2</span>
+16:     <span class="ruby-identifier">er2rb_right_output?</span>(<span class="ruby-value str">class Test  def test    proc do |args|      pass    end    proc do |args|      pass    end  endend</span>.<span class="ruby-identifier">chomp!</span>,
+17:     <span class="ruby-value str">class Test  def test    proc do |args|      pass    proc do |args|      pass</span>)
+18:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test--method" class="method-detail ">
+				<a name="method-i-test_3"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_3</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test--source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test_simply.rb, line 38</span>
+38:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_3</span>
+39:     <span class="ruby-identifier">er2rb_right_output?</span>(<span class="ruby-value str">def test  if false    pass  elsif true    pass  else    pass  endend</span>.<span class="ruby-identifier">chomp!</span>,
+40:     <span class="ruby-value str">def test  if false    pass  elsif true    pass  else    pass</span>)
+41:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test--method" class="method-detail ">
+				<a name="method-i-test_4"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_4</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test--source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test_simply.rb, line 95</span>
+95:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_4</span>
+96:     <span class="ruby-identifier">er2rb_right_output?</span>(<span class="ruby-value str">def test  if_nantokaend</span>.<span class="ruby-identifier">chomp!</span>,
+97:     <span class="ruby-value str">def test  if_nantoka</span>)
+98:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-beggining-of-the-end-function-method" class="method-detail ">
+				<a name="method-i-test_beggining_of_the_end_function"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_beggining_of_the_end_function</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-beggining-of-the-end-function-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test_use_end_case.rb, line 64</span>
+64:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_beggining_of_the_end_function</span>
+65:     <span class="ruby-identifier">er2rb_right_output?</span>(<span class="ruby-value str">def test  self.each do |item|    pass  end  endlessruby srcend</span>.<span class="ruby-identifier">chomp!</span>,
+66:     <span class="ruby-value str">def test  self.each do |item|    pass  endlessruby src</span>)
+67:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-blank-line-method" class="method-detail ">
+				<a name="method-i-test_blank_line"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_blank_line</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-blank-line-source">
+<pre>
+   <span class="ruby-comment cmt"># File test/test_helpers.rb, line 3</span>
+3:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_blank_line</span>
+4:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-keyword kw">true</span>, (<span class="ruby-identifier">blank_line?</span> <span class="ruby-value str">&quot;        &quot;</span>)
+5:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-commentout-method" class="method-detail ">
+				<a name="method-i-test_commentout"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_commentout</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-commentout-source">
+<pre>
+     <span class="ruby-comment cmt"># File test/test_simply.rb, line 141</span>
+141:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_commentout</span>
+142:     <span class="ruby-identifier">er2rb_right_output?</span>(<span class="ruby-value str">def method  #TODO:  # proc do  #   statements end</span>.<span class="ruby-identifier">chomp!</span>,
+143:     <span class="ruby-value str">def method  #TODO:  # proc do  #   statements </span>)
+144:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-commentout-method" class="method-detail ">
+				<a name="method-i-test_commentout"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_commentout</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-commentout-source">
+<pre>
+     <span class="ruby-comment cmt"># File test/test_simply.rb, line 157</span>
+157:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_commentout</span>
+158:     <span class="ruby-identifier">er2rb_right_output?</span>(<span class="ruby-value str">def method  statements #TODO:  statements # proc do  statements #   statements end</span>.<span class="ruby-identifier">chomp!</span>,
+159:     <span class="ruby-value str">def method  statements #TODO:  statements # proc do  statements #   statements </span>)
+160:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-ereval-method" class="method-detail ">
+				<a name="method-i-test_ereval"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_ereval</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-ereval-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test.rb, line 16</span>
+16:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_ereval</span>
+17:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value str">&quot;hello&quot;</span>, <span class="ruby-identifier">ereval</span>(<span class="ruby-value str">&quot;hello&quot;</span>)
+18:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-here-document-method" class="method-detail ">
+				<a name="method-i-test_here_document"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_here_document</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-here-document-source">
+<pre>
+     <span class="ruby-comment cmt"># File test/test_simply.rb, line 108</span>
+108:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_here_document</span>
+109:     <span class="ruby-identifier">er2rb_right_output?</span>(<span class="ruby-value str">def method  src = &lt;&lt;SRChello worldSRCend</span>.<span class="ruby-identifier">chomp!</span>,
+110:     <span class="ruby-value str">def method  src = &lt;&lt;SRChello worldSRC</span>)
+111:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-here-document--method" class="method-detail ">
+				<a name="method-i-test_here_document2"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_here_document2</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-here-document--source">
+<pre>
+     <span class="ruby-comment cmt"># File test/test_simply.rb, line 124</span>
+124:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_here_document2</span>
+125:     <span class="ruby-identifier">er2rb_right_output?</span>(<span class="ruby-value str">def method  src = &lt;&lt;-SRChello worldSRCend</span>.<span class="ruby-identifier">chomp!</span>,
+126:     <span class="ruby-value str">def method  src = &lt;&lt;-SRChello worldSRC</span>)
+127:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-is-a-dir-method" class="method-detail ">
+				<a name="method-i-test_is_a_dir"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_is_a_dir</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-is-a-dir-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test_require.rb, line 19</span>
+19:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_is_a_dir</span>
+20:     <span class="ruby-identifier">assert_raise</span>(<span class="ruby-constant">LoadError</span>) {
+21:       <span class="ruby-identifier">require</span> <span class="ruby-node">&quot;#{ROOT}/test/is_a_dir&quot;</span>
+22:     }  
+23:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-load-path-method" class="method-detail ">
+				<a name="method-i-test_load_path"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_load_path</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-load-path-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test_require.rb, line 13</span>
+13:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_load_path</span>
+14:     <span class="ruby-identifier">$LOAD_PATH</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{ROOT}/test&quot;</span>
+15:     <span class="ruby-identifier">require</span> <span class="ruby-value str">&quot;bar.er&quot;</span>
+16:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value str">&quot;hello&quot;</span>, <span class="ruby-constant">Bar</span>.<span class="ruby-identifier">hello</span>
+17:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-method-chain-and-nest-case-method" class="method-detail ">
+				<a name="method-i-test_method_chain_and_nest_case"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_method_chain_and_nest_case</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-method-chain-and-nest-case-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test_use_end_case.rb, line 25</span>
+25:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_method_chain_and_nest_case</span>
+26: 
+27:     <span class="ruby-identifier">er2rb_right_output?</span>(<span class="ruby-value str">def test  self.map do |item|    self.map do |item2|      pass    end  end.each do |item|    pass  endend</span>.<span class="ruby-identifier">chomp!</span>,
+28:     <span class="ruby-value str">def test  self.map do |item|    self.map do |item2|      pass  end.each do |item|    pass</span>)
+29: 
+30:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-method-chain-case-method" class="method-detail ">
+				<a name="method-i-test_method_chain_case"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_method_chain_case</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-method-chain-case-source">
+<pre>
+   <span class="ruby-comment cmt"># File test/test_use_end_case.rb, line 4</span>
+4:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_method_chain_case</span>
+5: 
+6:     <span class="ruby-identifier">er2rb_right_output?</span>(<span class="ruby-value str">def test  self.map do |item|    pass  end.each do |item|    pass  endend</span>.<span class="ruby-identifier">chomp!</span>,
+7:     <span class="ruby-value str">def test  self.map do |item|    pass  end.each do |item|    pass</span>)
+8: 
+9:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-nest-keywords-method" class="method-detail ">
+				<a name="method-i-test_nest_keywords"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_nest_keywords</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-nest-keywords-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test_simply.rb, line 61</span>
+61:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_nest_keywords</span>
+62:     <span class="ruby-identifier">er2rb_right_output?</span>(<span class="ruby-value str">def test  if false    pass  elsif true    if true      pass    elsif false      pass    else      pass    end  else    pass  endend</span>.<span class="ruby-identifier">chomp!</span>,
+63:     <span class="ruby-value str">def test  if false    pass  elsif true    if true      pass    elsif false      pass    else      pass  else    pass</span>)
+64:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-no-such-file-method" class="method-detail ">
+				<a name="method-i-test_no_such_file"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_no_such_file</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-no-such-file-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test_require.rb, line 25</span>
+25:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_no_such_file</span>
+26:     <span class="ruby-identifier">assert_raise</span>(<span class="ruby-constant">LoadError</span>) {
+27:       <span class="ruby-identifier">require</span> <span class="ruby-node">&quot;#{ROOT}/test/no_such_file&quot;</span>
+28:     }
+29:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-not-blank-line-method" class="method-detail ">
+				<a name="method-i-test_not_blank_line"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_not_blank_line</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-not-blank-line-source">
+<pre>
+   <span class="ruby-comment cmt"># File test/test_helpers.rb, line 7</span>
+7:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_not_blank_line</span>
+8:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-keyword kw">false</span>, (<span class="ruby-identifier">blank_line?</span> <span class="ruby-value str">&quot;        pass&quot;</span>)
+9:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-require-method" class="method-detail ">
+				<a name="method-i-test_require"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_require</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-require-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test_require.rb, line 8</span>
+ 8:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_require</span>
+ 9:     <span class="ruby-identifier">require</span> <span class="ruby-node">&quot;#{ROOT}/test/foo.er&quot;</span>
+10:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value str">&quot;hello&quot;</span>, <span class="ruby-constant">Foo</span>.<span class="ruby-identifier">hello</span>
+11:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-require-without-er-method" class="method-detail ">
+				<a name="method-i-test_require_without_er"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_require_without_er</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-require-without-er-source">
+<pre>
+   <span class="ruby-comment cmt"># File test/test_require.rb, line 3</span>
+3:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_require_without_er</span>
+4:     <span class="ruby-identifier">require</span> <span class="ruby-node">&quot;#{ROOT}/test/homu&quot;</span>
+5:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value str">&quot;hello&quot;</span>, <span class="ruby-constant">Homu</span>.<span class="ruby-identifier">hello</span>
+6:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="test-use-end-case-method" class="method-detail ">
+				<a name="method-i-test_use_end_case"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">test_use_end_case</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="test-use-end-case-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/test_use_end_case.rb, line 49</span>
+49:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_use_end_case</span>
+50:     <span class="ruby-identifier">er2rb_right_output?</span>(<span class="ruby-value str">def test  self.map do |item|  endend</span>.<span class="ruby-identifier">chomp!</span>,
+51:     <span class="ruby-value str">def test  self.map do |item|  endend</span>)
+52:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

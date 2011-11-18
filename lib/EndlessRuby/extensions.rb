@@ -7,6 +7,11 @@ module Kernel
 
   alias endlessruby_original_require require
 
+  # EndlessRuby によって再定義された require です。
+  # たいていのこのrequireはオリジナルなrequireまたはrubygemsのrequireがSyntaxErrorによって失敗した場合のみ機能します。
+  # SytanxError によってrequireが失敗した場合、pathを探してpathまたはpath.erの名前のファイルをEndlessRubyの構文として評価します。
+  # pathが./または/で以外で始まる場合は$LOAD_PATHと$:をそれぞれ参照してpathを探します。
+  # もしpathがそれらで始まる場合はそれぞれ参照しません。(つまり通常のrequireの動作と同じです)
   def require path
     at = caller
     endlessruby_original_require path
