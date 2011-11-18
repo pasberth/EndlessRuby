@@ -71,7 +71,7 @@ module EndlessRuby
     [/^while(:?\s|\().*?$/],
     [/^until(:?\s|\().*?$/],
     [/^case(:?\s|\().*?$/, /^when(:?\s|\().*?$/, /^else(?:$|\s+)/],
-    [/^def\s.*?$/, /^rescue(:?\s|\().*?$/, /^else(?:$|\s+)/, /^ensure(?:$|\s+)/],
+    [/^def\s.*?$/, /^rescue(:?$|\s|\().*?$/, /^else(?:$|\s+)/, /^ensure(?:$|\s+)/],
     [/^class\s.*?$/],
     [/^module\s.*?$/],
     [/^begin(?:$|\s+)/, /^rescue(:?$|\s|\().*?$/, /^else(?:$|\s+)/, /^ensure(?:$|\s+)/],
