@@ -419,4 +419,155 @@ end
 
 describe "until expression case" do
 
+  it "without parenthesis" do
+    ER2RB(<<DEFINE).should == 
+until flg
+  pass
+DEFINE
+    <<DEFINE.chomp!
+until flg
+  pass
+end
+DEFINE
+  end
+
+  it "parenthesis" do
+    ER2RB(<<DEFINE).should == 
+until(flg)
+  pass
+DEFINE
+    <<DEFINE.chomp!
+until(flg)
+  pass
+end
+DEFINE
+  end
+
+end
+
+describe "exception expression case" do
+
+  it "try only" do
+    ER2RB(<<DEFINE).should == 
+begin
+  pass
+DEFINE
+    <<DEFINE.chomp!
+begin
+  pass
+end
+DEFINE
+  end
+
+
+  it "simple rescue" do
+    ER2RB(<<DEFINE).should == 
+begin
+  pass
+rescue
+  pass
+DEFINE
+    <<DEFINE.chomp!
+begin
+  pass
+rescue
+  pass
+end
+DEFINE
+  end
+
+  it "rescue LoadError" do
+    ER2RB(<<DEFINE).should == 
+begin
+  pass
+rescue LoadError
+  pass
+DEFINE
+    <<DEFINE.chomp!
+begin
+  pass
+rescue LoadError
+  pass
+end
+DEFINE
+  end
+
+  it "rescue LoadError to variable" do
+    ER2RB(<<DEFINE).should == 
+begin
+  pass
+rescue LoadError => e
+  pass
+DEFINE
+    <<DEFINE.chomp!
+begin
+  pass
+rescue LoadError => e
+  pass
+end
+DEFINE
+  end
+
+
+  it "rescue LoadError and SyntaxError" do
+    ER2RB(<<DEFINE).should == 
+begin
+  pass
+rescue LoadError
+  pass
+rescue SyntaxError
+  pass
+DEFINE
+    <<DEFINE.chomp!
+begin
+  pass
+rescue LoadError
+  pass
+rescue SyntaxError
+  pass
+end
+DEFINE
+  end
+
+  it "else block" do
+    ER2RB(<<DEFINE).should == 
+begin
+  pass
+rescue LoadError
+  pass
+else
+  pass
+DEFINE
+    <<DEFINE.chomp!
+begin
+  pass
+rescue LoadError
+  pass
+else
+  pass
+end
+DEFINE
+  end
+
+
+  it "ensure block" do
+    ER2RB(<<DEFINE).should == 
+begin
+  pass
+rescue LoadError
+  pass
+ensure
+  pass
+DEFINE
+    <<DEFINE.chomp!
+begin
+  pass
+rescue LoadError
+  pass
+ensure
+  pass
+end
+DEFINE
+  end
+
 end
