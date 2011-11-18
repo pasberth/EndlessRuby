@@ -81,6 +81,22 @@ end
 DEFINE
   end
 
+  it "simple rescue raising" do
+    ER2RB(<<DEFINE).should == 
+def obj.example
+  puts "hello world"
+rescue
+  pass
+DEFINE
+    <<DEFINE.chomp!
+def obj.example
+  puts "hello world"
+rescue
+  pass
+end
+DEFINE
+  end
+
 end
 
 describe "define module case" do
