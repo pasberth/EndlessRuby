@@ -12,16 +12,16 @@ module EndlessRuby::Main
     open(er) do |erfile|
       open(rb, "w") do |rbfile|
         rbfile.write ER2PR(erfile.read)
-
-  # EndlessRuby::Main.main と同じ動作をします。このモジュールをincludeした場合に使用します。
       end
     end
   end
+
+  # EndlessRuby::Main.main と同じ動作をします。このモジュールをincludeした場合に使用します。
   def endlessruby argv
     EndlessRuby::Main.main argv
+  end
 
   # $ endlessruby.rb args とまったく同じ動作をします。argvはARGVと同じ形式でなければなりません。
-  end
   def self.main argv
 
     if argv.first && File.exist?(argv.first)
@@ -31,6 +31,7 @@ module EndlessRuby::Main
       end
       return true
     end
+
     require 'optparse'
 
     options = {
@@ -40,13 +41,16 @@ module EndlessRuby::Main
       opts.on '-o OUT' do |out|
         options[:out] = out
       end
+
       opts.on '-c', '--compile' do |c|
         options[:compile] = true
       end
+
       opts.on '-r' do |r|
         options[:recursive] = true
       end
     end
+
     parser.parse! argv
 
     if options[:compile]
@@ -57,14 +61,16 @@ module EndlessRuby::Main
           puts "no such file to load -- #{er}"
           next
         end
+
         if File.directory? er
           unless options[:recursive]
             puts "Is a directory - #{er}"
             next
-          # Unimolementation
           end
+          # Unimolementation
           next
         end
+
         rb = er
         if er =~ /^(.*)\.er$/
           rb = $1
@@ -73,7 +79,7 @@ module EndlessRuby::Main
         rb = File.join(out, "#{rb}.rb")
         compile er, rb
       end
-      return
     end
   end
 end
+      return

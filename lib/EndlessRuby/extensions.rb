@@ -21,10 +21,12 @@ module Kernel
           raise LoadError, "no such file to load -- #{path}"
         end
       end
+
       if File.directory? path
         $@ = at
         raise LoadError, "Is a directory - #{path}"
       end
+
       open(path) do |file|
         begin
           EndlessRuby.ereval file.read, TOPLEVEL_BINDING, path
@@ -45,6 +47,7 @@ module Kernel
             next
           end
         end
+
         next is_that_dir = true if File.directory? real_path
         open(real_path) do |file|
           begin

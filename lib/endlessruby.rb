@@ -47,29 +47,29 @@ module EndlessRuby
   def blank_line? line
     return true unless line
     (line.chomp.gsub /\s+?/, '') == ""
+  end
 
   # 内部で使用します。インデントを取り除きます
-  end
   def unindent line
     line  =~ /^\s*?(\S.*?)$/
     $1
-  # 内部で使用します。インデントします
   end
+  # 内部で使用します。インデントします
   def indent line, level, indent="  "
     "#{indent * level}#{line}"
+  end
 
   # 内部で使用します。インデントの数を数えます。
-  end
   def indent_count line, indent="  "
     return 0 unless line
     if line =~ /^#{indent}(.*?)$/
       1 + (indent_count $1, indent)
     else
       0
-
-  # 内部で使用します。ブロックを作るキーワード群です。
     end
   end
+
+  # 内部で使用します。ブロックを作るキーワード群です。
   BLOCK_KEYWORDS = [
     [/^if(:?\s|\().*?$/, /^elsif(:?\s|\().*?$/, /^else(?:$|\s+)/],
     [/^unless(:?\s|\().*?$/, /^elsif(:?\s|\().*?$/, /^else(?:$|\s+)/],
@@ -92,18 +92,18 @@ module EndlessRuby
   rescue Exception => e
     $@ = at
     raise e
+  end
 
   # 廃止予定です
-  end
   def ercompile(er, rb)
     open(er) do |erfile|
       open(rb, "w") do |rbfile|
         rbfile.write(endless_ruby_to_pure_ruby(erfile.read))
-
-  # EndlessRubyの構文をピュアなRubyの構文に変換します。
       end
     end
   end
+
+  # EndlessRubyの構文をピュアなRubyの構文に変換します。
   def endless_ruby_to_pure_ruby src
     endless = src.split "\n"
 
@@ -115,12 +115,13 @@ module EndlessRuby
       if currently_line =~ /(.*)(?:^|(?:(?!\\).))\#(?!\{).*$/
         currently_line = $1
       end
+
       if blank_line? currently_line
         i += 1
         next
+      end
 
       # ブロックを作らない構文なら単に無視する 
-      end
       next i += 1 unless BLOCK_KEYWORDS.any? { |k| k[0] =~ unindent(currently_line)  }
 
       # ブロックに入る
@@ -130,19 +131,36 @@ module EndlessRuby
       base_indent_depth = currently_indent_depth
 
       inner_statements = []
+      comment_count = 0
+      break_comment_flag = false
       in_here_document = nil
       while i < endless.length
 
         inner_currently_line = endless[i + 1]
 
         if inner_currently_line =~ /(.*)(?:^|(?:(?!\\).))\#(?!\{).*$/
-            inner_currently_line = $1
+          if blank_line?($1) && currently_indent_depth >= indent_count(inner_currently_line)
+            comment_count += 1
+            break_comment_flag = false
+          end
+          inner_currently_line = $1
+        elsif blank_line? inner_currently_line
+          comment_count += 1
+          break_comment_flag = false
+        else
+          if break_comment_flag
+            comment_count = 0
+          else
+            break_comment_flag = true
+          end
         end
+
         if blank_line? inner_currently_line
           inner_statements << endless[i + 1]
           i += 1
           next
         end
+
         just_after_indent_depth = indent_count inner_currently_line
 
         if in_here_document
@@ -157,21 +175,33 @@ module EndlessRuby
             next
           end
         end
+
         if inner_currently_line =~ /^.*?\<\<\-?(\w+)(?!\w).*$/
           in_here_document = $1
-          
         end
+          
         if base_indent_depth > indent_count(inner_currently_line)
           break
         end
+
         if base_indent_depth == indent_count(inner_currently_line)
           unless keyword[1..-1].any? { |k| k =~ unindent(inner_currently_line) }
             break
           end
         end
+
         inner_statements << endless[i + 1]
         i += 1
       end
+
+      # endをコメントより上の行へ持ち上げる
+      if 0 < comment_count
+        comment_count.times do
+          inner_statements.pop
+        end
+        i -= comment_count
+      end
+
       pure += ER2PR(inner_statements.join("\n")).split "\n"
       # 次の行がendならばendを補完しない(ワンライナーのため)
       unless endless[i + 1] && endless[i + 1] =~ /^\s*end(?!\w).*$/
@@ -181,10 +211,12 @@ module EndlessRuby
     end
     pure.join "\n"
   end
+
   alias to_pure_ruby endless_ruby_to_pure_ruby
   alias ER2PR endless_ruby_to_pure_ruby
   alias ER2RB endless_ruby_to_pure_ruby
 end
+
 if __FILE__ == $PROGRAM_NAME
   require 'endlessruby/main'
   EndlessRuby::Main.main ARGV

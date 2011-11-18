@@ -120,13 +120,26 @@ module EndlessRuby
       base_indent_depth = currently_indent_depth
 
       inner_statements = []
+      comment_count = 0
+      break_comment_flag = false
       in_here_document = nil
       while i < endless.length
 
         inner_currently_line = endless[i + 1]
 
         if inner_currently_line =~ /(.*)(?:^|(?:(?!\\).))\#(?!\{).*$/
-            inner_currently_line = $1
+          if blank_line?($1) && currently_indent_depth >= indent_count(inner_currently_line)
+            comment_count += 1
+            break_comment_flag = false
+          inner_currently_line = $1
+        elsif blank_line? inner_currently_line
+          comment_count += 1
+          break_comment_flag = false
+        else
+          if break_comment_flag
+            comment_count = 0
+          else
+            break_comment_flag = true
 
         if blank_line? inner_currently_line
           inner_statements << endless[i + 1]
@@ -158,6 +171,12 @@ module EndlessRuby
 
         inner_statements << endless[i + 1]
         i += 1
+
+      # endをコメントより上の行へ持ち上げる
+      if 0 < comment_count
+        comment_count.times do
+          inner_statements.pop
+        i -= comment_count
 
       pure += ER2PR(inner_statements.join("\n")).split "\n"
       # 次の行がendならばendを補完しない(ワンライナーのため)
