@@ -1,18 +1,17 @@
 #EndlessRuby
 
-if you use EndlessRuby, you can write source code without the use of 'end'.
-you can write as pure ruby except end and indentation because EndlessRuby just simply supplement source code with 'end'.
-
+If you use EndlessRuby, you can write source code without the use of 'end'.
+You can just write (correctly indented) ruby minus the 'end's because EndlessRuby adds them in for you.
 ```ruby
 class EndlessRubyWorld
   def self.hello!
     puts "hello!"
 ```
 
-only take care if you passed code block case. use "each do" than "each {}".
-you can not do ellipsis of '}' if you use "each {}"
+Be careful when using blocks. Use "each do" rather than "each {}".
+You can not do ellipsis of '}' if you use "each {}"
 
-syntax of EndlessRuby's "each {}" case:
+Syntax of EndlessRuby's "each {}" case:
 
 ```ruby
 each {
