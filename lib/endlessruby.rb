@@ -91,15 +91,6 @@ module EndlessRuby
     raise e
   end
 
-  # 廃止予定です
-  def ercompile(er, rb)
-    open(er) do |erfile|
-      open(rb, "w") do |rbfile|
-        rbfile.write(endless_ruby_to_pure_ruby(erfile.read))
-      end
-    end
-  end
-
   # Rubyの構文をEndlessRubyの構文に変換します。
   def pure_ruby_to_endless_ruby src
     @decompile = true
