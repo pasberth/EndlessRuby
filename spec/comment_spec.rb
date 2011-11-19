@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/spec_helper.rb'
+
 describe "comment out case" do
 
   it "comment" do

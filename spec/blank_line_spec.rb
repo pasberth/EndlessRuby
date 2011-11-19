@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/spec_helper.rb'
+
 describe "blank lines" do
 
   it "blank line ending" do

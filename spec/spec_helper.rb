@@ -10,6 +10,8 @@ require 'endlessruby'
 
 $:.unshift(File.dirname(__FILE__))
 
+include EndlessRuby
+
 module ERSpecHelper
 
   extend self

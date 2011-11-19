@@ -91,12 +91,13 @@ require &#8216;rubygems&#8217; gem &#8216;hoe&#8217;, &#8217;>=
 require &#8217;./lib/EndlessRuby&#8217;
 </p>
 <p>
-$hoe = Hoe.spec &#8216;EndlessRuby&#8217; do
+$hoe = Hoe.spec &#8216;endlessruby&#8217; do
 </p>
 <pre>
   self.developer 'pasberth', 'pasberth@gmail.com'
   self.rubyforge_name       = self.name
   self.readme_file = 'README.rdoc'
+  puts self.local_docs
 </pre>
 <p>
 end

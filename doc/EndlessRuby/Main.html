@@ -66,6 +66,8 @@
 					
 					<li><a href="#method-i-compile">#compile</a></li>
 					
+					<li><a href="#method-i-decompile">#decompile</a></li>
+					
 					<li><a href="#method-i-endlessruby">#endlessruby</a></li>
 					
 				</ul>
@@ -180,66 +182,96 @@ $ endlessruby.rb args とまったく同じ動作をします。argvはARGVと�
 					<div class="method-source-code"
 						id="main-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/endlessruby/main.rb, line 25</span>
-25:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">main</span> <span class="ruby-identifier">argv</span>
-26: 
-27:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">argv</span>.<span class="ruby-identifier">first</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">argv</span>.<span class="ruby-identifier">first</span>)
-28:       <span class="ruby-identifier">$PROGRAM_NAME</span> = <span class="ruby-identifier">argv</span>.<span class="ruby-identifier">shift</span>
-29:       <span class="ruby-identifier">open</span> <span class="ruby-identifier">$PROGRAM_NAME</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
-30:         <span class="ruby-constant">EndlessRuby</span>.<span class="ruby-identifier">ereval</span> <span class="ruby-identifier">file</span>.<span class="ruby-identifier">read</span>, <span class="ruby-constant">TOPLEVEL_BINDING</span>, <span class="ruby-identifier">$PROGRAM_NAME</span>
-31:       <span class="ruby-keyword kw">end</span>
-32:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
-33:     <span class="ruby-keyword kw">end</span>
-34: 
-35:     <span class="ruby-identifier">require</span> <span class="ruby-value str">'optparse'</span>
-36: 
-37:     <span class="ruby-identifier">options</span> = {
-38:     }
-39: 
-40:     <span class="ruby-identifier">parser</span> = <span class="ruby-constant">OptionParser</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">opts</span><span class="ruby-operator">|</span>
-41:       <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span> <span class="ruby-value str">'-o OUT'</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">out</span><span class="ruby-operator">|</span>
-42:         <span class="ruby-identifier">options</span>[<span class="ruby-value">:out</span>] = <span class="ruby-identifier">out</span>
-43:       <span class="ruby-keyword kw">end</span>
-44: 
-45:       <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span> <span class="ruby-value str">'-c'</span>, <span class="ruby-value str">'--compile'</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
-46:         <span class="ruby-identifier">options</span>[<span class="ruby-value">:compile</span>] = <span class="ruby-keyword kw">true</span>
-47:       <span class="ruby-keyword kw">end</span>
-48: 
-49:       <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span> <span class="ruby-value str">'-r'</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
-50:         <span class="ruby-identifier">options</span>[<span class="ruby-value">:recursive</span>] = <span class="ruby-keyword kw">true</span>
-51:       <span class="ruby-keyword kw">end</span>
-52:     <span class="ruby-keyword kw">end</span>
-53: 
-54:     <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">parse!</span> <span class="ruby-identifier">argv</span>
-55: 
-56:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:compile</span>]
-57:       <span class="ruby-identifier">out</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:out</span>] <span class="ruby-operator">||</span> <span class="ruby-value str">'.'</span>
-58: 
-59:       <span class="ruby-identifier">argv</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">er</span><span class="ruby-operator">|</span>
-60:         <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-identifier">er</span>
-61:           <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;no such file to load -- #{er}&quot;</span>
-62:           <span class="ruby-keyword kw">next</span>
-63:         <span class="ruby-keyword kw">end</span>
-64: 
-65:         <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-identifier">er</span>
-66:           <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:recursive</span>]
-67:             <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Is a directory - #{er}&quot;</span>
-68:             <span class="ruby-keyword kw">next</span>
-69:           <span class="ruby-keyword kw">end</span>
-70:           <span class="ruby-comment cmt"># Unimolementation</span>
-71:           <span class="ruby-keyword kw">next</span>
-72:         <span class="ruby-keyword kw">end</span>
-73: 
-74:         <span class="ruby-identifier">rb</span> = <span class="ruby-identifier">er</span>
-75:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">er</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^(.*)\.er$/</span>
-76:           <span class="ruby-identifier">rb</span> = <span class="ruby-node">$1</span>
-77:         <span class="ruby-keyword kw">end</span>
-78:         <span class="ruby-identifier">rb</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">split</span>(<span class="ruby-identifier">rb</span>)[<span class="ruby-value">1</span>]
-79:         <span class="ruby-identifier">rb</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">out</span>, <span class="ruby-node">&quot;#{rb}.rb&quot;</span>)
-80:         <span class="ruby-identifier">compile</span> <span class="ruby-identifier">er</span>, <span class="ruby-identifier">rb</span>
-81:       <span class="ruby-keyword kw">end</span>
-82:     <span class="ruby-keyword kw">end</span>
-83:   <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/endlessruby/main.rb, line 35</span>
+ 35:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">main</span> <span class="ruby-identifier">argv</span>
+ 36: 
+ 37:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">argv</span>.<span class="ruby-identifier">first</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">argv</span>.<span class="ruby-identifier">first</span>)
+ 38:       <span class="ruby-identifier">$PROGRAM_NAME</span> = <span class="ruby-identifier">argv</span>.<span class="ruby-identifier">shift</span>
+ 39:       <span class="ruby-identifier">open</span> <span class="ruby-identifier">$PROGRAM_NAME</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+ 40:         <span class="ruby-constant">EndlessRuby</span>.<span class="ruby-identifier">ereval</span> <span class="ruby-identifier">file</span>.<span class="ruby-identifier">read</span>, <span class="ruby-constant">TOPLEVEL_BINDING</span>, <span class="ruby-identifier">$PROGRAM_NAME</span>
+ 41:       <span class="ruby-keyword kw">end</span>
+ 42:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+ 43:     <span class="ruby-keyword kw">end</span>
+ 44: 
+ 45:     <span class="ruby-identifier">require</span> <span class="ruby-value str">'optparse'</span>
+ 46: 
+ 47:     <span class="ruby-identifier">options</span> = {
+ 48:     }
+ 49: 
+ 50:     <span class="ruby-identifier">parser</span> = <span class="ruby-constant">OptionParser</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">opts</span><span class="ruby-operator">|</span>
+ 51:       <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span> <span class="ruby-value str">'-o OUT'</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">out</span><span class="ruby-operator">|</span>
+ 52:         <span class="ruby-identifier">options</span>[<span class="ruby-value">:out</span>] = <span class="ruby-identifier">out</span>
+ 53:       <span class="ruby-keyword kw">end</span>
+ 54: 
+ 55:       <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span> <span class="ruby-value str">'-c'</span>, <span class="ruby-value str">'--compile'</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+ 56:         <span class="ruby-identifier">options</span>[<span class="ruby-value">:compile</span>] = <span class="ruby-keyword kw">true</span>
+ 57:       <span class="ruby-keyword kw">end</span>
+ 58: 
+ 59:       <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span> <span class="ruby-value str">'-d'</span>, <span class="ruby-value str">'--decompile'</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
+ 60:         <span class="ruby-identifier">options</span>[<span class="ruby-value">:decompile</span>] = <span class="ruby-keyword kw">true</span>
+ 61:       <span class="ruby-keyword kw">end</span>
+ 62: 
+ 63:       <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span> <span class="ruby-value str">'-r'</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+ 64:         <span class="ruby-identifier">options</span>[<span class="ruby-value">:recursive</span>] = <span class="ruby-keyword kw">true</span>
+ 65:       <span class="ruby-keyword kw">end</span>
+ 66:     <span class="ruby-keyword kw">end</span>
+ 67: 
+ 68:     <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">parse!</span> <span class="ruby-identifier">argv</span>
+ 69: 
+ 70:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:compile</span>]
+ 71:       <span class="ruby-identifier">out</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:out</span>] <span class="ruby-operator">||</span> <span class="ruby-value str">'.'</span>
+ 72: 
+ 73:       <span class="ruby-identifier">argv</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">er</span><span class="ruby-operator">|</span>
+ 74:         <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-identifier">er</span>
+ 75:           <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;no such file to load -- #{er}&quot;</span>
+ 76:           <span class="ruby-keyword kw">next</span>
+ 77:         <span class="ruby-keyword kw">end</span>
+ 78: 
+ 79:         <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-identifier">er</span>
+ 80:           <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:recursive</span>]
+ 81:             <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Is a directory - #{er}&quot;</span>
+ 82:             <span class="ruby-keyword kw">next</span>
+ 83:           <span class="ruby-keyword kw">end</span>
+ 84:           <span class="ruby-comment cmt"># Unimolementation</span>
+ 85:           <span class="ruby-keyword kw">next</span>
+ 86:         <span class="ruby-keyword kw">end</span>
+ 87: 
+ 88:         <span class="ruby-identifier">rb</span> = <span class="ruby-identifier">er</span>
+ 89:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">er</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^(.*)\.er$/</span>
+ 90:           <span class="ruby-identifier">rb</span> = <span class="ruby-node">$1</span>
+ 91:         <span class="ruby-keyword kw">end</span>
+ 92:         <span class="ruby-identifier">rb</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">split</span>(<span class="ruby-identifier">rb</span>)[<span class="ruby-value">1</span>]
+ 93:         <span class="ruby-identifier">rb</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">out</span>, <span class="ruby-node">&quot;#{rb}.rb&quot;</span>)
+ 94:         <span class="ruby-identifier">compile</span> <span class="ruby-identifier">er</span>, <span class="ruby-identifier">rb</span>
+ 95:       <span class="ruby-keyword kw">end</span>
+ 96:     <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:decompile</span>]
+ 97:       <span class="ruby-identifier">out</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:out</span>] <span class="ruby-operator">||</span> <span class="ruby-value str">'.'</span>
+ 98: 
+ 99:       <span class="ruby-identifier">argv</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">rb</span><span class="ruby-operator">|</span>
+100:         <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-identifier">rb</span>
+101:           <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;no such file to load -- #{rb}&quot;</span>
+102:           <span class="ruby-keyword kw">next</span>
+103:         <span class="ruby-keyword kw">end</span>
+104: 
+105:         <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-identifier">rb</span>
+106:           <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:recursive</span>]
+107:             <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Is a directory - #{rb}&quot;</span>
+108:             <span class="ruby-keyword kw">next</span>
+109:           <span class="ruby-keyword kw">end</span>
+110:           <span class="ruby-comment cmt"># Unimolementation</span>
+111:           <span class="ruby-keyword kw">next</span>
+112:         <span class="ruby-keyword kw">end</span>
+113: 
+114:         <span class="ruby-identifier">er</span> = <span class="ruby-identifier">rb</span>
+115:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">rb</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^(.*)\.rb$/</span>
+116:           <span class="ruby-identifier">er</span> = <span class="ruby-node">$1</span>
+117:         <span class="ruby-keyword kw">end</span>
+118:         <span class="ruby-identifier">er</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">split</span>(<span class="ruby-identifier">er</span>)[<span class="ruby-value">1</span>]
+119:         <span class="ruby-identifier">er</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">out</span>, <span class="ruby-node">&quot;#{er}.er&quot;</span>)
+120:         <span class="ruby-identifier">decompile</span> <span class="ruby-identifier">rb</span>, <span class="ruby-identifier">er</span>
+121:       <span class="ruby-keyword kw">end</span>
+122:     <span class="ruby-keyword kw">end</span>
+123:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -296,6 +328,46 @@ er ファイルから読み込みそれをピュアなRubyにコンパイルし�
 			</div>
 
 		
+			<div id="decompile-method" class="method-detail ">
+				<a name="method-i-decompile"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">decompile</span><span
+						class="method-args">(rb, er)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+rbファイルを読み込みそれからすべてのendを取り除きます。
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="decompile-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/endlessruby/main.rb, line 20</span>
+20:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">decompile</span> <span class="ruby-identifier">rb</span>, <span class="ruby-identifier">er</span>
+21:     <span class="ruby-identifier">open</span>(<span class="ruby-identifier">rb</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">rbfile</span><span class="ruby-operator">|</span>
+22:       <span class="ruby-identifier">open</span>(<span class="ruby-identifier">er</span>, <span class="ruby-value str">&quot;w&quot;</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">erfile</span><span class="ruby-operator">|</span>
+23:         <span class="ruby-identifier">erfile</span>.<span class="ruby-identifier">write</span> <span class="ruby-constant">PR2ER</span>(<span class="ruby-identifier">rbfile</span>.<span class="ruby-identifier">read</span>)
+24:       <span class="ruby-keyword kw">end</span>
+25:     <span class="ruby-keyword kw">end</span>
+26:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
 			<div id="endlessruby-method" class="method-detail ">
 				<a name="method-i-endlessruby"></a>
 
@@ -318,10 +390,10 @@ EndlessRuby::Main.main と同じ動作をします。このモジュールをinc
 					<div class="method-source-code"
 						id="endlessruby-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/endlessruby/main.rb, line 20</span>
-20:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">endlessruby</span> <span class="ruby-identifier">argv</span>
-21:     <span class="ruby-constant">EndlessRuby</span><span class="ruby-operator">::</span><span class="ruby-constant">Main</span>.<span class="ruby-identifier">main</span> <span class="ruby-identifier">argv</span>
-22:   <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/endlessruby/main.rb, line 30</span>
+30:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">endlessruby</span> <span class="ruby-identifier">argv</span>
+31:     <span class="ruby-constant">EndlessRuby</span><span class="ruby-operator">::</span><span class="ruby-constant">Main</span>.<span class="ruby-identifier">main</span> <span class="ruby-identifier">argv</span>
+32:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>

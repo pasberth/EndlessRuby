@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/spec_helper.rb'
+
 describe "here document case" do
 
   it "CASE 1" do
