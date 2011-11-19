@@ -64,5 +64,3 @@ module EndlessRuby::Main
         rb = File.split(rb)[1]
         rb = File.join(out, "#{rb}.rb")
         compile er, rb
-
-      return

@@ -2,6 +2,7 @@ History.txt
 Manifest.txt
 README.rdoc
 Rakefile
+bin/endlessruby
 lib/endlessruby.rb
 lib/endlessruby/extensions.rb
 lib/endlessruby/main.rb

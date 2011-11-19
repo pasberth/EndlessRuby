@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "endlessruby"
+require "endlessruby/main"
+EndlessRuby::Main.main ARGV

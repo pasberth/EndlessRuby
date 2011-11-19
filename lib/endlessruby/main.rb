@@ -82,4 +82,3 @@ module EndlessRuby::Main
     end
   end
 end
-      return
