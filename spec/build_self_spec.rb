@@ -39,9 +39,7 @@ describe EndlessRuby, "must can compile self" do
 
         s = er.read
         # 改行は取り除く
-        if s =~ /\A((?:.|\s)*.)\n+\z/
-          s = $1
-        end
+        s = ERSpecHelper.chomp s
 
         RB2ER(rb.read).should == s
       ensure

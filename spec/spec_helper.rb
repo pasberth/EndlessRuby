@@ -20,6 +20,13 @@ module ERSpecHelper
     lines.split("\n").map! { |l| "#{indent*level}#{l}" }.join "\n"
   end
 
+  def chomp s
+    if s =~ /\A((?:.|\s)*.)\n+\z/
+      s = $1
+    end
+    s
+  end
+
   def join_blocks blocks, insert_end=false, level=0, indent='  '
     blocks.each_slice(2).map do |b, i|
       [].tap do |a|
