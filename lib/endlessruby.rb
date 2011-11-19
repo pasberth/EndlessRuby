@@ -165,7 +165,8 @@ module EndlessRuby
         end
 
         if in_here_document
-          if inner_currently_line =~ /^#{in_here_document}\s*$/
+          if (in_here_document[0] == '' && inner_currently_line =~ /^#{in_here_document[1]}\s*$/) || # <<DEFINE case
+              (in_here_document[0] == '-' && inner_currently_line =~ /^\s*#{in_here_document[1]}\s*$/) # <<-DEFINE case
             in_here_document = nil
             inner_statements << endless[i + 1]
             i += 1
@@ -177,8 +178,8 @@ module EndlessRuby
           end
         end
 
-        if inner_currently_line =~ /^.*?\<\<\-?(\w+)(?!\w).*$/
-          in_here_document = $1
+        if inner_currently_line =~ /^.*?\<\<(\-?)(\w+)(?!\w).*$/
+          in_here_document = [$1, $2]
         end
           
         if base_indent_depth > indent_count(inner_currently_line)
