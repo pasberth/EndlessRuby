@@ -1,9 +1,7 @@
 ROOT = File.dirname(File.expand_path(__FILE__))
-require "#{ROOT}/lib/endlessruby"
 
-include EndlessRuby
-
-ercompile("#{ROOT}/src/er.er", "#{ROOT}/bin/endlessruby")
-ercompile("#{ROOT}/src/EndlessRuby.er", "#{ROOT}/lib/EndlessRuby.rb")
-ercompile("#{ROOT}/src/EndlessRuby/extensions.er", "#{ROOT}/lib/EndlessRuby/extensions.rb")
-ercompile("#{ROOT}/src/EndlessRuby/main.er", "#{ROOT}/lib/EndlessRuby/main.rb")
+`endlessruby -c #{ROOT}/src/endlessruby.er -o lib`
+`endlessruby -c #{ROOT}/src/endlessruby/extensions.er #{ROOT}/src/endlessruby/main.er -o lib/endlessruby`
+`endlessruby -c #{ROOT}/src/er.er -o bin`
+`mv #{ROOT}/bin/er.rb #{ROOT}/bin/endlessruby`
+`chmod 755 #{ROOT}/bin/endlessruby`
