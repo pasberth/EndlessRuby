@@ -165,6 +165,11 @@ module EndlessRuby
 
         just_after_indent_depth = indent_count inner_currently_line
 
+        # 次の行がendならば意図のあるものなのでendを持ちあ揚げない
+        if inner_currently_line =~ /^\s*end(?!\w).*$/
+          comment_count = 0
+        end
+
         if base_indent_depth < just_after_indent_depth
           comment_count = 0
         end
@@ -216,6 +221,7 @@ module EndlessRuby
           pure << "#{'  '*currently_indent_depth}end"
         end
       else
+        # メソッドチェインは削除しない
         if endless[i + 1] && endless[i + 1] =~ /^\s*end(?:\s|$)\s*$/
           i += 1
         end
