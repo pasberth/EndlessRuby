@@ -137,6 +137,17 @@ module EndlessRuby
       base_indent_depth = currently_indent_depth
 
       inner_statements = []
+      # def method1
+      #   statemetns
+      # # document of method2
+      # def method2
+      #   statements
+      # のような場合にコメントの部分はmethod1内に含まないようにする。
+      # def method1
+      #   statemetns
+      # # comment
+      #   return
+      # のような場合と区別するため。
       comment_count = 0
       in_here_document = nil
       while i < endless.length
@@ -181,7 +192,7 @@ module EndlessRuby
         if inner_currently_line =~ /^.*?\<\<(\-?)(\w+)(?!\w).*$/
           in_here_document = [$1, $2]
         end
-          
+
         if base_indent_depth > indent_count(inner_currently_line)
           break
         end
