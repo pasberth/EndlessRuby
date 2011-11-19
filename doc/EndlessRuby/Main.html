@@ -38,8 +38,8 @@
 				<div class="section-body">
 					<ul>
 					
-						<li><a href="../lib/EndlessRuby/main_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-							class="thickbox" title="lib/EndlessRuby/main.rb">lib/EndlessRuby/main.rb</a></li>
+						<li><a href="../lib/endlessruby/main_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/endlessruby/main.rb">lib/endlessruby/main.rb</a></li>
 					
 					</ul>
 				</div>
@@ -180,7 +180,7 @@ $ endlessruby.rb args とまったく同じ動作をします。argvはARGVと�
 					<div class="method-source-code"
 						id="main-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/EndlessRuby/main.rb, line 25</span>
+    <span class="ruby-comment cmt"># File lib/endlessruby/main.rb, line 25</span>
 25:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">main</span> <span class="ruby-identifier">argv</span>
 26: 
 27:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">argv</span>.<span class="ruby-identifier">first</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">argv</span>.<span class="ruby-identifier">first</span>)
@@ -278,7 +278,7 @@ er ファイルから読み込みそれをピュアなRubyにコンパイルし�
 					<div class="method-source-code"
 						id="compile-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/EndlessRuby/main.rb, line 11</span>
+    <span class="ruby-comment cmt"># File lib/endlessruby/main.rb, line 11</span>
 11:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">compile</span> <span class="ruby-identifier">er</span>, <span class="ruby-identifier">rb</span>
 12:     <span class="ruby-identifier">open</span>(<span class="ruby-identifier">er</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">erfile</span><span class="ruby-operator">|</span>
 13:       <span class="ruby-identifier">open</span>(<span class="ruby-identifier">rb</span>, <span class="ruby-value str">&quot;w&quot;</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">rbfile</span><span class="ruby-operator">|</span>
@@ -318,7 +318,7 @@ EndlessRuby::Main.main と同じ動作をします。このモジュールをinc
 					<div class="method-source-code"
 						id="endlessruby-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/EndlessRuby/main.rb, line 20</span>
+    <span class="ruby-comment cmt"># File lib/endlessruby/main.rb, line 20</span>
 20:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">endlessruby</span> <span class="ruby-identifier">argv</span>
 21:     <span class="ruby-constant">EndlessRuby</span><span class="ruby-operator">::</span><span class="ruby-constant">Main</span>.<span class="ruby-identifier">main</span> <span class="ruby-identifier">argv</span>
 22:   <span class="ruby-keyword kw">end</span></pre>

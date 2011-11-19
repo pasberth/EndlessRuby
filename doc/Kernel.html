@@ -38,8 +38,8 @@
 				<div class="section-body">
 					<ul>
 					
-						<li><a href="./lib/EndlessRuby/extensions_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-							class="thickbox" title="lib/EndlessRuby/extensions.rb">lib/EndlessRuby/extensions.rb</a></li>
+						<li><a href="./lib/endlessruby/extensions_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/endlessruby/extensions.rb">lib/endlessruby/extensions.rb</a></li>
 					
 					</ul>
 				</div>
@@ -201,11 +201,11 @@ pathが./または/で以外で始まる場合は$LOAD_PATHと$:をそれぞれ�
 					<div class="method-source-code"
 						id="require-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/EndlessRuby/extensions.rb, line 15</span>
+    <span class="ruby-comment cmt"># File lib/endlessruby/extensions.rb, line 15</span>
 15:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">require</span> <span class="ruby-identifier">path</span>
 16:     <span class="ruby-identifier">at</span> = <span class="ruby-identifier">caller</span>
 17:     <span class="ruby-identifier">endlessruby_original_require</span> <span class="ruby-identifier">path</span>
-18:   <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span>
+18:   <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">SyntaxError</span>, <span class="ruby-constant">LoadError</span>
 19:     <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">path</span>
 20:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/^\.\/.*?$/</span>, <span class="ruby-regexp re">/^\/.*?$/</span>
 21:       <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-identifier">path</span>

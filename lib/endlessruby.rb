@@ -132,7 +132,6 @@ module EndlessRuby
 
       inner_statements = []
       comment_count = 0
-      break_comment_flag = false
       in_here_document = nil
       while i < endless.length
 
@@ -141,18 +140,10 @@ module EndlessRuby
         if inner_currently_line =~ /(.*)(?:^|(?:(?!\\).))\#(?!\{).*$/
           if blank_line?($1) && currently_indent_depth >= indent_count(inner_currently_line)
             comment_count += 1
-            break_comment_flag = false
           end
           inner_currently_line = $1
         elsif blank_line? inner_currently_line
           comment_count += 1
-          break_comment_flag = false
-        else
-          if break_comment_flag
-            comment_count = 0
-          else
-            break_comment_flag = true
-          end
         end
 
         if blank_line? inner_currently_line
@@ -162,6 +153,10 @@ module EndlessRuby
         end
 
         just_after_indent_depth = indent_count inner_currently_line
+
+        if base_indent_depth < just_after_indent_depth
+          comment_count = 0
+        end
 
         if in_here_document
           if inner_currently_line =~ /^#{in_here_document}\s*$/
