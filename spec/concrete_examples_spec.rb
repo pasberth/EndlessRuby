@@ -23,3 +23,31 @@ describe "concrete examples" do
   end
 
 end
+
+describe "discover bugs from concrete examples" do
+
+  it "the bug reappear when that contains spaces for the next end from the last breaking indentation" do
+  ER2RB(<<DEFINE).should ==
+class TestEndlessRuby < Test::Unit::TestCase
+  
+  include EndlessRuby
+  
+  def setup
+  end
+
+end
+DEFINE
+  <<DEFINE.chomp!
+class TestEndlessRuby < Test::Unit::TestCase
+  
+  include EndlessRuby
+  
+  def setup
+  end
+
+end
+DEFINE
+
+  end
+
+end
