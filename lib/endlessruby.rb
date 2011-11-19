@@ -8,32 +8,29 @@ require 'endlessruby/extensions'
 
 # EndlessRubyはRubyをendを取り除いて書けます。
 #
-# Usage:
-#    
 # erファイルをrequire
-#    require 'homuhomu.er' | require 'homuhomu'
+#   require 'homuhomu.er' | require 'homuhomu'
 #
 # erファイルを実行
-#    $ path/to/endlessruby.rb homuhomu.er
+#   $ path/to/endlessruby.rb homuhomu.er
 #
 # erファイルをコンパイル
-#    $ path/to/endlessruby.rb -c src/homuhomu.er -o lib
-# # => src/homuhomu.er をコンパイルして lib/homuhomu.rb を書き出します。
-# #  -o が省略された場合はカレントディレクトリに書き出します。
+#   $ path/to/endlessruby.rb -c src/homuhomu.er -o lib
+#   # => src/homuhomu.er をコンパイルして lib/homuhomu.rb を書き出します。
+#   #  -o が省略された場合はカレントディレクトリに書き出します。
 #
 # Example:
-# class EndlessRubyWorld
+#   class EndlessRubyWorld
 #
-#   def self.hello!
-#     puts "hello!"
+#     def self.hello!
+#       puts "hello!"
 #
 #
-# [-2, -1, 0, 1, 2].reject do |x|
-#   x < 0
-# end.each do |n|
-#   puts n
+#   [-2, -1, 0, 1, 2].reject do |x|
+#     x < 0
+#   end.each do |n|
+#     puts n
 #
-#   そのほかは/examplesを読んでください
 module EndlessRuby
 
   # EndlessRuby のバージョンです
