@@ -103,8 +103,11 @@ module EndlessRuby
   # Rubyの構文をEndlessRubyの構文に変換します。
   def pure_ruby_to_endless_ruby src
     @decompile = true
-    ER2RB(src)
+    s = ER2RB(src)
+    @decompile = nil
+    s
   end
+
 
   alias RB2ER pure_ruby_to_endless_ruby
   alias PR2ER pure_ruby_to_endless_ruby
