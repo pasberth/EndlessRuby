@@ -100,6 +100,15 @@ module EndlessRuby
     end
   end
 
+  # Rubyの構文をEndlessRubyの構文に変換します。
+  def pure_ruby_to_endless_ruby src
+    @decompile = true
+    ER2RB(src)
+  end
+
+  alias RB2ER pure_ruby_to_endless_ruby
+  alias PR2ER pure_ruby_to_endless_ruby
+
   # EndlessRubyの構文をピュアなRubyの構文に変換します。
   def endless_ruby_to_pure_ruby src
     endless = src.split "\n"
@@ -196,9 +205,16 @@ module EndlessRuby
 
       pure += ER2PR(inner_statements.join("\n")).split "\n"
       # 次の行がendならばendを補完しない(ワンライナーのため)
-      unless endless[i + 1] && endless[i + 1] =~ /^\s*end(?!\w).*$/
-        pure << "#{'  '*currently_indent_depth}end"
+      unless @decompile
+        unless endless[i + 1] && endless[i + 1] =~ /^\s*end(?!\w).*$/
+          pure << "#{'  '*currently_indent_depth}end"
+        end
+      else
+        if endless[i + 1] && endless[i + 1] =~ /^\s*end(?:\s|$)\s*$/
+          i += 1
+        end
       end
+
       i += 1
     end
     pure.join "\n"

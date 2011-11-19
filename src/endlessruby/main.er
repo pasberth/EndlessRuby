@@ -13,6 +13,13 @@ module EndlessRuby::Main
       open(rb, "w") do |rbfile|
         rbfile.write ER2PR(erfile.read)
 
+  # rbファイルを読み込みそれからすべてのendを取り除きます。
+  def decompile rb, er
+    open(rb) do |rbfile|
+      open(er, "w") do |erfile|
+        erfile.write PR2ER(rbfile.read)
+
+
   # EndlessRuby::Main.main と同じ動作をします。このモジュールをincludeした場合に使用します。
   def endlessruby argv
     EndlessRuby::Main.main argv
@@ -37,6 +44,9 @@ module EndlessRuby::Main
 
       opts.on '-c', '--compile' do |c|
         options[:compile] = true
+
+      opts.on '-d', '--decompile' do |d|
+        options[:decompile] = true
 
       opts.on '-r' do |r|
         options[:recursive] = true
@@ -64,3 +74,24 @@ module EndlessRuby::Main
         rb = File.split(rb)[1]
         rb = File.join(out, "#{rb}.rb")
         compile er, rb
+    elsif options[:decompile]
+      out = options[:out] || '.'
+
+      argv.each do |rb|
+        unless File.exist? rb
+          puts "no such file to load -- #{rb}"
+          next
+
+        if File.directory? rb
+          unless options[:recursive]
+            puts "Is a directory - #{rb}"
+            next
+          # Unimolementation
+          next
+
+        er = rb
+        if rb =~ /^(.*)\.rb$/
+          er = $1
+        er = File.split(er)[1]
+        er = File.join(out, "#{er}.er")
+        decompile rb, er
