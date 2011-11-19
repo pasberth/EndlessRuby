@@ -126,14 +126,14 @@ DEFINE
 def method
   src = <<-SRC
 hello world
-SRC
+  SRC
 end
 DEFINE
     <<DEFINE)
 def method
   src = <<-SRC
 hello world
-SRC
+  SRC
 DEFINE
   end
 
