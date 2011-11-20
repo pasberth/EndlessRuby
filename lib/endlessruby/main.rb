@@ -48,15 +48,18 @@ module EndlessRuby::Main
     }
 
     parser = OptionParser.new do |opts|
-      opts.on '-o OUT' do |out|
+
+      opts.version = EndlessRuby::VERSION
+
+      opts.on '-o OUT', 'appoint output directory.' do |out|
         options[:out] = out
       end
 
-      opts.on '-c', '--compile' do |c|
+      opts.on '-c', '--compile', 'compile endlessruby source code to pure ruby' do |c|
         options[:compile] = true
       end
 
-      opts.on '-d', '--decompile' do |d|
+      opts.on '-d', '--decompile', 'decompile pure ruby source code to endless ruby' do |d|
         options[:decompile] = true
       end
 
