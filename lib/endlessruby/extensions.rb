@@ -18,7 +18,7 @@ module Kernel
   rescue SyntaxError, LoadError
     case path
     when /^\.\/.*?$/, /^\/.*?$/
-      unless File.exist? path
+      if !File.exist?(path) || File.directory?(real_path)
         if File.exist? "#{path}.er"
           path = "#{path}.er"
         else
