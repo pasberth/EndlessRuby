@@ -1,0 +1,6 @@
+$test_data = "exist same name directory"
+
+module TestData
+  extend self
+  def test_data
+    "exist same name directory"

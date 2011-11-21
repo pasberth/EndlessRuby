@@ -26,4 +26,12 @@ describe "require" do
     TestData.test_data.should == "ruby script"
   end
 
+  it "require ellipsis of 'er' and exist same name directory" do
+
+    require 'test_data/exist_same_name_directory'
+
+    $test_data.should == "exist same name directory"
+    TestData.test_data.should == "exist same name directory"
+  end
+
 end
