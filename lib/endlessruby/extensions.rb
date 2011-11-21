@@ -45,7 +45,7 @@ module Kernel
       is_that_dir = false
       ($LOAD_PATH | $:).each do |load_path|
         real_path = File.join load_path, path
-        unless File.exist? real_path
+        if !File.exist?(real_path) ||  File.directory?(real_path)
           if File.exist? "#{real_path}.er"
             real_path = "#{real_path}.er"
           else
