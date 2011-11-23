@@ -6,7 +6,6 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'endlessruby/custom_require'
 require "tempfile"
-require "fileutils"
 require "irb"
 
 # EndlessRubyはRubyをendを取り除いて書けます。
@@ -49,21 +48,36 @@ module EndlessRuby
   end
 
   # EndlessRubyの構文をピュアなRubyの構文に変換します。<br />
-  # options: オプションを表すHashまたはto_hashを実装したオブジェクト、構文を読み出すIOまたはto_ioを実装したオブジェクト、EndlessRubyの構文を表すStringまたはto_strを実装したオブジェクト<br />
+  # options: オプションを表すHashまたはto_hashを実装したオブジェクト、構文を読み出すIOまたはto_ioを実装したオブジェクト、EndlessRubyの構文を表すStringまたはto_strを実装したオブジェクト、またはファイルのパス<br />
   # optionsが文字列ならばそれをピュアなRubyの構文にします。それがIOならばIOから読み出してそれをピュアなRubyの構文にします。<br />
-  # それがHashならば、現在のところinとoutを指定できます。それぞれHashを指定します。opts[:in][:io]はoptionsに指定するIOと同じ意味です。<br />
+  # ファイルのパスならばそのファイルかあ読み込みます
+  # それがHashならばそれはオプションです。それぞれHashを指定します。<br />
+  # options: {
+  #   in: {
+  #     io: optionsにIOを指定した場合と同じです
+  #      any: それが存在するファイルのパスを表す文字列ならばそのファイルから読み出します。この場合のanyはoptionsにそのような文字列を指定するのと同じ意味です。
+  #           そうでない文字列ならばそれ自体をEndlessRubyの構文として読み出します。この場合のanyはoptionsに文字列を指定するのと同じ意味です。
+  #           それがIOならばそのIOから読み出します。この場合のany はin.ioを直接指定するのと同じです。
+  #   }
+  #   out: {
+  #     io: このIOに結果を書き出します。
+  #     any: ファイルのパスかIOです。ファイルのパスならばそのファイルに書き出します。IOならばそのIOに書き出します。
+  #   }
+  #   decompile: trueならばコンパイルではなくてでコンパイルします。
+  # }    
+  #
   # opts[:out][:io] には書き出すioを指定します。<br />
   # from a file on disk:<br />
-  #     EndlessRuby.ER2RB("filename.er")<br />
+  #     EndlessRuby.ER2RB("filename.er")
   # <br />
   # from string that is source code:<br />
-  #     EndlessRuby.ER2RB(<<DEFINE)<br />
-  #       # endlessruby syntax<br />
-  #     DEFINE<br />
+  #     EndlessRuby.ER2RB(<<DEFINE)
+  #       # endlessruby syntax
+  #     DEFINE
   # <br />
   # from IO:<br />
-  #     file = open 'filename.er'<br />
-  #     EndlessRuby.ER2RB(file)<br />
+  #     file = open 'filename.er'
+  #     EndlessRuby.ER2RB(file)
   #
   # appoint input file and output file:
   #     ER2PR({ :in => { :any => 'filename.er' }, :out => { :any => 'filename.rb' } })
@@ -142,7 +156,7 @@ module EndlessRuby
       else
         raise ArgumentError, "options[:out][:any] is IO, or String which is Path"
       end
-    elsif !opts[:out]
+    elsif !opts[:out][:io]
       opts[:out] = { :io => (out_io = Tempfile.new("endlessruby pure temp file")), :ensure => proc { out_io.close } }
     end
 
