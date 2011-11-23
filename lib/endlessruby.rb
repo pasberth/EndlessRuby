@@ -281,7 +281,12 @@ module EndlessRuby
     until @decompile || (indent.empty? && pass.empty?)
       _indent = indent.pop
       pass.pop
-      pure.write "#{' '*_indent}end\n"
+      pure.seek pure.pos - 1
+      if pure.getc == "\n"
+        pure.write "#{' '*_indent}end"
+      else
+        pure.write "\n#{' '*_indent}end"
+      end
     end
 
     io.close if flg
