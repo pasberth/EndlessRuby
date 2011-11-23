@@ -6,6 +6,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'endlessruby/custom_require'
 require "tempfile"
+require "fileutils"
 require "irb"
 
 # EndlessRubyはRubyをendを取り除いて書けます。
@@ -46,46 +47,6 @@ module EndlessRuby
   def ereval(src, binding=TOPLEVEL_BINDING, filename=__FILE__, lineno=1)
     eval(ER2PR(src), binding, filename, lineno)
 
-  # Rubyの構文をEndlessRubyの構文に変換します。
-  def pure_ruby_to_endless_ruby options
-    options[:decompile] = true
-    converting_helper options
-
-
-  alias RB2ER pure_ruby_to_endless_ruby
-  alias PR2ER pure_ruby_to_endless_ruby
-
-  private
-
-  def merge_options options
-    opts = {
-      :out => { :io => Tempfile.new("endlessruby pure temp file"), :ensure => proc { opts[:out][:io].close } }
-    }
-
-    if options.respond_to? :to_hash
-      opts = opts.merge options.to_hash
-    elsif options.respond_to? :to_str
-      # 文字列を指定された場合はその文字列をパースする
-      io = Tempfile.new "endlessruby from temp file"
-      io.write options.to_str
-      io.seek 0
-      opts[:in] = {
-        :io => io,
-        :ensure => proc { io.close }
-      }
-
-    elsif options.respond_to? :to_io
-      opts[:in] = {
-        :io => options.to_io,
-        :ensure => proc {}
-      }
-    else
-      fail
-
-    opts
-
-  public
-
   # EndlessRubyの構文をピュアなRubyの構文に変換します。
   # options: オプションを表すHashまたはto_hashを実装したオブジェクト、構文を読み出すIOまたはto_ioを実装したオブジェクト、EndlessRubyの構文を表すStringまたはto_strを実装したオブジェクト
   # optionsが文字列ならばそれをピュアなRubyの構文にします。それがIOならばIOから読み出してそれをピュアなRubyの構文にします。
@@ -93,6 +54,81 @@ module EndlessRuby
   # opts[:out][:io] には書き出すioを指定します。
   def endless_ruby_to_pure_ruby options
     converting_helper options
+
+  alias to_pure_ruby endless_ruby_to_pure_ruby
+  alias ER2PR endless_ruby_to_pure_ruby
+  alias ER2RB endless_ruby_to_pure_ruby
+
+  # Rubyの構文をEndlessRubyの構文に変換します。
+  def pure_ruby_to_endless_ruby options
+    options = merge_options options
+    options[:decompile] = true
+    converting_helper options
+
+  alias RB2ER pure_ruby_to_endless_ruby
+  alias PR2ER pure_ruby_to_endless_ruby
+
+  private
+
+  def merge_options options
+
+    return options if options[:merged]
+
+    opts = {
+      :in => {}, :out => {}
+    }
+
+    if options.respond_to? :to_hash
+      opts = opts.merge options.to_hash
+    elsif options.respond_to?(:to_io) || options.respond_to?(:to_str)
+      opts[:in][:any] = options
+    else
+      raise ArgumentError, "options is IO, String, or Hash"
+
+    if opts[:in][:any]
+      if opts[:in][:any].respond_to?(:to_str) && File.exist?(opts[:in][:any].to_str) # from a file on the disk.
+        opts[:in] = {
+          :io => (in_io = open opts[:in][:any].to_str),
+          :ensure => proc { in_io.close }
+        }
+      elsif opts[:in][:any].respond_to? :to_io # from IO that can read source code.
+        opts[:in] = {
+          :io => options.to_io,
+          :ensure => proc {}
+        }
+      elsif opts[:in][:any].respond_to? :to_str # from String that is source code.
+        in_io = Tempfile.new "endlessruby from temp file"
+        in_io.write options.to_str
+        in_io.seek 0
+        opts[:in] = {
+          :io => in_io,
+          :ensure => proc { in_io.close }
+        }
+      else
+        raise ArgumentError, "options[:in][:any] is IO, String which is path, or String which is source code"
+
+    opts[:in][:any] = nil
+
+    if opts[:out][:any]
+      if opts[:out][:any].respond_to?(:to_str) # to a file on the disk.
+        opts[:out] = {
+          :io => (out_io = open opts[:out][:any].to_str, "w+"),
+          :ensure => proc { out_io.close }
+        }
+      elsif opts[:out][:any].respond_to? :to_io # to IO that can read source code.
+        opts[:out] = {
+          :io => options.to_io,
+          :ensure => proc {}
+        }
+      else
+        raise ArgumentError, "options[:out][:any] is IO, or String which is Path"
+    else
+      opts[:out] = { :io => (out_io = Tempfile.new("endlessruby pure temp file")), :ensure => proc { out_io.close } }
+
+    opts[:out][:any] = nil
+
+    opts[:merged] = true
+    opts
 
   def converting_helper options
     opts = merge_options options
@@ -211,10 +247,6 @@ module EndlessRuby
     opts[:in][:ensure] && opts[:in][:ensure].call
 
     ret.chomp
-
-  alias to_pure_ruby endless_ruby_to_pure_ruby
-  alias ER2PR endless_ruby_to_pure_ruby
-  alias ER2RB endless_ruby_to_pure_ruby
 
 if __FILE__ == $PROGRAM_NAME
   require 'endlessruby/main'

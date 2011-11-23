@@ -9,22 +9,13 @@ module EndlessRuby::Main
 
   # er ファイルから読み込みそれをピュアなRubyにコンパイルしてrbに書き出します
   def compile er, rb
-    open(er) do |erfile|
-      open(rb, "w") do |rbfile|
-        rbfile.write ER2PR(erfile.read)
-      end
-    end
+    ER2PR({ :in => { :any => er }, :out => { :any => rb } })
   end
 
   # rbファイルを読み込みそれからすべてのendを取り除きます。
   def decompile rb, er
-    open(rb) do |rbfile|
-      open(er, "w") do |erfile|
-        erfile.write PR2ER(rbfile.read)
-      end
-    end
+    PR2ER({ :in => { :any => rb }, :out => { :any => er } })
   end
-
 
   # EndlessRuby::Main.main と同じ動作をします。このモジュールをincludeした場合に使用します。
   def endlessruby argv
