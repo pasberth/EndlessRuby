@@ -44,11 +44,7 @@ module EndlessRuby
 
   # 文字列をEndlessRubyの構文として実行します。引数の意味はKernel#evalと同じです
   def ereval(src, binding=TOPLEVEL_BINDING, filename=__FILE__, lineno=1)
-    at = caller
     eval(ER2PR(src), binding, filename, lineno)
-  rescue Exception => e
-    $@ = at
-    raise e
   end
 
   # Rubyの構文をEndlessRubyの構文に変換します。
