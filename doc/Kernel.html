@@ -38,8 +38,8 @@
 				<div class="section-body">
 					<ul>
 					
-						<li><a href="./lib/endlessruby/extensions_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-							class="thickbox" title="lib/endlessruby/extensions.rb">lib/endlessruby/extensions.rb</a></li>
+						<li><a href="./lib/endlessruby/custom_require_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/endlessruby/custom_require.rb">lib/endlessruby/custom_require.rb</a></li>
 					
 					</ul>
 				</div>
@@ -77,21 +77,6 @@
 		<div id="project-metadata">
 			
 			
-			<div id="fileindex-section" class="section project-section">
-				<h3 class="section-header">Files</h3>
-				<ul>
-				
-					<li class="file"><a href="./History_txt.html">History.txt</a></li>
-				
-					<li class="file"><a href="./Manifest_txt.html">Manifest.txt</a></li>
-				
-					<li class="file"><a href="./README_rdoc.html">README.rdoc</a></li>
-				
-					<li class="file"><a href="./Rakefile.html">Rakefile</a></li>
-				
-				</ul>
-			</div>
-			
 
 			<div id="classindex-section" class="section project-section">
 				<h3 class="section-header">Class Index
@@ -112,13 +97,7 @@
 				
 					<li><a href="./EndlessRuby/Main.html">EndlessRuby::Main</a></li>
 				
-					<li><a href="./ERSpecHelper.html">ERSpecHelper</a></li>
-				
 					<li><a href="./Kernel.html">Kernel</a></li>
-				
-					<li><a href="./TestData.html">TestData</a></li>
-				
-					<li><a href="./TestEndlessRuby.html">TestEndlessRuby</a></li>
 				
 				</ul>
 				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
@@ -203,67 +182,54 @@ pathが./または/で以外で始まる場合は$LOAD_PATHと$:をそれぞれ�
 					<div class="method-source-code"
 						id="require-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/endlessruby/extensions.rb, line 15</span>
+    <span class="ruby-comment cmt"># File lib/endlessruby/custom_require.rb, line 15</span>
 15:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">require</span> <span class="ruby-identifier">path</span>
-16:     <span class="ruby-identifier">at</span> = <span class="ruby-identifier">caller</span>
-17:     <span class="ruby-identifier">endlessruby_original_require</span> <span class="ruby-identifier">path</span>
-18:   <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">SyntaxError</span>, <span class="ruby-constant">LoadError</span>
-19:     <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">path</span>
-20:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/^\.\/.*?$/</span>, <span class="ruby-regexp re">/^\/.*?$/</span>
-21:       <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-identifier">path</span>
-22:         <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-node">&quot;#{path}.er&quot;</span>
-23:           <span class="ruby-identifier">path</span> = <span class="ruby-node">&quot;#{path}.er&quot;</span>
+16:     <span class="ruby-identifier">endlessruby_original_require</span> <span class="ruby-identifier">path</span>
+17:   <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">SyntaxError</span>, <span class="ruby-constant">LoadError</span>
+18: 
+19:     <span class="ruby-identifier">load</span> = <span class="ruby-identifier">lambda</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">path</span>, <span class="ruby-identifier">abspath</span><span class="ruby-operator">|</span>
+20: 
+21:       <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">abspath</span>) <span class="ruby-operator">||</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">abspath</span>)
+22:         <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-node">&quot;#{abspath}.er&quot;</span>
+23:           <span class="ruby-identifier">abspath</span> = <span class="ruby-node">&quot;#{abspath}.er&quot;</span>
 24:         <span class="ruby-keyword kw">else</span>
-25:           <span class="ruby-identifier">$@</span> = <span class="ruby-identifier">at</span>
-26:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">LoadError</span>, <span class="ruby-node">&quot;no such file to load -- #{path}&quot;</span>
-27:         <span class="ruby-keyword kw">end</span>
-28:       <span class="ruby-keyword kw">end</span>
-29: 
-30:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-identifier">path</span>
-31:         <span class="ruby-identifier">$@</span> = <span class="ruby-identifier">at</span>
+25:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">LoadError</span>, <span class="ruby-node">&quot;no such file to load -- #{path}&quot;</span>
+26:         <span class="ruby-keyword kw">end</span>
+27:       <span class="ruby-keyword kw">end</span>
+28: 
+29:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$&quot;</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">abspath</span>
+30: 
+31:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-identifier">abspath</span>
 32:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">LoadError</span>, <span class="ruby-node">&quot;Is a directory - #{path}&quot;</span>
 33:       <span class="ruby-keyword kw">end</span>
 34: 
-35:       <span class="ruby-identifier">open</span>(<span class="ruby-identifier">path</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
-36:         <span class="ruby-keyword kw">begin</span>
-37:           <span class="ruby-constant">EndlessRuby</span>.<span class="ruby-identifier">ereval</span> <span class="ruby-identifier">file</span>.<span class="ruby-identifier">read</span>, <span class="ruby-constant">TOPLEVEL_BINDING</span>, <span class="ruby-identifier">path</span>
-38:         <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
-39:           <span class="ruby-identifier">$@</span> = <span class="ruby-identifier">at</span>
-40:           <span class="ruby-identifier">raise</span> <span class="ruby-identifier">e</span>
-41:         <span class="ruby-keyword kw">end</span>
-42:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
-43:       <span class="ruby-keyword kw">end</span>
-44:     <span class="ruby-keyword kw">else</span>
-45:       <span class="ruby-identifier">is_that_dir</span> = <span class="ruby-keyword kw">false</span>
-46:       (<span class="ruby-identifier">$LOAD_PATH</span> <span class="ruby-operator">|</span> <span class="ruby-identifier">$:</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">load_path</span><span class="ruby-operator">|</span>
-47:         <span class="ruby-identifier">real_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span> <span class="ruby-identifier">load_path</span>, <span class="ruby-identifier">path</span>
-48:         <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-identifier">real_path</span>
-49:           <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-node">&quot;#{real_path}.er&quot;</span>
-50:             <span class="ruby-identifier">real_path</span> = <span class="ruby-node">&quot;#{real_path}.er&quot;</span>
-51:           <span class="ruby-keyword kw">else</span>
-52:             <span class="ruby-keyword kw">next</span>
-53:           <span class="ruby-keyword kw">end</span>
-54:         <span class="ruby-keyword kw">end</span>
-55: 
-56:         <span class="ruby-keyword kw">next</span> <span class="ruby-identifier">is_that_dir</span> = <span class="ruby-keyword kw">true</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-identifier">real_path</span>
-57:         <span class="ruby-identifier">open</span>(<span class="ruby-identifier">real_path</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
-58:           <span class="ruby-keyword kw">begin</span>
-59:             <span class="ruby-constant">EndlessRuby</span>.<span class="ruby-identifier">ereval</span> <span class="ruby-identifier">file</span>.<span class="ruby-identifier">read</span>, <span class="ruby-constant">TOPLEVEL_BINDING</span>, <span class="ruby-identifier">real_path</span>
-60:           <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
-61:             <span class="ruby-identifier">$@</span> = <span class="ruby-identifier">at</span>
-62:             <span class="ruby-identifier">raise</span> <span class="ruby-identifier">e</span>
-63:           <span class="ruby-keyword kw">end</span>
-64:         <span class="ruby-keyword kw">end</span>
-65:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
-66:       <span class="ruby-keyword kw">end</span>
-67:       <span class="ruby-identifier">$@</span> = <span class="ruby-identifier">at</span>
-68:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">is_that_dir</span>
-69:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">LoadError</span>, <span class="ruby-node">&quot;Is a directory - #{path}&quot;</span>
-70:       <span class="ruby-keyword kw">else</span>
-71:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">LoadError</span>, <span class="ruby-node">&quot;no such file to load -- #{path}&quot;</span>
-72:       <span class="ruby-keyword kw">end</span>
-73:     <span class="ruby-keyword kw">end</span>
-74:   <span class="ruby-keyword kw">end</span></pre>
+35:       <span class="ruby-identifier">open</span>(<span class="ruby-identifier">abspath</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+36:         <span class="ruby-constant">EndlessRuby</span>.<span class="ruby-identifier">ereval</span> <span class="ruby-identifier">file</span>.<span class="ruby-identifier">read</span>, <span class="ruby-constant">TOPLEVEL_BINDING</span>, <span class="ruby-identifier">abspath</span>
+37:         <span class="ruby-identifier">$&quot;</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">abspath</span>
+38:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+39:       <span class="ruby-keyword kw">end</span>
+40:     <span class="ruby-keyword kw">end</span>
+41: 
+42:     <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">path</span>
+43:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/^\~(.*?)$/</span>
+44:       <span class="ruby-identifier">load</span>.<span class="ruby-identifier">call</span> <span class="ruby-identifier">path</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'HOME'</span>], <span class="ruby-node">$1</span>)
+45:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/^\.\/.*?$/</span>, <span class="ruby-regexp re">/^\/.*?$/</span>
+46:       <span class="ruby-identifier">load</span>.<span class="ruby-identifier">call</span> <span class="ruby-identifier">path</span>, <span class="ruby-identifier">path</span>
+47:     <span class="ruby-keyword kw">else</span>
+48:       <span class="ruby-identifier">is_that_dir</span> = <span class="ruby-keyword kw">false</span>
+49:       <span class="ruby-identifier">$:</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">load_path</span><span class="ruby-operator">|</span>
+50:         <span class="ruby-identifier">abspath</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span> <span class="ruby-identifier">load_path</span>, <span class="ruby-identifier">path</span>
+51:         <span class="ruby-keyword kw">begin</span>
+52:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">load</span>.<span class="ruby-identifier">call</span> <span class="ruby-identifier">path</span>, <span class="ruby-identifier">abspath</span>
+53:         <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">SyntaxError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+54:           <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;*ENDLESSRUBY BUG*&quot;</span>
+55:           <span class="ruby-identifier">raise</span> <span class="ruby-identifier">e</span>
+56:         <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">LoadError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+57:           <span class="ruby-identifier">raise</span> <span class="ruby-identifier">e</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">load_path</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">$:</span>.<span class="ruby-identifier">last</span>
+58:         <span class="ruby-keyword kw">end</span>
+59:       <span class="ruby-keyword kw">end</span>
+60:     <span class="ruby-keyword kw">end</span>
+61:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>

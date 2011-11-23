@@ -79,21 +79,17 @@
 					
 					<li><a href="#method-i-RB2ER">#RB2ER</a></li>
 					
-					<li><a href="#method-i-blank_line%3F">#blank_line?</a></li>
+					<li><a href="#method-i-converting_helper">#converting_helper</a></li>
 					
 					<li><a href="#method-i-endless_ruby_to_pure_ruby">#endless_ruby_to_pure_ruby</a></li>
 					
 					<li><a href="#method-i-ereval">#ereval</a></li>
 					
-					<li><a href="#method-i-indent">#indent</a></li>
-					
-					<li><a href="#method-i-indent_count">#indent_count</a></li>
+					<li><a href="#method-i-merge_options">#merge_options</a></li>
 					
 					<li><a href="#method-i-pure_ruby_to_endless_ruby">#pure_ruby_to_endless_ruby</a></li>
 					
 					<li><a href="#method-i-to_pure_ruby">#to_pure_ruby</a></li>
-					
-					<li><a href="#method-i-unindent">#unindent</a></li>
 					
 				</ul>
 			</div>
@@ -105,21 +101,6 @@
 
 		<div id="project-metadata">
 			
-			
-			<div id="fileindex-section" class="section project-section">
-				<h3 class="section-header">Files</h3>
-				<ul>
-				
-					<li class="file"><a href="./History_txt.html">History.txt</a></li>
-				
-					<li class="file"><a href="./Manifest_txt.html">Manifest.txt</a></li>
-				
-					<li class="file"><a href="./README_rdoc.html">README.rdoc</a></li>
-				
-					<li class="file"><a href="./Rakefile.html">Rakefile</a></li>
-				
-				</ul>
-			</div>
 			
 
 			<div id="classindex-section" class="section project-section">
@@ -141,13 +122,7 @@
 				
 					<li><a href="./EndlessRuby/Main.html">EndlessRuby::Main</a></li>
 				
-					<li><a href="./ERSpecHelper.html">ERSpecHelper</a></li>
-				
 					<li><a href="./Kernel.html">Kernel</a></li>
-				
-					<li><a href="./TestData.html">TestData</a></li>
-				
-					<li><a href="./TestEndlessRuby.html">TestEndlessRuby</a></li>
 				
 				</ul>
 				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
@@ -213,13 +188,6 @@ Example:
 </p></dd>
 				
 			
-				<dt><a name="BLOCK_KEYWORDS">BLOCK_KEYWORDS</a></dt>
-				
-				<dd class="description"><p>
-内部で使用します。ブロックを作るキーワード群です。
-</p></dd>
-				
-			
 			</dl>
 		</div>
 		
@@ -239,7 +207,7 @@ Example:
 				<div class="method-heading">
 				
 					<span class="method-name">ER2PR</span><span
-						class="method-args">(src)</span>
+						class="method-args">(options)</span>
 					<span class="method-click-advice">click to toggle source</span>
 				
 				</div>
@@ -268,7 +236,7 @@ Example:
 				<div class="method-heading">
 				
 					<span class="method-name">ER2RB</span><span
-						class="method-args">(src)</span>
+						class="method-args">(options)</span>
 					<span class="method-click-advice">click to toggle source</span>
 				
 				</div>
@@ -297,7 +265,7 @@ Example:
 				<div class="method-heading">
 				
 					<span class="method-name">PR2ER</span><span
-						class="method-args">(src)</span>
+						class="method-args">(options)</span>
 					<span class="method-click-advice">click to toggle source</span>
 				
 				</div>
@@ -326,7 +294,7 @@ Example:
 				<div class="method-heading">
 				
 					<span class="method-name">RB2ER</span><span
-						class="method-args">(src)</span>
+						class="method-args">(options)</span>
 					<span class="method-click-advice">click to toggle source</span>
 				
 				</div>
@@ -355,7 +323,7 @@ Example:
 				<div class="method-heading">
 				
 					<span class="method-name">endless_ruby_to_pure_ruby</span><span
-						class="method-args">(src)</span>
+						class="method-args">(options)</span>
 					<span class="method-click-advice">click to toggle source</span>
 				
 				</div>
@@ -363,7 +331,11 @@ Example:
 				<div class="method-description">
 					
 					<p>
-EndlessRubyの構文をピュアなRubyの構文に変換します。
+EndlessRubyの構文をピュアなRubyの構文に変換します。 options:
+オプションを表すHashまたはto_hashを実装したオブジェクト、構文を読み出すIOまたはto_ioを実装したオブジェクト、EndlessRubyの構文を表すStringまたはto_strを実装したオブジェクト
+optionsが文字列ならばそれをピュアなRubyの構文にします。それがIOならばIOから読み出してそれをピュアなRubyの構文にします。
+それがHashならば、現在のところinとoutを指定できます。それぞれHashを指定します。opts[:in][:io]はoptionsに指定するIOと同じ意味です。
+opts[:out][:io] には書き出すioを指定します。
 </p>
 					
 
@@ -371,128 +343,10 @@ EndlessRubyの構文をピュアなRubyの構文に変換します。
 					<div class="method-source-code"
 						id="endless-ruby-to-pure-ruby-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/endlessruby.rb, line 107</span>
-107:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">endless_ruby_to_pure_ruby</span> <span class="ruby-identifier">src</span>
-108:     <span class="ruby-identifier">endless</span> = <span class="ruby-identifier">src</span>.<span class="ruby-identifier">split</span> <span class="ruby-value str">&quot;\n&quot;</span>
-109: 
-110:     <span class="ruby-identifier">pure</span> = []
-111:     <span class="ruby-identifier">i</span> = <span class="ruby-value">0</span>
-112:     <span class="ruby-keyword kw">while</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">endless</span>.<span class="ruby-identifier">length</span>
-113:       <span class="ruby-identifier">pure</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">currently_line</span> = <span class="ruby-identifier">endless</span>[<span class="ruby-identifier">i</span>])
-114: 
-115:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">currently_line</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/(.*)(?:^|(?:(?!\\).))\#(?!\{).*$/</span>
-116:         <span class="ruby-identifier">currently_line</span> = <span class="ruby-node">$1</span>
-117:       <span class="ruby-keyword kw">end</span>
-118: 
-119:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">blank_line?</span> <span class="ruby-identifier">currently_line</span>
-120:         <span class="ruby-identifier">i</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
-121:         <span class="ruby-keyword kw">next</span>
-122:       <span class="ruby-keyword kw">end</span>
-123: 
-124:       <span class="ruby-comment cmt"># ブロックを作らない構文なら単に無視する </span>
-125:       <span class="ruby-keyword kw">next</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">BLOCK_KEYWORDS</span>.<span class="ruby-identifier">any?</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">k</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">=~</span> <span class="ruby-identifier">unindent</span>(<span class="ruby-identifier">currently_line</span>)  }
-126: 
-127:       <span class="ruby-comment cmt"># ブロックに入る</span>
-128:       <span class="ruby-identifier">keyword</span> = <span class="ruby-constant">BLOCK_KEYWORDS</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-keyword kw">break</span> <span class="ruby-identifier">k</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">k</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">=~</span> <span class="ruby-identifier">unindent</span>(<span class="ruby-identifier">currently_line</span>)  }
-129: 
-130:       <span class="ruby-identifier">currently_indent_depth</span> = <span class="ruby-identifier">indent_count</span> <span class="ruby-identifier">currently_line</span>
-131:       <span class="ruby-identifier">base_indent_depth</span> = <span class="ruby-identifier">currently_indent_depth</span>
-132: 
-133:       <span class="ruby-identifier">inner_statements</span> = []
-134:       <span class="ruby-comment cmt"># def method1</span>
-135:       <span class="ruby-comment cmt">#   statemetns</span>
-136:       <span class="ruby-comment cmt"># # document of method2</span>
-137:       <span class="ruby-comment cmt"># def method2</span>
-138:       <span class="ruby-comment cmt">#   statements</span>
-139:       <span class="ruby-comment cmt"># のような場合にコメントの部分はmethod1内に含まないようにする。</span>
-140:       <span class="ruby-comment cmt"># def method1</span>
-141:       <span class="ruby-comment cmt">#   statemetns</span>
-142:       <span class="ruby-comment cmt"># # comment</span>
-143:       <span class="ruby-comment cmt">#   return</span>
-144:       <span class="ruby-comment cmt"># のような場合と区別するため。</span>
-145:       <span class="ruby-identifier">comment_count</span> = <span class="ruby-value">0</span>
-146:       <span class="ruby-identifier">in_here_document</span> = <span class="ruby-keyword kw">nil</span>
-147:       <span class="ruby-keyword kw">while</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">endless</span>.<span class="ruby-identifier">length</span>
-148: 
-149:         <span class="ruby-identifier">inner_currently_line</span> = <span class="ruby-identifier">endless</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>]
-150: 
-151:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">inner_currently_line</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/(.*)(?:^|(?:(?!\\).))\#(?!\{).*$/</span>
-152:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">blank_line?</span>(<span class="ruby-node">$1</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">currently_indent_depth</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">indent_count</span>(<span class="ruby-identifier">inner_currently_line</span>)
-153:             <span class="ruby-identifier">comment_count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
-154:           <span class="ruby-keyword kw">end</span>
-155:           <span class="ruby-identifier">inner_currently_line</span> = <span class="ruby-node">$1</span>
-156:         <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">blank_line?</span> <span class="ruby-identifier">inner_currently_line</span>
-157:           <span class="ruby-identifier">comment_count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
-158:         <span class="ruby-keyword kw">end</span>
-159: 
-160:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">blank_line?</span> <span class="ruby-identifier">inner_currently_line</span>
-161:           <span class="ruby-identifier">inner_statements</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">endless</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>]
-162:           <span class="ruby-identifier">i</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
-163:           <span class="ruby-keyword kw">next</span>
-164:         <span class="ruby-keyword kw">end</span>
-165: 
-166:         <span class="ruby-identifier">just_after_indent_depth</span> = <span class="ruby-identifier">indent_count</span> <span class="ruby-identifier">inner_currently_line</span>
-167: 
-168:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">base_indent_depth</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">just_after_indent_depth</span>
-169:           <span class="ruby-identifier">comment_count</span> = <span class="ruby-value">0</span>
-170:         <span class="ruby-keyword kw">end</span>
-171: 
-172:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">in_here_document</span>
-173:           <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">in_here_document</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">''</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">inner_currently_line</span> <span class="ruby-operator">=~</span> <span class="ruby-node">/^#{in_here_document[1]}\s*$/</span>) <span class="ruby-operator">||</span> <span class="ruby-comment cmt"># &lt;&lt;DEFINE case</span>
-174:               (<span class="ruby-identifier">in_here_document</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">'-'</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">inner_currently_line</span> <span class="ruby-operator">=~</span> <span class="ruby-node">/^\s*#{in_here_document[1]}\s*$/</span>) <span class="ruby-comment cmt"># &lt;&lt;-DEFINE case</span>
-175:             <span class="ruby-identifier">in_here_document</span> = <span class="ruby-keyword kw">nil</span>
-176:             <span class="ruby-identifier">inner_statements</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">endless</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>]
-177:             <span class="ruby-identifier">i</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
-178:             <span class="ruby-keyword kw">next</span>
-179:           <span class="ruby-keyword kw">else</span>
-180:             <span class="ruby-identifier">inner_statements</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">endless</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>]
-181:             <span class="ruby-identifier">i</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
-182:             <span class="ruby-keyword kw">next</span>
-183:           <span class="ruby-keyword kw">end</span>
-184:         <span class="ruby-keyword kw">end</span>
-185: 
-186:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">inner_currently_line</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^.*?\&lt;\&lt;(\-?)(\w+)(?!\w).*$/</span>
-187:           <span class="ruby-identifier">in_here_document</span> = [<span class="ruby-node">$1</span>, <span class="ruby-node">$2</span>]
-188:         <span class="ruby-keyword kw">end</span>
-189: 
-190:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">base_indent_depth</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">indent_count</span>(<span class="ruby-identifier">inner_currently_line</span>)
-191:           <span class="ruby-keyword kw">break</span>
-192:         <span class="ruby-keyword kw">end</span>
-193: 
-194:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">base_indent_depth</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">indent_count</span>(<span class="ruby-identifier">inner_currently_line</span>)
-195:           <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">keyword</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">1</span>].<span class="ruby-identifier">any?</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">k</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">unindent</span>(<span class="ruby-identifier">inner_currently_line</span>) }
-196:             <span class="ruby-keyword kw">break</span>
-197:           <span class="ruby-keyword kw">end</span>
-198:         <span class="ruby-keyword kw">end</span>
-199: 
-200:         <span class="ruby-identifier">inner_statements</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">endless</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>]
-201:         <span class="ruby-identifier">i</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
-202:       <span class="ruby-keyword kw">end</span>
-203: 
-204:       <span class="ruby-comment cmt"># endをコメントより上の行へ持ち上げる</span>
-205:       <span class="ruby-keyword kw">if</span> <span class="ruby-value">0</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">comment_count</span>
-206:         <span class="ruby-identifier">comment_count</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span>
-207:           <span class="ruby-identifier">inner_statements</span>.<span class="ruby-identifier">pop</span>
-208:         <span class="ruby-keyword kw">end</span>
-209:         <span class="ruby-identifier">i</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">comment_count</span>
-210:       <span class="ruby-keyword kw">end</span>
-211: 
-212:       <span class="ruby-identifier">pure</span> <span class="ruby-operator">+=</span> <span class="ruby-constant">ER2PR</span>(<span class="ruby-identifier">inner_statements</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;\n&quot;</span>)).<span class="ruby-identifier">split</span> <span class="ruby-value str">&quot;\n&quot;</span>
-213:       <span class="ruby-comment cmt"># 次の行がendならばendを補完しない(ワンライナーのため)</span>
-214:       <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@decompile</span>
-215:         <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">endless</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">endless</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^\s*end(?!\w).*$/</span>
-216:           <span class="ruby-identifier">pure</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{'  '*currently_indent_depth}end&quot;</span>
-217:         <span class="ruby-keyword kw">end</span>
-218:       <span class="ruby-keyword kw">else</span>
-219:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">endless</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">endless</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^\s*end(?:\s|$)\s*$/</span>
-220:           <span class="ruby-identifier">i</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
-221:         <span class="ruby-keyword kw">end</span>
-222:       <span class="ruby-keyword kw">end</span>
-223: 
-224:       <span class="ruby-identifier">i</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
-225:     <span class="ruby-keyword kw">end</span>
-226:     <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">join</span> <span class="ruby-value str">&quot;\n&quot;</span>
-227:   <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/endlessruby.rb, line 56</span>
+56:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">endless_ruby_to_pure_ruby</span> <span class="ruby-identifier">options</span>
+57:     <span class="ruby-identifier">converting_helper</span> <span class="ruby-identifier">options</span>
+58:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -529,14 +383,10 @@ EndlessRubyの構文をピュアなRubyの構文に変換します。
 					<div class="method-source-code"
 						id="ereval-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/endlessruby.rb, line 86</span>
-86:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">ereval</span>(<span class="ruby-identifier">src</span>, <span class="ruby-identifier">binding</span>=<span class="ruby-constant">TOPLEVEL_BINDING</span>, <span class="ruby-identifier">filename</span>=<span class="ruby-keyword kw">__FILE__</span>, <span class="ruby-identifier">lineno</span>=<span class="ruby-value">1</span>)
-87:     <span class="ruby-identifier">at</span> = <span class="ruby-identifier">caller</span>
-88:     <span class="ruby-identifier">eval</span>(<span class="ruby-constant">ER2PR</span>(<span class="ruby-identifier">src</span>), <span class="ruby-identifier">binding</span>, <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">lineno</span>)
-89:   <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
-90:     <span class="ruby-identifier">$@</span> = <span class="ruby-identifier">at</span>
-91:     <span class="ruby-identifier">raise</span> <span class="ruby-identifier">e</span>
-92:   <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/endlessruby.rb, line 47</span>
+47:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">ereval</span>(<span class="ruby-identifier">src</span>, <span class="ruby-identifier">binding</span>=<span class="ruby-constant">TOPLEVEL_BINDING</span>, <span class="ruby-identifier">filename</span>=<span class="ruby-keyword kw">__FILE__</span>, <span class="ruby-identifier">lineno</span>=<span class="ruby-value">1</span>)
+48:     <span class="ruby-identifier">eval</span>(<span class="ruby-constant">ER2PR</span>(<span class="ruby-identifier">src</span>), <span class="ruby-identifier">binding</span>, <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">lineno</span>)
+49:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -553,7 +403,7 @@ EndlessRubyの構文をピュアなRubyの構文に変換します。
 				<div class="method-heading">
 				
 					<span class="method-name">pure_ruby_to_endless_ruby</span><span
-						class="method-args">(src)</span>
+						class="method-args">(options)</span>
 					<span class="method-click-advice">click to toggle source</span>
 				
 				</div>
@@ -569,13 +419,12 @@ Rubyの構文をEndlessRubyの構文に変換します。
 					<div class="method-source-code"
 						id="pure-ruby-to-endless-ruby-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/endlessruby.rb, line 95</span>
- 95:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">pure_ruby_to_endless_ruby</span> <span class="ruby-identifier">src</span>
- 96:     <span class="ruby-ivar">@decompile</span> = <span class="ruby-keyword kw">true</span>
- 97:     <span class="ruby-identifier">s</span> = <span class="ruby-constant">ER2RB</span>(<span class="ruby-identifier">src</span>)
- 98:     <span class="ruby-ivar">@decompile</span> = <span class="ruby-keyword kw">nil</span>
- 99:     <span class="ruby-identifier">s</span>
-100:   <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/endlessruby.rb, line 65</span>
+65:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">pure_ruby_to_endless_ruby</span> <span class="ruby-identifier">options</span>
+66:     <span class="ruby-identifier">options</span> = <span class="ruby-identifier">merge_options</span> <span class="ruby-identifier">options</span>
+67:     <span class="ruby-identifier">options</span>[<span class="ruby-value">:decompile</span>] = <span class="ruby-keyword kw">true</span>
+68:     <span class="ruby-identifier">converting_helper</span> <span class="ruby-identifier">options</span>
+69:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -596,7 +445,7 @@ Rubyの構文をEndlessRubyの構文に変換します。
 				<div class="method-heading">
 				
 					<span class="method-name">to_pure_ruby</span><span
-						class="method-args">(src)</span>
+						class="method-args">(options)</span>
 					<span class="method-click-advice">click to toggle source</span>
 				
 				</div>
@@ -625,33 +474,160 @@ Rubyの構文をEndlessRubyの構文に変換します。
 			<h3 class="section-header">Private Instance Methods</h3>
 
 		
-			<div id="blank-line--method" class="method-detail ">
-				<a name="method-i-blank_line%3F"></a>
+			<div id="converting-helper-method" class="method-detail ">
+				<a name="method-i-converting_helper"></a>
 
 				<div class="method-heading">
 				
-					<span class="method-name">blank_line?</span><span
-						class="method-args">(line)</span>
+					<span class="method-name">converting_helper</span><span
+						class="method-args">(options)</span>
 					<span class="method-click-advice">click to toggle source</span>
 				
 				</div>
 
 				<div class="method-description">
 					
-					<p>
-内部で使用します。空業かどうか判定します。
-</p>
+					
 					
 
 					
 					<div class="method-source-code"
-						id="blank-line--source">
+						id="converting-helper-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/endlessruby.rb, line 44</span>
-44:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">blank_line?</span> <span class="ruby-identifier">line</span>
-45:     <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">line</span>
-46:     (<span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp</span>.<span class="ruby-identifier">gsub</span> <span class="ruby-regexp re">/\s+?/</span>, <span class="ruby-value str">''</span>) <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;&quot;</span>
-47:   <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/endlessruby.rb, line 141</span>
+141:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">converting_helper</span> <span class="ruby-identifier">options</span>
+142:     <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">merge_options</span> <span class="ruby-identifier">options</span>
+143: 
+144:     <span class="ruby-identifier">io</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>][<span class="ruby-value">:io</span>]
+145: 
+146:     <span class="ruby-identifier">r</span> = <span class="ruby-constant">RubyLex</span>.<span class="ruby-identifier">new</span>
+147:     <span class="ruby-identifier">r</span>.<span class="ruby-identifier">set_input</span> <span class="ruby-identifier">io</span>
+148:     <span class="ruby-identifier">r</span>.<span class="ruby-identifier">skip_space</span> = <span class="ruby-keyword kw">false</span>
+149: 
+150:     <span class="ruby-identifier">pure</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:out</span>][<span class="ruby-value">:io</span>]
+151: 
+152:     <span class="ruby-identifier">indent</span> = []
+153:     <span class="ruby-identifier">pass</span> = []
+154:     <span class="ruby-identifier">bol</span> = <span class="ruby-keyword kw">true</span>
+155:     <span class="ruby-identifier">last</span> = [<span class="ruby-value">0</span>, <span class="ruby-value">0</span>]
+156:     <span class="ruby-identifier">bol_indent</span> = <span class="ruby-value">0</span>
+157: 
+158:     <span class="ruby-keyword kw">while</span> <span class="ruby-identifier">t</span> = <span class="ruby-identifier">r</span>.<span class="ruby-identifier">token</span>
+159: 
+160:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bol</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span>(<span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkSPACE</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">t</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span>(<span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkNL</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">t</span>)
+161: 
+162:         <span class="ruby-identifier">bol_indent</span> = <span class="ruby-identifier">this_indent</span> = <span class="ruby-identifier">t</span>.<span class="ruby-identifier">char_no</span>
+163:         <span class="ruby-keyword kw">while</span> (<span class="ruby-identifier">indent</span>.<span class="ruby-identifier">last</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">pass</span>.<span class="ruby-identifier">last</span>) <span class="ruby-operator">&amp;&amp;</span> ((<span class="ruby-identifier">this_indent</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">indent</span>.<span class="ruby-identifier">last</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">this_indent</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">indent</span>.<span class="ruby-identifier">last</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">pass</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">t</span>.<span class="ruby-identifier">class</span>)))
+164:           <span class="ruby-keyword kw">if</span> <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkEND</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">t</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">this_indent</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">indent</span>.<span class="ruby-identifier">last</span>
+165:             <span class="ruby-keyword kw">break</span>
+166:           <span class="ruby-keyword kw">end</span>
+167: 
+168:           <span class="ruby-identifier">_indent</span> = <span class="ruby-identifier">indent</span>.<span class="ruby-identifier">pop</span>
+169:           <span class="ruby-identifier">pass</span>.<span class="ruby-identifier">pop</span>
+170:           <span class="ruby-identifier">idt</span> = []
+171:           <span class="ruby-identifier">loop</span> <span class="ruby-keyword kw">do</span>
+172:             <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">seek</span> <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">pos</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+173:             <span class="ruby-keyword kw">if</span> <span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value str">&quot;1.9&quot;</span> <span class="ruby-comment cmt"># 1.8</span>
+174:               <span class="ruby-identifier">c</span> = <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">read</span>(<span class="ruby-value">1</span>)
+175:             <span class="ruby-keyword kw">else</span>
+176:               <span class="ruby-identifier">c</span> = <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">getc</span>
+177:             <span class="ruby-keyword kw">end</span>
+178:             <span class="ruby-keyword kw">break</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">pos</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span>([<span class="ruby-value str">&quot;\n&quot;</span>, <span class="ruby-value str">' '</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">c</span>))
+179:             <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">seek</span> <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">pos</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+180:             <span class="ruby-identifier">idt</span>.<span class="ruby-identifier">unshift</span> <span class="ruby-identifier">c</span>
+181:           <span class="ruby-keyword kw">end</span>
+182:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">idt</span>.<span class="ruby-identifier">first</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;\n&quot;</span>
+183:             <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">idt</span>.<span class="ruby-identifier">shift</span>
+184:           <span class="ruby-keyword kw">end</span>
+185:           <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">write</span> <span class="ruby-node">&quot;#{' '*_indent}end\n&quot;</span>
+186:           <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">idt</span>.<span class="ruby-identifier">join</span>
+187:         <span class="ruby-keyword kw">end</span>
+188:         <span class="ruby-identifier">bol</span> = <span class="ruby-keyword kw">false</span>
+189:       <span class="ruby-keyword kw">end</span>
+190: 
+191:       <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">t</span>
+192:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkNL</span>
+193:         <span class="ruby-identifier">bol</span> = <span class="ruby-keyword kw">true</span>
+194:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkEND</span>
+195:         <span class="ruby-identifier">indent</span>.<span class="ruby-identifier">pop</span>
+196:         <span class="ruby-identifier">pass</span>.<span class="ruby-identifier">pop</span>
+197:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:decompile</span>]
+198:           <span class="ruby-identifier">last</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">+=</span> <span class="ruby-value">3</span>
+199:           <span class="ruby-identifier">last</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">+=</span> <span class="ruby-value">3</span>
+200:           <span class="ruby-keyword kw">next</span>
+201:         <span class="ruby-keyword kw">end</span>
+202:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkIF</span>, <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkUNLESS</span>
+203:         <span class="ruby-identifier">pass</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkELSE</span>, <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkELSIF</span>]
+204:         <span class="ruby-identifier">indent</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">char_no</span>
+205:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkFOR</span>
+206:         <span class="ruby-identifier">pass</span> <span class="ruby-operator">&lt;&lt;</span> []
+207:         <span class="ruby-identifier">indent</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">char_no</span>
+208:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkWHILE</span>, <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkUNTIL</span>
+209:         <span class="ruby-identifier">pass</span> <span class="ruby-operator">&lt;&lt;</span> []
+210:         <span class="ruby-identifier">indent</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">char_no</span>
+211:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkBEGIN</span>
+212:         <span class="ruby-identifier">pass</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkRESCUE</span>, <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkELSE</span>, <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkENSURE</span>]
+213:         <span class="ruby-identifier">indent</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">char_no</span>
+214:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkDEF</span>
+215:         <span class="ruby-identifier">pass</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkRESCUE</span>, <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkELSE</span>, <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkENSURE</span>]
+216:         <span class="ruby-identifier">indent</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">char_no</span>
+217:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkCLASS</span>, <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkMODULE</span>
+218:         <span class="ruby-identifier">pass</span> <span class="ruby-operator">&lt;&lt;</span> []
+219:         <span class="ruby-identifier">indent</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">char_no</span>
+220:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkCASE</span>
+221:         <span class="ruby-identifier">pass</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkWHEN</span>, <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkELSE</span>]
+222:         <span class="ruby-identifier">indent</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">char_no</span>
+223:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkDO</span>
+224:         <span class="ruby-identifier">pass</span> <span class="ruby-operator">&lt;&lt;</span> []
+225:         <span class="ruby-identifier">indent</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">bol_indent</span>
+226:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">RubyToken</span><span class="ruby-operator">::</span><span class="ruby-constant">TkSPACE</span>
+227:       <span class="ruby-keyword kw">end</span>
+228: 
+229: 
+230:       <span class="ruby-identifier">pos</span> = <span class="ruby-identifier">io</span>.<span class="ruby-identifier">pos</span>
+231:       <span class="ruby-identifier">io</span>.<span class="ruby-identifier">seek</span> <span class="ruby-identifier">pos</span>
+232: 
+233:       <span class="ruby-identifier">pos</span> = <span class="ruby-identifier">io</span>.<span class="ruby-identifier">pos</span>
+234: 
+235:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value str">&quot;1.9&quot;</span> <span class="ruby-comment cmt"># 1.8</span>
+236:         <span class="ruby-identifier">io</span>.<span class="ruby-identifier">seek</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">seek</span>
+237:         <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">io</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">r</span>.<span class="ruby-identifier">seek</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">seek</span>)
+238:       <span class="ruby-keyword kw">else</span> <span class="ruby-comment cmt"># 1.9</span>
+239:         <span class="ruby-identifier">io</span>.<span class="ruby-identifier">seek</span> <span class="ruby-identifier">last</span>[<span class="ruby-value">0</span>]
+240:         (<span class="ruby-identifier">r</span>.<span class="ruby-identifier">seek</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">last</span>[<span class="ruby-value">1</span>]).<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span>
+241:           <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">io</span>.<span class="ruby-identifier">getc</span>
+242:         <span class="ruby-keyword kw">end</span>
+243:         <span class="ruby-identifier">last</span> = [<span class="ruby-identifier">io</span>.<span class="ruby-identifier">pos</span>, <span class="ruby-identifier">r</span>.<span class="ruby-identifier">seek</span>]
+244:       <span class="ruby-keyword kw">end</span>
+245: 
+246:       <span class="ruby-identifier">io</span>.<span class="ruby-identifier">seek</span> <span class="ruby-identifier">pos</span>
+247:     <span class="ruby-keyword kw">end</span>
+248: 
+249:     <span class="ruby-keyword kw">until</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:decompile</span>] <span class="ruby-operator">||</span> (<span class="ruby-identifier">indent</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">pass</span>.<span class="ruby-identifier">empty?</span>)
+250:       <span class="ruby-identifier">_indent</span> = <span class="ruby-identifier">indent</span>.<span class="ruby-identifier">pop</span>
+251:       <span class="ruby-identifier">pass</span>.<span class="ruby-identifier">pop</span>
+252:       <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">seek</span> <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">pos</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+253:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value str">&quot;1.9&quot;</span> <span class="ruby-comment cmt"># 1.8</span>
+254:         <span class="ruby-identifier">c</span> = <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">read</span> <span class="ruby-value">1</span>
+255:       <span class="ruby-keyword kw">else</span>
+256:         <span class="ruby-identifier">c</span> = <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">getc</span>
+257:       <span class="ruby-keyword kw">end</span>
+258:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">c</span>  <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;\n&quot;</span>
+259:         <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">write</span> <span class="ruby-node">&quot;#{' '*_indent}end&quot;</span>
+260:       <span class="ruby-keyword kw">else</span>
+261:         <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">write</span> <span class="ruby-node">&quot;\n#{' '*_indent}end&quot;</span>
+262:       <span class="ruby-keyword kw">end</span>
+263:     <span class="ruby-keyword kw">end</span>
+264: 
+265:     <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">seek</span> <span class="ruby-value">0</span>
+266:     <span class="ruby-identifier">ret</span> = <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">read</span>.<span class="ruby-identifier">chomp</span>
+267:     <span class="ruby-identifier">pure</span>.<span class="ruby-identifier">seek</span> <span class="ruby-value">0</span>
+268: 
+269:     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:out</span>][<span class="ruby-value">:ensure</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:out</span>][<span class="ruby-value">:ensure</span>].<span class="ruby-identifier">call</span>
+270:     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>][<span class="ruby-value">:ensure</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>][<span class="ruby-value">:ensure</span>].<span class="ruby-identifier">call</span>
+271: 
+272:     <span class="ruby-identifier">ret</span>.<span class="ruby-identifier">chomp</span>
+273:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -662,110 +638,91 @@ Rubyの構文をEndlessRubyの構文に変換します。
 			</div>
 
 		
-			<div id="indent-method" class="method-detail ">
-				<a name="method-i-indent"></a>
+			<div id="merge-options-method" class="method-detail ">
+				<a name="method-i-merge_options"></a>
 
 				<div class="method-heading">
 				
-					<span class="method-name">indent</span><span
-						class="method-args">(line, level, indent=" ")</span>
+					<span class="method-name">merge_options</span><span
+						class="method-args">(options)</span>
 					<span class="method-click-advice">click to toggle source</span>
 				
 				</div>
 
 				<div class="method-description">
 					
-					<p>
-内部で使用します。インデントします
-</p>
+					
 					
 
 					
 					<div class="method-source-code"
-						id="indent-source">
+						id="merge-options-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/endlessruby.rb, line 55</span>
-55:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">indent</span> <span class="ruby-identifier">line</span>, <span class="ruby-identifier">level</span>, <span class="ruby-identifier">indent</span>=<span class="ruby-value str">&quot;  &quot;</span>
-56:     <span class="ruby-node">&quot;#{indent * level}#{line}&quot;</span>
-57:   <span class="ruby-keyword kw">end</span></pre>
-					</div>
-					
-				</div>
-
-				
-
-				
-			</div>
-
-		
-			<div id="indent-count-method" class="method-detail ">
-				<a name="method-i-indent_count"></a>
-
-				<div class="method-heading">
-				
-					<span class="method-name">indent_count</span><span
-						class="method-args">(line, indent=" ")</span>
-					<span class="method-click-advice">click to toggle source</span>
-				
-				</div>
-
-				<div class="method-description">
-					
-					<p>
-内部で使用します。インデントの数を数えます。
-</p>
-					
-
-					
-					<div class="method-source-code"
-						id="indent-count-source">
-<pre>
-    <span class="ruby-comment cmt"># File lib/endlessruby.rb, line 60</span>
-60:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">indent_count</span> <span class="ruby-identifier">line</span>, <span class="ruby-identifier">indent</span>=<span class="ruby-value str">&quot;  &quot;</span>
-61:     <span class="ruby-keyword kw">return</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">line</span>
-62:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">line</span> <span class="ruby-operator">=~</span> <span class="ruby-node">/^#{indent}(.*?)$/</span>
-63:       <span class="ruby-value">1</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">indent_count</span> <span class="ruby-node">$1</span>, <span class="ruby-identifier">indent</span>)
-64:     <span class="ruby-keyword kw">else</span>
-65:       <span class="ruby-value">0</span>
-66:     <span class="ruby-keyword kw">end</span>
-67:   <span class="ruby-keyword kw">end</span></pre>
-					</div>
-					
-				</div>
-
-				
-
-				
-			</div>
-
-		
-			<div id="unindent-method" class="method-detail ">
-				<a name="method-i-unindent"></a>
-
-				<div class="method-heading">
-				
-					<span class="method-name">unindent</span><span
-						class="method-args">(line)</span>
-					<span class="method-click-advice">click to toggle source</span>
-				
-				</div>
-
-				<div class="method-description">
-					
-					<p>
-内部で使用します。インデントを取り除きます
-</p>
-					
-
-					
-					<div class="method-source-code"
-						id="unindent-source">
-<pre>
-    <span class="ruby-comment cmt"># File lib/endlessruby.rb, line 50</span>
-50:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">unindent</span> <span class="ruby-identifier">line</span>
-51:     <span class="ruby-identifier">line</span>  <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^\s*?(\S.*?)$/</span>
-52:     <span class="ruby-node">$1</span>
-53:   <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/endlessruby.rb, line 76</span>
+ 76:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">merge_options</span> <span class="ruby-identifier">options</span>
+ 77: 
+ 78:     <span class="ruby-identifier">opts</span> = {
+ 79:       <span class="ruby-value">:in</span> =<span class="ruby-operator">&gt;</span> {}, <span class="ruby-value">:out</span> =<span class="ruby-operator">&gt;</span> {}
+ 80:     }
+ 81: 
+ 82:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:to_hash</span>
+ 83:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">options</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">to_hash</span>[<span class="ruby-value">:merged</span>]
+ 84:       <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">merge</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">to_hash</span>
+ 85:     <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:to_io</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:to_str</span>)
+ 86:       <span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>][<span class="ruby-value">:any</span>] = <span class="ruby-identifier">options</span>
+ 87:     <span class="ruby-keyword kw">else</span>
+ 88:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;options is IO, String, or Hash&quot;</span>
+ 89:     <span class="ruby-keyword kw">end</span>
+ 90: 
+ 91:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>][<span class="ruby-value">:any</span>]
+ 92:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>][<span class="ruby-value">:any</span>].<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:to_str</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>][<span class="ruby-value">:any</span>].<span class="ruby-identifier">to_str</span>) <span class="ruby-comment cmt"># from a file on the disk.</span>
+ 93:         <span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>] = {
+ 94:           <span class="ruby-value">:io</span> =<span class="ruby-operator">&gt;</span> (<span class="ruby-identifier">in_io</span> = <span class="ruby-identifier">open</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>][<span class="ruby-value">:any</span>].<span class="ruby-identifier">to_str</span>),
+ 95:           <span class="ruby-value">:ensure</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">proc</span> { <span class="ruby-identifier">in_io</span>.<span class="ruby-identifier">close</span> }
+ 96:         }
+ 97:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>][<span class="ruby-value">:any</span>].<span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:to_io</span> <span class="ruby-comment cmt"># from IO that can read source code.</span>
+ 98:         <span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>] = {
+ 99:           <span class="ruby-value">:io</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">to_io</span>,
+100:           <span class="ruby-value">:ensure</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">proc</span> {}
+101:         }
+102:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>][<span class="ruby-value">:any</span>].<span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:to_str</span> <span class="ruby-comment cmt"># from String that is source code.</span>
+103:         <span class="ruby-identifier">in_io</span> = <span class="ruby-constant">Tempfile</span>.<span class="ruby-identifier">new</span> <span class="ruby-value str">&quot;endlessruby from temp file&quot;</span>
+104:         <span class="ruby-identifier">in_io</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">to_str</span>
+105:         <span class="ruby-identifier">in_io</span>.<span class="ruby-identifier">seek</span> <span class="ruby-value">0</span>
+106:         <span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>] = {
+107:           <span class="ruby-value">:io</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">in_io</span>,
+108:           <span class="ruby-value">:ensure</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">proc</span> { <span class="ruby-identifier">in_io</span>.<span class="ruby-identifier">close</span> }
+109:         }
+110:       <span class="ruby-keyword kw">else</span>
+111:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;options[:in][:any] is IO, String which is path, or String which is source code&quot;</span>
+112:       <span class="ruby-keyword kw">end</span>
+113:     <span class="ruby-keyword kw">end</span>
+114: 
+115:     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:in</span>][<span class="ruby-value">:any</span>] = <span class="ruby-keyword kw">nil</span>
+116: 
+117:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:out</span>][<span class="ruby-value">:any</span>]
+118:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:out</span>][<span class="ruby-value">:any</span>].<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:to_str</span>) <span class="ruby-comment cmt"># to a file on the disk.</span>
+119:         <span class="ruby-identifier">opts</span>[<span class="ruby-value">:out</span>] = {
+120:           <span class="ruby-value">:io</span> =<span class="ruby-operator">&gt;</span> (<span class="ruby-identifier">out_io</span> = <span class="ruby-identifier">open</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:out</span>][<span class="ruby-value">:any</span>].<span class="ruby-identifier">to_str</span>, <span class="ruby-value str">&quot;w+&quot;</span>),
+121:           <span class="ruby-value">:ensure</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">proc</span> { <span class="ruby-identifier">out_io</span>.<span class="ruby-identifier">close</span> }
+122:         }
+123:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:out</span>][<span class="ruby-value">:any</span>].<span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:to_io</span> <span class="ruby-comment cmt"># to IO that can read source code.</span>
+124:         <span class="ruby-identifier">opts</span>[<span class="ruby-value">:out</span>] = {
+125:           <span class="ruby-value">:io</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">to_io</span>,
+126:           <span class="ruby-value">:ensure</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">proc</span> {}
+127:         }
+128:       <span class="ruby-keyword kw">else</span>
+129:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;options[:out][:any] is IO, or String which is Path&quot;</span>
+130:       <span class="ruby-keyword kw">end</span>
+131:     <span class="ruby-keyword kw">else</span>
+132:       <span class="ruby-identifier">opts</span>[<span class="ruby-value">:out</span>] = { <span class="ruby-value">:io</span> =<span class="ruby-operator">&gt;</span> (<span class="ruby-identifier">out_io</span> = <span class="ruby-constant">Tempfile</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;endlessruby pure temp file&quot;</span>)), <span class="ruby-value">:ensure</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">proc</span> { <span class="ruby-identifier">out_io</span>.<span class="ruby-identifier">close</span> } }
+133:     <span class="ruby-keyword kw">end</span>
+134: 
+135:     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:out</span>][<span class="ruby-value">:any</span>] = <span class="ruby-keyword kw">nil</span>
+136: 
+137:     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:merged</span>] = <span class="ruby-keyword kw">true</span>
+138:     <span class="ruby-identifier">opts</span>
+139:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>

@@ -47,11 +47,26 @@ module EndlessRuby
   def ereval(src, binding=TOPLEVEL_BINDING, filename=__FILE__, lineno=1)
     eval(ER2PR(src), binding, filename, lineno)
 
-  # EndlessRubyの構文をピュアなRubyの構文に変換します。
-  # options: オプションを表すHashまたはto_hashを実装したオブジェクト、構文を読み出すIOまたはto_ioを実装したオブジェクト、EndlessRubyの構文を表すStringまたはto_strを実装したオブジェクト
-  # optionsが文字列ならばそれをピュアなRubyの構文にします。それがIOならばIOから読み出してそれをピュアなRubyの構文にします。
-  # それがHashならば、現在のところinとoutを指定できます。それぞれHashを指定します。opts[:in][:io]はoptionsに指定するIOと同じ意味です。
-  # opts[:out][:io] には書き出すioを指定します。
+  # EndlessRubyの構文をピュアなRubyの構文に変換します。<br />
+  # options: オプションを表すHashまたはto_hashを実装したオブジェクト、構文を読み出すIOまたはto_ioを実装したオブジェクト、EndlessRubyの構文を表すStringまたはto_strを実装したオブジェクト<br />
+  # optionsが文字列ならばそれをピュアなRubyの構文にします。それがIOならばIOから読み出してそれをピュアなRubyの構文にします。<br />
+  # それがHashならば、現在のところinとoutを指定できます。それぞれHashを指定します。opts[:in][:io]はoptionsに指定するIOと同じ意味です。<br />
+  # opts[:out][:io] には書き出すioを指定します。<br />
+  # from a file on disk:<br />
+  #     EndlessRuby.ER2RB("filename.er")<br />
+  # <br />
+  # from string that is source code:<br />
+  #     EndlessRuby.ER2RB(<<DEFINE)<br />
+  #       # endlessruby syntax<br />
+  #     DEFINE<br />
+  # <br />
+  # from IO:<br />
+  #     file = open 'filename.er'<br />
+  #     EndlessRuby.ER2RB(file)<br />
+  #
+  # appoint input file and output file:
+  #     ER2PR({ :in => { :any => 'filename.er' }, :out => { :any => 'filename.rb' } })
+  #     ER2PR({ :in => { :io => in_io }, :out => { :io => out_io } })
   def endless_ruby_to_pure_ruby options
     converting_helper options
 
@@ -59,7 +74,7 @@ module EndlessRuby
   alias ER2PR endless_ruby_to_pure_ruby
   alias ER2RB endless_ruby_to_pure_ruby
 
-  # Rubyの構文をEndlessRubyの構文に変換します。
+  # Rubyの構文をEndlessRubyの構文に変換します。optionsはendlessruby_to_pure_rubyと同じです。
   def pure_ruby_to_endless_ruby options
     options = merge_options options
     options[:decompile] = true
@@ -77,7 +92,6 @@ module EndlessRuby
     }
 
     if options.respond_to? :to_hash
-      return options if options.to_hash[:merged]
       opts = opts.merge options.to_hash
     elsif options.respond_to?(:to_io) || options.respond_to?(:to_str)
       opts[:in][:any] = options
@@ -121,12 +135,10 @@ module EndlessRuby
         }
       else
         raise ArgumentError, "options[:out][:any] is IO, or String which is Path"
-    else
+    elsif !opts[:out]
       opts[:out] = { :io => (out_io = Tempfile.new("endlessruby pure temp file")), :ensure => proc { out_io.close } }
 
     opts[:out][:any] = nil
-
-    opts[:merged] = true
     opts
 
   def converting_helper options
