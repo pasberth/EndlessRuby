@@ -4,10 +4,9 @@
 $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
-require 'endlessruby/extensions'
+require 'endlessruby/custom_require'
 require "tempfile"
 require "irb"
-require "kconv"
 
 # EndlessRubyはRubyをendを取り除いて書けます。
 #
