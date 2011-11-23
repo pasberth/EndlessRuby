@@ -53,9 +53,9 @@ module EndlessRuby
   end
 
   # Rubyの構文をEndlessRubyの構文に変換します。
-  def pure_ruby_to_endless_ruby src
+  def pure_ruby_to_endless_ruby options
     @decompile = true
-    s = ER2RB(src)
+    s = ER2RB(options)
     @decompile = nil
     s
   end
@@ -100,6 +100,12 @@ module EndlessRuby
           
         bol_indent = this_indent = t.char_no
         while indent.last && pass.last && this_indent <= indent.last && !pass.last.include?(t.class)
+          if RubyToken::TkEND === t && this_indent == indent.last
+            indent.pop
+            pass.pop
+            next
+          end
+
           _indent = indent.pop
           pass.pop
           idt = []
@@ -124,6 +130,7 @@ module EndlessRuby
       when RubyToken::TkEND
         indent.pop
         pass.pop
+        next if @decompile
       when RubyToken::TkIF, RubyToken::TkUNLESS
         pass << [RubyToken::TkELSE, RubyToken::TkELSIF]
         indent << t.char_no
@@ -154,7 +161,7 @@ module EndlessRuby
       io.seek pos
     end
 
-    until indent.empty? && pass.empty?
+    until @decompile || (indent.empty? && pass.empty?)
       _indent = indent.pop
       pass.pop
       pure.write "#{' '*_indent}end\n"
@@ -200,9 +207,15 @@ module EndlessRuby
     while t = r.token
 
       if bol && !(RubyToken::TkSPACE === t) && !(RubyToken::TkNL === t)
-          
+
         bol_indent = this_indent = t.char_no
         while indent.last && pass.last && this_indent <= indent.last && !pass.last.include?(t.class)
+          if RubyToken::TkEND === t && this_indent == indent.last
+            indent.pop
+            pass.pop
+            next
+          end
+
           _indent = indent.pop
           pass.pop
           idt = []
@@ -227,6 +240,11 @@ module EndlessRuby
       when RubyToken::TkEND
         indent.pop
         pass.pop
+        if @decompile
+          last[0] += 3
+          last[1] += 3
+          next
+        end
       when RubyToken::TkIF, RubyToken::TkUNLESS
         pass << [RubyToken::TkELSE, RubyToken::TkELSIF]
         indent << t.char_no
@@ -260,7 +278,7 @@ module EndlessRuby
       io.seek pos
     end
 
-    until indent.empty? && pass.empty?
+    until @decompile || (indent.empty? && pass.empty?)
       _indent = indent.pop
       pass.pop
       pure.write "#{' '*_indent}end\n"
