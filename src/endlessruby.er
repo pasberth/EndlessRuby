@@ -72,13 +72,12 @@ module EndlessRuby
 
   def merge_options options
 
-    return options if options[:merged]
-
     opts = {
       :in => {}, :out => {}
     }
 
     if options.respond_to? :to_hash
+      return options if options.to_hash[:merged]
       opts = opts.merge options.to_hash
     elsif options.respond_to?(:to_io) || options.respond_to?(:to_str)
       opts[:in][:any] = options
