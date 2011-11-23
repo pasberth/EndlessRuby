@@ -64,6 +64,7 @@ module EndlessRuby
   alias PR2ER pure_ruby_to_endless_ruby
 
   private
+
   def merge_options options
     opts = {
       :out => { :io => Tempfile.new("endlessruby pure temp file"), :ensure => proc { opts[:out][:io].close } }
@@ -94,7 +95,12 @@ module EndlessRuby
   end
 
   public
+
   # EndlessRubyの構文をピュアなRubyの構文に変換します。
+  # options: オプションを表すHashまたはto_hashを実装したオブジェクト、構文を読み出すIOまたはto_ioを実装したオブジェクト、EndlessRubyの構文を表すStringまたはto_strを実装したオブジェクト
+  # optionsが文字列ならばそれをピュアなRubyの構文にします。それがIOならばIOから読み出してそれをピュアなRubyの構文にします。
+  # それがHashならば、現在のところinとoutを指定できます。それぞれHashを指定します。opts[:in][:io]はoptionsに指定するIOと同じ意味です。
+  # opts[:out][:io] には書き出すioを指定します。
   def endless_ruby_to_pure_ruby options
     opts = merge_options options
 
@@ -222,8 +228,8 @@ module EndlessRuby
     ret = pure.read.chomp
     pure.seek 0
 
-    opts[:out][:ensure].call
-    opts[:in][:ensure].call
+    opts[:out][:ensure] && opts[:out][:ensure].call
+    opts[:in][:ensure] && opts[:in][:ensure].call
 
     ret
   end
