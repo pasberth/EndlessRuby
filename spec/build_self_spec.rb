@@ -12,8 +12,8 @@ describe EndlessRuby, "must can compile self" do
     "#{lib}/endlessruby.rb",
    "#{src}/endlessruby/main.er",
    "#{lib}/endlessruby/main.rb",
-   "#{src}/endlessruby/extensions.er",
-   "#{lib}/endlessruby/extensions.rb",
+   "#{src}/endlessruby/custom_require.er",
+   "#{lib}/endlessruby/custom_require.rb",
    "#{src}/er.er",
    "#{bin}/endlessruby",
   ]
