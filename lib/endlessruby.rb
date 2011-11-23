@@ -202,6 +202,9 @@ module EndlessRuby
       when RubyToken::TkIF, RubyToken::TkUNLESS
         pass << [RubyToken::TkELSE, RubyToken::TkELSIF]
         indent << t.char_no
+      when RubyToken::TkFOR
+        pass << []
+        indent << t.char_no
       when RubyToken::TkWHILE, RubyToken::TkUNTIL
         pass << []
         indent << t.char_no

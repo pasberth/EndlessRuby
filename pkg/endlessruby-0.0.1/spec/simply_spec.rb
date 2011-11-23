@@ -461,6 +461,22 @@ DEFINE
 
 end
 
+describe "for expression case" do
+
+  it "for" do
+    ER2RB(<<DEFINE).should == 
+for i in enu
+  pass
+DEFINE
+    <<DEFINE.chomp!
+for i in enu
+  pass
+end
+DEFINE
+  end
+
+end
+
 describe "exception expression case" do
 
   it "try only" do
