@@ -5,6 +5,9 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 require 'endlessruby/extensions'
+require "tempfile"
+require "irb"
+require "kconv"
 
 # EndlessRubyはRubyをendを取り除いて書けます。
 #
@@ -104,132 +107,110 @@ module EndlessRuby
   alias PR2ER pure_ruby_to_endless_ruby
 
   # EndlessRubyの構文をピュアなRubyの構文に変換します。
-  def endless_ruby_to_pure_ruby src
-    endless = src.split "\n"
-
-    pure = []
-    i = 0
-    while i < endless.length
-      pure << (currently_line = endless[i])
-
-      if currently_line =~ /(.*)(?:^|(?:(?!\\).))\#(?!\{).*$/
-        currently_line = $1
-      end
-
-      if blank_line? currently_line
-        i += 1
-        next
-      end
-
-      # ブロックを作らない構文なら単に無視する 
-      next i += 1 unless BLOCK_KEYWORDS.any? { |k| k[0] =~ unindent(currently_line)  }
-
-      # ブロックに入る
-      keyword = BLOCK_KEYWORDS.each { |k| break k if k[0] =~ unindent(currently_line)  }
-
-      currently_indent_depth = indent_count currently_line
-      base_indent_depth = currently_indent_depth
-
-      inner_statements = []
-      # def method1
-      #   statemetns
-      # # document of method2
-      # def method2
-      #   statements
-      # のような場合にコメントの部分はmethod1内に含まないようにする。
-      # def method1
-      #   statemetns
-      # # comment
-      #   return
-      # のような場合と区別するため。
-      comment_count = 0
-      in_here_document = nil
-      while i < endless.length
-
-        inner_currently_line = endless[i + 1]
-
-        if inner_currently_line =~ /(.*)(?:^|(?:(?!\\).))\#(?!\{).*$/
-          if blank_line?($1) && currently_indent_depth >= indent_count(inner_currently_line)
-            comment_count += 1
-          end
-          inner_currently_line = $1
-        elsif blank_line? inner_currently_line
-          comment_count += 1
-        end
-
-        if blank_line? inner_currently_line
-          inner_statements << endless[i + 1]
-          i += 1
-          next
-        end
-
-        just_after_indent_depth = indent_count inner_currently_line
-
-        # 次の行がendならば意図のあるものなのでendを持ちあ揚げない
-        if inner_currently_line =~ /^\s*end(?!\w).*$/
-          comment_count = 0
-        end
-
-        if base_indent_depth < just_after_indent_depth
-          comment_count = 0
-        end
-
-        if in_here_document
-          if (in_here_document[0] == '' && inner_currently_line =~ /^#{in_here_document[1]}\s*$/) || # <<DEFINE case
-              (in_here_document[0] == '-' && inner_currently_line =~ /^\s*#{in_here_document[1]}\s*$/) # <<-DEFINE case
-            in_here_document = nil
-            inner_statements << endless[i + 1]
-            i += 1
-            next
-          else
-            inner_statements << endless[i + 1]
-            i += 1
-            next
-          end
-        end
-
-        if inner_currently_line =~ /^.*?\<\<(\-?)(\w+)(?!\w).*$/
-          in_here_document = [$1, $2]
-        end
-
-        if base_indent_depth > indent_count(inner_currently_line)
-          break
-        end
-
-        if base_indent_depth == indent_count(inner_currently_line)
-          unless keyword[1..-1].any? { |k| k =~ unindent(inner_currently_line) }
-            break
-          end
-        end
-
-        inner_statements << endless[i + 1]
-        i += 1
-      end
-
-      # endをコメントより上の行へ持ち上げる
-      if 0 < comment_count
-        comment_count.times do
-          inner_statements.pop
-        end
-        i -= comment_count
-      end
-
-      pure += ER2PR(inner_statements.join("\n")).split "\n"
-      # 次の行がendならばendを補完しない(ワンライナーのため)
-      unless @decompile
-        unless endless[i + 1] && endless[i + 1] =~ /^\s*end(?!\w).*$/
-          pure << "#{'  '*currently_indent_depth}end"
-        end
-      else
-        # メソッドチェインは削除しない
-        if endless[i + 1] && endless[i + 1] =~ /^\s*end(?:\s|$)\s*$/
-          i += 1
-        end
-      end
-
-      i += 1
+  def endless_ruby_to_pure_ruby options
+    flg = false
+    opts = {}
+    if options.respond_to? :to_hash
+      opts = opts.merge options.to_hash
+    elsif options.respond_to? :to_str
+      io = Tempfile.new "endlessruby from temp file"
+      io.set_encoding 'UTF-8', 'UTF-8'
+      io.write options.to_str
+      io.seek 0
+      opts[:io] = io
+      flg = true
+    elsif options.respond_to? :to_io
+      opts[:io] = options.to_io
     end
-    pure.join "\n"
+
+    io = opts[:io]
+    io.seek 0
+
+    r = RubyLex.new
+    r.set_input io
+    r.skip_space = false
+
+    pure = Tempfile.new "endlessruby pure temp file"
+    pure.set_encoding 'UTF-8', 'UTF-8'
+
+    indent = []
+    pass = []
+    bol = true
+    last = [0, 0]
+    bol_indent = 0
+
+    while t = r.token
+
+      if bol && !(RubyToken::TkSPACE === t) && !(RubyToken::TkNL === t)
+          
+        bol_indent = this_indent = t.char_no
+        while indent.last && pass.last && this_indent <= indent.last && !pass.last.include?(t.class)
+          _indent = indent.pop
+          pass.pop
+          idt = []
+          loop do
+            pure.seek pure.pos - 1
+            break if pure.pos == 0 || !(["\n", ' '].include?(c = pure.getc))
+            pure.seek pure.pos - 1
+            idt.unshift c
+          end
+          if idt.first == "\n"
+            pure.write idt.shift
+          end
+          pure.write "#{' '*_indent}end\n"
+          pure.write idt.join
+        end
+        bol = false
+      end
+
+      case t
+      when RubyToken::TkNL
+        bol = true
+      when RubyToken::TkEND
+        indent.pop
+        pass.pop
+      when RubyToken::TkIF, RubyToken::TkUNLESS
+        pass << [RubyToken::TkELSE, RubyToken::TkELSIF]
+        indent << t.char_no
+      when RubyToken::TkWHILE, RubyToken::TkUNTIL
+        pass << []
+        indent << t.char_no
+      when RubyToken::TkBEGIN
+        pass << [RubyToken::TkRESCUE, RubyToken::TkELSE, RubyToken::TkENSURE]
+        indent << t.char_no
+      when RubyToken::TkDEF
+        pass << [RubyToken::TkRESCUE, RubyToken::TkELSE, RubyToken::TkENSURE]
+        indent << t.char_no
+      when RubyToken::TkCLASS, RubyToken::TkMODULE
+        pass << []
+        indent << t.char_no
+      when RubyToken::TkCASE
+        pass << [RubyToken::TkWHEN, RubyToken::TkELSE]
+        indent << t.char_no
+      when RubyToken::TkDO
+        pass << []
+        indent << bol_indent
+      when RubyToken::TkSPACE
+      end
+
+      pos = io.pos
+      io.seek last[0]
+      (r.seek - last[1]).times do
+        pure.write io.getc
+      end
+      last = [io.pos, r.seek]
+      io.seek pos
+    end
+
+    until indent.empty? && pass.empty?
+      _indent = indent.pop
+      pass.pop
+      pure.write "#{' '*_indent}end\n"
+    end
+
+    io.close if flg
+    pure.seek 0
+    pure.read.chomp
   end
 
   alias to_pure_ruby endless_ruby_to_pure_ruby
