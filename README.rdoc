@@ -2,9 +2,15 @@
 
 * http://github.com/pasberth/EndlessRuby
 
+== UPDATE:
+EndlessRuby 0.0.1 からのアップデート
+* 正規表現ベースからirbに付属しているRubyLexベースに(かなり安定したと思います)
+* def method; a; end みたいな書式に対応
+* テストしてないけどRubyLexベースなのでたぶんけっこうな数の構文に対応している気がする
+
 == DESCRIPTION:
 
-EndlessRuby は Ruby を end なしで書けるプリプロセッサまたはコンパイラです。
+EndlessRuby は Ruby を end なしで代わりにインデントで書けるプリプロセッサまたはコンパイラです。
 * EndlessRuby で書かれたソースコードを Ruby プログラムから require
 * EndlessRuby で書かれたソースコードを ピュア Ruby にコンパイル
 ができます。
@@ -12,6 +18,9 @@ EndlessRuby は Ruby を end なしで書けるプリプロセッサまたはコ
 基本的にRubyの構文からendを取り除いただけで書けます。endを取り除かなくても実行可能です。
 EndlessRubyの独自な拡張的な構文はありません。
 ただ行単位で処理しているので def method; a; end みたいな書式できません。
+# 0.1.0 からできるようになりました
+
+endを取り除かなくても実行可能なので
 
 コンパイルする場合は
 $ endlessruby -c src/example.er src/more.er -o lib
@@ -21,6 +30,10 @@ src/example.er => lib/example.rb
 src/more.er => lib/more.rb
 として書き出されます。
 
+デコンパイル
+$ endlessruby -d lib/example.rb lib/more.rb -o src
+すべてのendを取り除きます
+
 実行する場合は
 $ endlessruby src/example.er
 
@@ -29,13 +42,23 @@ $ endlessruby src/example.er
 require 'endlessruby'
 require 'example.er'
 
-たぶんバグだらけです
+= BE CAREFUL
 
-== FEATURES/PROBLEMS:
+インデントを合わせる箇所に注意してください。インデントは行頭ではなくてキーワードに合わせてください。
 
-* def method; a; end みたいな書式に対応
+たとえばcaseの場合は
 
-== SYNOPSIS:
+YES:
+res = case x
+      when A then a
+      when B then b
+
+NO:
+res = case x
+when A then a
+when B then b
+
+複数行のブロックを渡す場合は {} ではなくて do end を使ってください。 {} の場合は閉じカッコを省略できません。
 
 = REQUIREMENTs
 
