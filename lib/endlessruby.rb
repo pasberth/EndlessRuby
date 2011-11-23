@@ -160,7 +160,7 @@ module EndlessRuby
       if bol && !(RubyToken::TkSPACE === t) && !(RubyToken::TkNL === t)
 
         bol_indent = this_indent = t.char_no
-        while indent.last && pass.last && this_indent <= indent.last && !pass.last.include?(t.class)
+        while (indent.last && pass.last) && ((this_indent < indent.last) || (this_indent <= indent.last && !pass.last.include?(t.class)))
           if RubyToken::TkEND === t && this_indent == indent.last
             indent.pop
             pass.pop
