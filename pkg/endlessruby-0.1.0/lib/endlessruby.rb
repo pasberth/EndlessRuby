@@ -295,7 +295,7 @@ module EndlessRuby
     opts[:out][:ensure] && opts[:out][:ensure].call
     opts[:in][:ensure] && opts[:in][:ensure].call
 
-    ret.chomp
+    ret
   end
 end
 
