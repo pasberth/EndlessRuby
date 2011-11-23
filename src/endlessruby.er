@@ -37,46 +37,9 @@ require "kconv"
 module EndlessRuby
 
   # EndlessRuby のバージョンです
-  VERSION = "0.0.1"
+  VERSION = "0.1.0"
 
   extend self
-
-  private
-
-  # 内部で使用します。空業かどうか判定します。
-  def blank_line? line
-    return true unless line
-    (line.chomp.gsub /\s+?/, '') == ""
-
-  # 内部で使用します。インデントを取り除きます
-  def unindent line
-    line  =~ /^\s*?(\S.*?)$/
-    $1
-  # 内部で使用します。インデントします
-  def indent line, level, indent="  "
-    "#{indent * level}#{line}"
-
-  # 内部で使用します。インデントの数を数えます。
-  def indent_count line, indent="  "
-    return 0 unless line
-    if line =~ /^#{indent}(.*?)$/
-      1 + (indent_count $1, indent)
-    else
-      0
-
-  # 内部で使用します。ブロックを作るキーワード群です。
-  BLOCK_KEYWORDS = [
-    [/^if(:?\s|\().*?$/, /^elsif(:?\s|\().*?$/, /^else(?:$|\s+)/],
-    [/^unless(:?\s|\().*?$/, /^elsif(:?\s|\().*?$/, /^else(?:$|\s+)/],
-    [/^while(:?\s|\().*?$/],
-    [/^until(:?\s|\().*?$/],
-    [/^(?:.*\s+)?case(:?\s|\().*?$/, /^when(:?\s|\().*?$/, /^else(?:$|\s+)/],
-    [/^def\s.*?$/, /^rescue(:?$|\s|\().*?$/, /^else(?:$|\s+)/, /^ensure(?:$|\s+)/],
-    [/^class\s.*?$/],
-    [/^module\s.*?$/],
-    [/^begin(?:$|\s+)/, /^rescue(:?$|\s|\().*?$/, /^else(?:$|\s+)/, /^ensure(?:$|\s+)/],
-    [/^.*?\s+do(:?$|\s|\|)/]
-  ]
 
   public
 
