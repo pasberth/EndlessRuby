@@ -1,25 +1,4 @@
-Sat, 19 Nov 2011 16:57:43 +0900
-./bin/endlessruby	Sat, 19 Nov 2011 16:51:36 +0900
-./build.rb	Sat, 19 Nov 2011 16:50:40 +0900
-./History.txt	Thu, 17 Nov 2011 23:40:58 +0900
-./lib/endlessruby/extensions.rb	Sat, 19 Nov 2011 16:51:36 +0900
-./lib/endlessruby/main.rb	Sat, 19 Nov 2011 16:51:36 +0900
-./lib/endlessruby.rb	Sat, 19 Nov 2011 16:51:36 +0900
-./Manifest.txt	Sat, 19 Nov 2011 16:42:35 +0900
-./Rakefile	Sat, 19 Nov 2011 16:34:26 +0900
-./README.rdoc	Thu, 17 Nov 2011 21:40:35 +0900
-./spec/blank_line_spec.rb	Sat, 19 Nov 2011 15:48:42 +0900
-./spec/build_self_spec.rb	Sat, 19 Nov 2011 16:31:49 +0900
-./spec/comment_spec.rb	Sat, 19 Nov 2011 15:48:33 +0900
-./spec/endlessruby_spec.rb	Sat, 19 Nov 2011 16:18:16 +0900
-./spec/here_document_spec.rb	Sat, 19 Nov 2011 15:48:50 +0900
-./spec/require_spec.rb	Sat, 19 Nov 2011 16:03:47 +0900
-./spec/simply_spec.rb	Sat, 19 Nov 2011 15:49:04 +0900
-./spec/spec_helper.rb	Sat, 19 Nov 2011 15:49:39 +0900
-./spec/test_data/rb_omission.rb	Sat, 19 Nov 2011 16:02:18 +0900
-./spec/test_data/ruby_script.rb	Sat, 19 Nov 2011 16:02:23 +0900
-./test/test.rb	Thu, 17 Nov 2011 21:22:21 +0900
-./test/test_helpers.rb	Wed, 16 Nov 2011 00:22:25 +0900
-./test/test_require.rb	Thu, 17 Nov 2011 21:22:21 +0900
-./test/test_simply.rb	Sat, 19 Nov 2011 13:38:33 +0900
-./test/test_use_end_case.rb	Thu, 17 Nov 2011 21:27:30 +0900
+Wed, 23 Nov 2011 19:29:24 +0900
+lib/endlessruby/custom_require.rb	Wed, 23 Nov 2011 19:29:01 +0900
+lib/endlessruby/main.rb	Wed, 23 Nov 2011 19:29:01 +0900
+lib/endlessruby.rb	Wed, 23 Nov 2011 19:29:01 +0900
