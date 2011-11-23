@@ -49,10 +49,8 @@ module EndlessRuby
 
   # Rubyの構文をEndlessRubyの構文に変換します。
   def pure_ruby_to_endless_ruby options
-    @decompile = true
-    s = ER2RB(options)
-    @decompile = nil
-    s
+    options[:decompile] = true
+    converting_helper options
   end
 
 
@@ -98,6 +96,10 @@ module EndlessRuby
   # それがHashならば、現在のところinとoutを指定できます。それぞれHashを指定します。opts[:in][:io]はoptionsに指定するIOと同じ意味です。
   # opts[:out][:io] には書き出すioを指定します。
   def endless_ruby_to_pure_ruby options
+    converting_helper options
+  end
+
+  def converting_helper options
     opts = merge_options options
 
     io = opts[:in][:io]
@@ -155,7 +157,7 @@ module EndlessRuby
       when RubyToken::TkEND
         indent.pop
         pass.pop
-        if @decompile
+        if opts[:decompile]
           last[0] += 3
           last[1] += 3
           next
@@ -204,7 +206,7 @@ module EndlessRuby
       io.seek pos
     end
 
-    until @decompile || (indent.empty? && pass.empty?)
+    until opts[:decompile] || (indent.empty? && pass.empty?)
       _indent = indent.pop
       pass.pop
       pure.seek pure.pos - 1
@@ -227,7 +229,7 @@ module EndlessRuby
     opts[:out][:ensure] && opts[:out][:ensure].call
     opts[:in][:ensure] && opts[:in][:ensure].call
 
-    ret
+    ret.chomp
   end
 
   alias to_pure_ruby endless_ruby_to_pure_ruby
