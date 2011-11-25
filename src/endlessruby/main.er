@@ -29,6 +29,7 @@ module EndlessRuby::Main
       return true
 
     require 'optparse'
+    require 'pathname'
 
     options = {
     }
@@ -41,55 +42,60 @@ module EndlessRuby::Main
         options[:out] = out
 
       opts.on '-c', '--compile', 'compile endlessruby source code to pure ruby' do |c|
-        options[:compile] = true
+        options[:compile] = c
 
       opts.on '-d', '--decompile', 'decompile pure ruby source code to endless ruby' do |d|
-        options[:decompile] = true
+        options[:decompile] = d
 
-      opts.on '-r', 'unimplemented' do |r|
-        options[:recursive] = true
+      opts.on '-r', 'recursive compiling. (or decompiling when you specify the -d.)' do |r|
+        options[:recursive] = r
 
     parser.parse! argv
 
-    if options[:compile]
-      out = options[:out] || '.'
+    out = Pathname.new options[:out] || '.'
 
-      argv.each do |er|
-        unless File.exist? er
-          puts "no such file to load -- #{er}"
-          next
+    if options[:decompile]
+      callback = method :decompile
+      in_ext = ".rb"
+      out_ext = ".er"
+    else
+      callback = method :compile
+      in_ext = ".er"
+      out_ext = ".rb"
 
-        if File.directory? er
-          unless options[:recursive]
-            puts "Is a directory - #{er}"
-            next
-          # Unimolementation
-          next
+    process = proc do |path|
+      path = Pathname.new path
+      unless path.exist?
+        puts "no such file to load -- #{path}"
+        next
 
-        rb = er
-        if er =~ /^(.*)\.er$/
-          rb = $1
-        rb = File.split(rb)[1]
-        rb = File.join(out, "#{rb}.rb")
-        compile er, rb
-    elsif options[:decompile]
-      out = options[:out] || '.'
+      if path.directory?
+        puts "Is a directory - #{path}"
+        next
 
-      argv.each do |rb|
-        unless File.exist? rb
-          puts "no such file to load -- #{rb}"
-          next
+      if path.to_s =~ /^(.*)#{in_ext}$/
+        o = Pathname.new "#{$1}#{out_ext}"
+      else
+        o = Pathname.new "#{path}#{out_ext}"
 
-        if File.directory? rb
-          unless options[:recursive]
-            puts "Is a directory - #{rb}"
-            next
-          # Unimolementation
-          next
+      print "compiling '#{path}' to '#{out}/#{o.basename}'..."
+      callback.call "#{path}", "#{out}/#{o.basename}"
+      puts " done."
 
-        er = rb
-        if rb =~ /^(.*)\.rb$/
-          er = $1
-        er = File.split(er)[1]
-        er = File.join(out, "#{er}.er")
-        decompile rb, er
+    if options[:recursive]
+      r = proc do |out_root, in_root, dir|
+        Dir.entries((in_root + dir).to_s).each do |a_path|
+          out = out_root + dir
+          a_path = Pathname.new a_path
+          if a_path.extname == in_ext
+            process.call((in_root + dir + a_path).to_s)
+          if (in_root + a_path).directory? && a_path.to_s != "." && a_path.to_s != ".."
+            r.call out_root, in_root, dir + a_path
+
+      argv.each do |dir|
+        out_root = Pathname.new options[:out] || dir
+        r.call out_root, Pathname.new(dir), Pathname.new(".")
+
+    elsif options[:compile] || options[:decompile]
+      argv.each do |path|
+        process.call path
