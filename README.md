@@ -3,44 +3,79 @@
 If you use EndlessRuby, you can write source code without the use of 'end'.
 You can just write (correctly indented) ruby minus the 'end's because EndlessRuby adds them in for you.
 
-```ruby
-class EndlessRubyWorld
-  def self.hello!
-    puts "hello!"
-```
+    ruby
+    class EndlessRubyWorld
+      def self.hello!
+        puts "hello!"
 
 Be careful when using blocks. Use "each do" rather than "each {}".
 You can not do ellipsis of '}' if you use "each {}"
 
-Syntax of EndlessRuby's "each {}" case:
-
 ```ruby
-each {
-  statements
-}
+    each {
+      statements
+    }
 ```
 
-syntax of EndlessRuby's "each do" case:
+Syntax of EndlessRuby’s “each do” case: 
 
 ```ruby
-each do
-  statements
+    each do
+      statements
 ```
-##execute endless ruby source code:
-	$ lib/endlessruby.rb example.er
 
-##require endless ruby source code:
+**Require**:
+
+Require the endless ruby source code on the Ruby implementation: 
 
 ```ruby
-require "path/to/endlessruby"
-require "example.er"
+    require 'homuhomu.er'
 ```
 
-##compile endless ruby source code to pure ruby.
-	$ lib/endlessruby.rb -c example.er
-	$ lib/endlessruby.rb -c src/example.er -o lib
--c option is compile and output to current directory from each arguments. arguments is filenames.
--o option appoint output directory.
+Or, you can omit extname ’.er’: 
+
+```ruby
+    require 'homuhomu'
+```
+
+**Executing**:
+
+Execute the endless ruby source code. 
+
+    $ endlessruby homuhomu.er
+
+**Compiling**:
+
+Compile the endless ruby source code to the pure ruby source code. 
+
+    $ endlessruby -c src/homuhomu.er -o lib
+
+If -o option was appointed, EndlessRuby write to that directory. or else, EndlessRuby write to current directory. For example, this case, EndlessRuby write lib/homuhomu.rb from src/homuhomu.er that was compiled. 
+
+**Recursive compiling**: 
+
+    $ endlessruby -rc src -o lib
+
+If -r option was appointed, EndlessRuby recursive search that directory. (that directory is the appointed directory by -o option, or current directory.)
+
+And, EndlessRuby compile each file whose extname is ’.er’. For example, this case, EndlessRuby will write to: lib/homuhomu.rb if it is src/homuhomu.er, lib/homuhomu/example.rb if it is src/homuhomu/example.er. 
+
+**Decompiling**:
+
+Decompile ths pure ruby source code to the endless ruby source code. WARNING: this implementation is unstable version. 
+
+    $ endlessruby -d lib/homuhomu.rb -o lib
+
+Options is same usage as Compiling.
+
+**Example**:
+
+```ruby
+    [-2, -1, 0, 1, 2].reject do |x|
+      x < 0
+    end.each do |n|
+      puts n
+```
 
 #EndlessRuby Japanese README
 
