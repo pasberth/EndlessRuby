@@ -44,8 +44,9 @@ require "irb"
 #
 # *Recursive compiling*:
 #    $ endlessruby -rc src -o lib
-# If -r option was appointed, EndlessRuby recursive search that directory. (that directory is the appointed directory by -o option, or current directory.)
-# And, EndlessRuby compile each file whose extname is '.er'.
+# If -r option was appointed, EndlessRuby recursive search that directory.
+# (that directory is the appointed directory by -o option, or current directory.)
+# EndlessRuby compile each file whose extname is '.er', and write to the appointed directory by -o option, or directory whose source code is locateD.
 # For example, this case, EndlessRuby will write to:
 # lib/homuhomu.rb if it is src/homuhomu.er, lib/homuhomu/example.rb if it is src/homuhomu/example.er.
 # 

@@ -1,6 +1,7 @@
 #EndlessRuby
 
 If you use EndlessRuby, you can write source code without the use of 'end'.
+
 You can just write (correctly indented) ruby minus the 'end's because EndlessRuby adds them in for you.
 
 ```ruby
@@ -10,6 +11,7 @@ class EndlessRubyWorld
 ```
 
 Be careful when using blocks. Use "each do" rather than "each {}".
+
 You can not do ellipsis of '}' if you use "each {}"
 
 ```ruby
@@ -51,13 +53,17 @@ Compile the endless ruby source code to the pure ruby source code.
 
     $ endlessruby -c src/homuhomu.er -o lib
 
-If -o option was appointed, EndlessRuby write to that directory. or else, EndlessRuby write to current directory. For example, this case, EndlessRuby write lib/homuhomu.rb from src/homuhomu.er that was compiled. 
+If -o option was appointed, EndlessRuby write to that directory. or else, EndlessRuby write to current directory. 
+
+For example, this case, EndlessRuby write lib/homuhomu.rb from src/homuhomu.er that was compiled.
 
 **Recursive compiling**: 
 
     $ endlessruby -rc src -o lib
 
-If -r option was appointed, EndlessRuby recursive search that directory. (that directory is the appointed directory by -o option, or current directory.)
+If -r option was appointed, EndlessRuby recursive search that directory.
+
+EndlessRuby compile each file whose extname is '.er', and write to the appointed directory by -o option, or directory whose source code is locateD.
 
 And, EndlessRuby compile each file whose extname is ’.er’. For example, this case, EndlessRuby will write to: lib/homuhomu.rb if it is src/homuhomu.er, lib/homuhomu/example.rb if it is src/homuhomu/example.er. 
 
