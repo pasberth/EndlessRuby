@@ -3,25 +3,26 @@
 If you use EndlessRuby, you can write source code without the use of 'end'.
 You can just write (correctly indented) ruby minus the 'end's because EndlessRuby adds them in for you.
 
-    ruby
-    class EndlessRubyWorld
-      def self.hello!
-        puts "hello!"
+```ruby
+class EndlessRubyWorld
+  def self.hello!
+    puts "hello!"
+```
 
 Be careful when using blocks. Use "each do" rather than "each {}".
 You can not do ellipsis of '}' if you use "each {}"
 
 ```ruby
-    each {
-      statements
-    }
+each {
+  statements
+}
 ```
 
 Syntax of EndlessRuby’s “each do” case: 
 
 ```ruby
-    each do
-      statements
+each do
+  statements
 ```
 
 **Require**:
@@ -29,13 +30,13 @@ Syntax of EndlessRuby’s “each do” case:
 Require the endless ruby source code on the Ruby implementation: 
 
 ```ruby
-    require 'homuhomu.er'
+require 'homuhomu.er'
 ```
 
 Or, you can omit extname ’.er’: 
 
 ```ruby
-    require 'homuhomu'
+require 'homuhomu'
 ```
 
 **Executing**:
@@ -71,10 +72,10 @@ Options is same usage as Compiling.
 **Example**:
 
 ```ruby
-    [-2, -1, 0, 1, 2].reject do |x|
-      x < 0
-    end.each do |n|
-      puts n
+[-2, -1, 0, 1, 2].reject do |x|
+  x < 0
+end.each do |n|
+  puts n
 ```
 
 #EndlessRuby Japanese README
