@@ -8,41 +8,69 @@ require 'endlessruby/custom_require'
 require "tempfile"
 require "irb"
 
-# EndlessRubyはRubyをendを取り除いて書けます。
+# EndlessRuby
+# If you use EndlessRuby, you can write source code without the use of 'end'.
+# You can just write (correctly indented) ruby minus the 'end's because EndlessRuby adds them in for you.
+#     class EndlessRubyWorld
+#       def self.hello!
+#         puts "hello!"
 #
-# erファイルをrequire
-#   require 'homuhomu.er' | require 'homuhomu'
+# Be careful when using blocks. Use "each do" rather than "each {}".
+# You can not do ellipsis of '}' if you use "each {}"
+# Syntax of EndlessRuby's "each {}" case:
+#     each {
+#       statements
+#     }
 #
-# erファイルを実行
-#   $ path/to/endlessruby.rb homuhomu.er
+# Syntax of EndlessRuby's "each do" case:
+#     each do
+#       statements
 #
-# erファイルをコンパイル
-#   $ path/to/endlessruby.rb -c src/homuhomu.er -o lib
-#   # => src/homuhomu.er をコンパイルして lib/homuhomu.rb を書き出します。
-#   #  -o が省略された場合はカレントディレクトリに書き出します。
+# *Require*:
+# Require the endless ruby source code on the Ruby implementation:
+#     require 'homuhomu.er'
+# Or, you can omit extname '.er':
+#     require 'homuhomu'
 #
-# Example:
-#   class EndlessRubyWorld
+# *Executing*:
+# Execute the endless ruby source code. 
+#     $ endlessruby homuhomu.er
 #
-#     def self.hello!
-#       puts "hello!"
+# *Compiling*:
+# Compile the endless ruby source code to the pure ruby source code.
+#     $ endlessruby -c src/homuhomu.er -o lib
+# If -o option was appointed, EndlessRuby write to that directory. or else, EndlessRuby write to current directory.
+# For example, this case, EndlessRuby write lib/homuhomu.rb from src/homuhomu.er that was compiled.
 #
+# *Recursive compiling*:
+#    $ endlessruby -rc src -o lib
+# If -r option was appointed, EndlessRuby recursive search that directory. (that directory is the appointed directory by -o option, or current directory.)
+# And, EndlessRuby compile each file whose extname is '.er'.
+# For example, this case, EndlessRuby will write to:
+# lib/homuhomu.rb if it is src/homuhomu.er, lib/homuhomu/example.rb if it is src/homuhomu/example.er.
+# 
+# *Decompiling*:
+# Decompile ths pure ruby source code to the endless ruby source code.
+# *WARNING*: this implementation is unstable version.
+#     $ endlessruby -d lib/homuhomu.rb -o lib
+# Options is same usage as Compiling.
 #
-#   [-2, -1, 0, 1, 2].reject do |x|
-#     x < 0
-#   end.each do |n|
-#     puts n
+# *Example:*:
+#     [-2, -1, 0, 1, 2].reject do |x|
+#       x < 0
+#     end.each do |n|
+#       puts n
 #
 module EndlessRuby
 
-  # EndlessRuby のバージョンです
+  # EndlessRuby's version.
   VERSION = "0.1.0"
 
   extend self
 
   public
 
-  # 文字列をEndlessRubyの構文として実行します。引数の意味はKernel#evalと同じです
+  # Evaluate _src_ which is String as EndlessRuby code. this is same usage as the Kernel#eval.
   def ereval(src, binding=TOPLEVEL_BINDING, filename=__FILE__, lineno=1)
     eval(ER2PR(src), binding, filename, lineno)
   end
@@ -52,19 +80,19 @@ module EndlessRuby
   # optionsが文字列ならばそれをピュアなRubyの構文にします。それがIOならばIOから読み出してそれをピュアなRubyの構文にします。<br />
   # ファイルのパスならばそのファイルかあ読み込みます
   # それがHashならばそれはオプションです。それぞれHashを指定します。<br />
-  # options: {
-  #   in: {
-  #     io: optionsにIOを指定した場合と同じです
-  #      any: それが存在するファイルのパスを表す文字列ならばそのファイルから読み出します。この場合のanyはoptionsにそのような文字列を指定するのと同じ意味です。
-  #           そうでない文字列ならばそれ自体をEndlessRubyの構文として読み出します。この場合のanyはoptionsに文字列を指定するのと同じ意味です。
-  #           それがIOならばそのIOから読み出します。この場合のany はin.ioを直接指定するのと同じです。
+  #   options: {
+  #     in: {
+  #       io: optionsにIOを指定した場合と同じです
+  #        any: それが存在するファイルのパスを表す文字列ならばそのファイルから読み出します。この場合のanyはoptionsにそのような文字列を指定するのと同じ意味です。
+  #             そうでない文字列ならばそれ自体をEndlessRubyの構文として読み出します。この場合のanyはoptionsに文字列を指定するのと同じ意味です。
+  #             それがIOならばそのIOから読み出します。この場合のany はin.ioを直接指定するのと同じです。
+  #     }
+  #     out: {
+  #       io: このIOに結果を書き出します。
+  #       any: ファイルのパスかIOです。ファイルのパスならばそのファイルに書き出します。IOならばそのIOに書き出します。
+  #     }
+  #     decompile: trueならばコンパイルではなくてでコンパイルします。
   #   }
-  #   out: {
-  #     io: このIOに結果を書き出します。
-  #     any: ファイルのパスかIOです。ファイルのパスならばそのファイルに書き出します。IOならばそのIOに書き出します。
-  #   }
-  #   decompile: trueならばコンパイルではなくてでコンパイルします。
-  # }    
   #
   # opts[:out][:io] には書き出すioを指定します。<br />
   # from a file on disk:<br />
@@ -90,7 +118,8 @@ module EndlessRuby
   alias ER2PR endless_ruby_to_pure_ruby
   alias ER2RB endless_ruby_to_pure_ruby
 
-  # Rubyの構文をEndlessRubyの構文に変換します。optionsはendlessruby_to_pure_rubyと同じです。
+  # This decompile the Pure Ruby Code to the EndlessRuby Code.
+  # _Options_ is same usage as options of EndlessRuby#endlessruby_to_pure_ruby.
   def pure_ruby_to_endless_ruby options
     options = merge_options options
     options[:decompile] = true
