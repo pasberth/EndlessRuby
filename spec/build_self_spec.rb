@@ -8,25 +8,25 @@ lib = File.dirname(__FILE__) + "/../lib"
 describe EndlessRuby, "must can compile self" do
 
   myself_sources = [
-    "#{src}/endlessruby.er",
+    "#{src}/lib/endlessruby.er",
     "#{lib}/endlessruby.rb",
-   "#{src}/endlessruby/main.er",
+   "#{src}/lib/endlessruby/main.er",
    "#{lib}/endlessruby/main.rb",
-   "#{src}/endlessruby/custom_require.er",
+   "#{src}/lib/endlessruby/custom_require.er",
    "#{lib}/endlessruby/custom_require.rb",
-   "#{src}/er.er",
+   "#{src}/bin/endlessruby.er",
    "#{bin}/endlessruby",
   ]
   myself_sources.each_slice(2) do |er, rb|
     it "must can compile #{er} to #{rb}" do
       begin
-        rb = open rb
-        er = open er
+        rb_f = open rb
+        er_f = open er
 
-        ER2RB(er.read).should == rb.read
+        ER2RB(er_f.read).should == rb_f.read
       ensure
-        rb.close
-        er.close
+        rb_f.close if defined? rb_f
+        er_f.close if defined? er_f
       end
     end
   end
@@ -34,17 +34,15 @@ describe EndlessRuby, "must can compile self" do
   myself_sources.each_slice(2) do |er, rb|
     it "must can decompile #{rb} to #{er}" do
       begin
-        rb = open rb
-        er = open er
+        rb_f = open rb
+        er_f = open er
 
-        s = er.read
-        # 改行は取り除く
-        s = ERSpecHelper.chomp s
+        s = er_f.read
 
-        RB2ER(rb.read).should == s
+        RB2ER(rb_f.read).should == s
       ensure
-        rb.close
-        er.close
+        rb_f.close if defined? rb_f
+        er_f.close if defined? er_f
       end
     end
   end
