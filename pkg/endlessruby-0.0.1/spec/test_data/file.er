@@ -1,6 +1,0 @@
-$test_data = "file"
-
-module TestData
-  extend self
-  def test_data
-    "file"

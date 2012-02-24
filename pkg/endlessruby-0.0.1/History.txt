@@ -1,4 +1,0 @@
-=== 0.0.1 2011-11-17
-
-* Alpha:
-  * initial release

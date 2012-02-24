@@ -1,6 +1,0 @@
-$test_data = "er omission"
-
-module TestData
-  extend self
-  def test_data
-    "er omission"
