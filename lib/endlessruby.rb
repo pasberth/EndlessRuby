@@ -5,7 +5,6 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 require 'endlessruby/custom_require'
-require "tempfile"
 require "irb"
 
 # EndlessRuby
@@ -75,6 +74,7 @@ module EndlessRuby
   def ereval(src, binding=TOPLEVEL_BINDING, filename=__FILE__, lineno=1)
     eval(ER2PR(src), binding, filename, lineno)
   end
+  
 
   # EndlessRubyの構文をピュアなRubyの構文に変換します。<br />
   # options: オプションを表すHashまたはto_hashを実装したオブジェクト、構文を読み出すIOまたはto_ioを実装したオブジェクト、EndlessRubyの構文を表すStringまたはto_strを実装したオブジェクト、またはファイルのパス<br />
@@ -114,6 +114,7 @@ module EndlessRuby
   def endless_ruby_to_pure_ruby options
     converting_helper options
   end
+  
 
   alias to_pure_ruby endless_ruby_to_pure_ruby
   alias ER2PR endless_ruby_to_pure_ruby
@@ -126,6 +127,7 @@ module EndlessRuby
     options[:decompile] = true
     converting_helper options
   end
+  
 
   alias RB2ER pure_ruby_to_endless_ruby
   alias PR2ER pure_ruby_to_endless_ruby
@@ -145,6 +147,7 @@ module EndlessRuby
     else
       raise ArgumentError, "options is IO, String, or Hash"
     end
+    
 
     if opts[:in][:any]
       if opts[:in][:any].respond_to?(:to_str) && File.exist?(opts[:in][:any].to_str) # from a file on the disk.
@@ -158,7 +161,7 @@ module EndlessRuby
           :ensure => proc {}
         }
       elsif opts[:in][:any].respond_to? :to_str # from String that is source code.
-        in_io = Tempfile.new "endlessruby from temp file"
+        in_io = StringIO.new
         in_io.write options.to_str
         in_io.seek 0
         opts[:in] = {
@@ -169,6 +172,8 @@ module EndlessRuby
         raise ArgumentError, "options[:in][:any] is IO, String which is path, or String which is source code"
       end
     end
+      
+    
 
     opts[:in][:any] = nil
 
@@ -186,13 +191,16 @@ module EndlessRuby
       else
         raise ArgumentError, "options[:out][:any] is IO, or String which is Path"
       end
+      
     elsif !opts[:out][:io]
-      opts[:out] = { :io => (out_io = Tempfile.new("endlessruby pure temp file")), :ensure => proc { out_io.close } }
+      opts[:out] = { :io => (out_io = StringIO.new), :ensure => proc { out_io.close } }
     end
+    
 
     opts[:out][:any] = nil
     opts
   end
+  
 
   def converting_helper options
     opts = merge_options options
@@ -220,6 +228,7 @@ module EndlessRuby
           if RubyToken::TkEND === t && this_indent == indent.last
             break
           end
+          
 
           _indent = indent.pop
           pass.pop
@@ -231,18 +240,23 @@ module EndlessRuby
             else
               c = pure.getc
             end
+            
             break if pure.pos == 0 || !(["\n", ' '].include?(c))
             pure.seek pure.pos - 1
             idt.unshift c
           end
+          
           if idt.first == "\n"
             pure.write idt.shift
           end
+          
           pure.write "#{' '*_indent}end\n"
           pure.write idt.join
         end
+        
         bol = false
       end
+      
 
       case t
       when RubyToken::TkNL
@@ -255,6 +269,7 @@ module EndlessRuby
           last[1] += 3
           next
         end
+        
       when RubyToken::TkIF, RubyToken::TkUNLESS
         pass << [RubyToken::TkELSE, RubyToken::TkELSIF]
         indent << t.char_no
@@ -281,6 +296,7 @@ module EndlessRuby
         indent << bol_indent
       when RubyToken::TkSPACE
       end
+      
 
 
       pos = io.pos
@@ -296,11 +312,14 @@ module EndlessRuby
         (r.seek - last[1]).times do
           pure.write io.getc
         end
+        
         last = [io.pos, r.seek]
       end
+      
 
       io.seek pos
     end
+    
 
     until opts[:decompile] || (indent.empty? && pass.empty?)
       _indent = indent.pop
@@ -311,12 +330,15 @@ module EndlessRuby
       else
         c = pure.getc
       end
+      
       if c  == "\n"
         pure.write "#{' '*_indent}end"
       else
         pure.write "\n#{' '*_indent}end"
       end
     end
+      
+    
 
     pure.seek 0
     ret = pure.read.chomp
@@ -328,8 +350,11 @@ module EndlessRuby
     ret
   end
 end
+  
+
 
 if __FILE__ == $PROGRAM_NAME
   require 'endlessruby/main'
   EndlessRuby::Main.main ARGV
+
 end
