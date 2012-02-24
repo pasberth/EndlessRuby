@@ -3,7 +3,7 @@
 
 
 require 'rubygems'
-
+require 'endlessruby'
 
 module Kernel
 

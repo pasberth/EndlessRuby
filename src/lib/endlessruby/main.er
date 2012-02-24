@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
+require "endlessruby"
 
 module EndlessRuby::Main
 
