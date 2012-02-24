@@ -6,10 +6,10 @@ bin/endlessruby
 lib/endlessruby.rb
 lib/endlessruby/custom_require.rb
 lib/endlessruby/main.rb
-src/endlessruby.er
-src/endlessruby/custom_require.er
-src/endlessruby/main.er
-src/er.er
+src/lib/endlessruby.er
+src/lib/endlessruby/custom_require.er
+src/lib/endlessruby/main.er
+src/bin/endlessruby.er
 spec/blank_line_spec.rb
 spec/build_self_spec.rb
 spec/comment_spec.rb

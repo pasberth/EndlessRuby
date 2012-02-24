@@ -6,8 +6,8 @@ require "endlessruby"
 module EndlessRuby::Main
 
 
-    extend self
     include EndlessRuby
+    extend self
 
     # er ファイルから読み込みそれをピュアなRubyにコンパイルしてrbに書き出します
     def compile er, rb
