@@ -24,20 +24,15 @@ module Kernel
                     abspath = "#{abspath}.er"
                 else
                     raise LoadError, "no such file to load -- #{path}"
-                end
-            end
             return false if $".include? abspath
 
             if File.directory? abspath
                 raise LoadError, "Is a directory - #{path}"
-            end
 
             open(abspath) do |file|
                 EndlessRuby.ereval file.read, TOPLEVEL_BINDING, abspath
                 $" << abspath
                 return true
-            end
-        end
 
         case path
         when /^\~(.*?)$/
@@ -55,8 +50,3 @@ module Kernel
                     raise e
                 rescue LoadError => e
                     raise e if load_path == $:.last
-                end
-            end
-        end
-    end
-end
